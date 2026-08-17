@@ -92,6 +92,20 @@ components:
     rounded: "{rounded.control}"
     padding: "8px"
     height: "58px"
+  relation-choice:
+    backgroundColor: "rgba(23,56,74,.92)"
+    textColor: "#ffffff"
+    typography: "{typography.label}"
+    rounded: "{rounded.control}"
+    padding: "10px 12px"
+    height: "58px"
+  council-destination:
+    backgroundColor: "rgba(15,48,66,.82)"
+    textColor: "#ffffff"
+    typography: "{typography.body}"
+    rounded: "{rounded.action}"
+    padding: "5px 10px"
+    height: "48px"
   decision-panel:
     backgroundColor: "{colors.glass}"
     textColor: "{colors.ink}"
@@ -108,7 +122,7 @@ components:
 
 Expedición Hábitat convierte una lección colectiva en una expedición científica cinematográfica. Un planeta de escala monumental ocupa el escenario completo mientras una consola translúcida reúne solo la evidencia y las decisiones necesarias. La interfaz se siente instrumental, legible y urgente sin adoptar la frialdad de un tablero administrativo.
 
-La composición materializa la tesis pedagógica: primero se observa una impresión planetaria dominante y se compromete una decisión; después, la consola revela sensores, diagnóstico y supervivencia. El fondo mantiene asombro y contexto, mientras la superficie de vidrio oscuro protege la lectura desde un televisor y concentra la operación con un único mouse.
+La composición materializa la tesis pedagógica: primero se observa una impresión planetaria dominante y se compromete una decisión; después, la consola revela sensores, diagnóstico y supervivencia. Ocho mundos avanzan por una órbita única; la transición a Sector II eleva la complejidad con una relación causal antes de reunir los ocho informes en el consejo final. El fondo mantiene asombro y contexto, mientras la superficie de vidrio oscuro protege la lectura desde un televisor y concentra la operación con un único mouse.
 
 **Key Characteristics:**
 
@@ -117,7 +131,7 @@ La composición materializa la tesis pedagógica: primero se observa una impresi
 - Cian para instrumentación, amarillo para decisión y colores semánticos solo al emitir un diagnóstico.
 - Titulares condensados de misión combinados con texto hiperlegible y generoso.
 - Deriva planetaria, estrellas, barrido de escáner y trayectoria de aterrizaje como motion narrativo.
-- Flujo visual único: briefing, cuatro diagnósticos y consejo final.
+- Flujo visual único: briefing, ocho expedientes en dos sectores, relación causal en los cuatro casos complejos y consejo final de ocho destinos.
 
 ## Colors
 
@@ -173,13 +187,15 @@ La paleta combina la oscuridad azul-negra del espacio con luz instrumental fría
 
 ## Layout
 
-La simulación ocupa el viewport completo y oculta el scroll del documento. El mundo se extiende ligeramente fuera del marco para permitir deriva sin revelar bordes; una superposición oscura refuerza el contraste hacia la consola y en el borde inferior. En escritorio, la consola se ancla a 24px de la derecha, entre 82px y 24px de los límites verticales, con un ancho máximo de 430px. La barra de misión vive arriba y el progreso de cuatro mundos se agrupa abajo a la izquierda, dejando el planeta casi intacto.
+La simulación usa un shell fijado al viewport: `html`, `body` y la aplicación ocupan toda la ventana, el cuerpo queda fijo y el documento no desplaza. Solo la consola admite scroll interno cuando su contenido excede la altura. El mundo se extiende ligeramente fuera del marco para permitir deriva sin revelar bordes; una superposición oscura refuerza el contraste hacia la consola y en el borde inferior. En escritorio, la consola se ancla a 24px de la derecha, entre 82px y 24px de los límites verticales, con un ancho máximo de 430px. La barra de misión vive arriba y el progreso orbital de ocho mundos se agrupa abajo a la izquierda, dejando el planeta casi intacto.
 
-El briefing reemplaza esa geometría con una tarjeta central de hasta 760px. La consola usa flujo vertical y empuja las acciones al fondo cuando hay altura disponible. Las selecciones binarias se organizan en dos columnas, los diagnósticos en tres y el consejo final en una cuadrícula de dos por dos.
+El briefing reemplaza esa geometría con una tarjeta central de hasta 760px. La consola usa flujo vertical y empuja las acciones al fondo cuando hay altura disponible. Las decisiones previas se organizan en dos columnas, las tres clasificaciones de sensor pasan a una sola columna en estrecho y el consejo final presenta los ocho destinos en una cuadrícula de dos columnas. La transición a Sector II y el consejo final compactan tipografía, padding y resultados dentro de la misma consola, sin cambiar de shell ni tapar el planeta con una página nueva.
 
 A 850px o menos, la consola se convierte en una lámina casi completa con márgenes de 12px, la grilla de evidencia pasa a una columna, el protocolo del briefing se apila y el progreso orbital desaparece. Por debajo de 700px de alto, la densidad aumenta: se reducen padding, cuerpo, nombres de planeta y alturas de control, manteniendo objetivos táctiles grandes.
 
 **The Planet-First Rule.** En el primer viewport, el mundo debe seguir siendo reconocible de cuerpo completo y la consola debe leerse como instrumento flotante, no como página principal opaca.
+
+**The Fixed-Shell Rule.** La experiencia nunca crece como documento: el escenario permanece clavado al viewport y cualquier exceso se resuelve dentro de la consola.
 
 ## Elevation & Depth
 
@@ -218,8 +234,8 @@ Los bordes son líneas atmosféricas de un píxel y baja opacidad. Los resultado
 
 ### Chips
 
-- **Style:** el progreso de mundos usa discos de 54px con vidrio nocturno, línea atmosférica y número centrado.
-- **State:** el mundo activo se llena de amarillo; el expediente completado adopta vidrio verde oscuro y texto verde; el nombre aparece como tooltip oscuro al pasar el cursor.
+- **Style:** el progreso orbital representa los ocho mundos con discos de 54px, vidrio nocturno, línea atmosférica y número centrado.
+- **State:** el mundo activo se llena de amarillo; cada expediente completado adopta vidrio verde oscuro y texto verde; el nombre aparece como tooltip oscuro al pasar el cursor. La serie completa permanece en una sola trayectoria horizontal en escritorio.
 
 ### Cards / Containers
 
@@ -235,15 +251,27 @@ No existen campos de texto. La entrada del grupo ocurre mediante opciones discre
 
 ### Navigation
 
-La navegación es temporal y espacial: marca de misión y utilidades arriba, progreso orbital abajo a la izquierda y avance de fase dentro de la consola. En vistas estrechas se oculta el progreso y el control de sonido para priorizar la tarea, manteniendo pantalla completa y la consola.
+La navegación es temporal y espacial: marca de misión y utilidades arriba, progreso orbital de ocho abajo a la izquierda y avance de fase dentro de la consola. El cuarto informe cierra el Sector I y abre una transición explícita antes del quinto mundo. En vistas estrechas se oculta el progreso y el control de sonido para priorizar la tarea, manteniendo pantalla completa y la consola.
 
 ### Decision Console
 
-La consola es el componente firma. Se comporta como una única superficie persistente que cambia de contenido entre primera impresión, sensores, diagnóstico, consecuencia y consejo. Debe preservar su anclaje, material y jerarquía mientras el planeta y la evidencia cambian.
+La consola es el componente firma. Se comporta como una única superficie persistente que cambia de contenido entre primera impresión, sensores, diagnóstico, relación causal, consecuencia, transición de sector y consejo. Debe preservar su anclaje, material y jerarquía mientras el planeta y la evidencia cambian.
 
 ### Sensor Report
 
 Un par de divisores encierra la lectura del sensor. El rótulo amarillo identifica la revelación y el dato a 22px recibe prioridad sobre la pregunta posterior. Las respuestas se convierten en un registro compacto antes de pedir el diagnóstico integral.
+
+### Sector II Transition
+
+La pausa entre el cuarto y el quinto mundo reutiliza la consola en modo compacto. Un título de misión, tres reglas breves y un resultado ámbar anuncian que los casos siguientes requieren comparar relaciones e incertidumbre; una sola acción amarilla abre el sector complejo.
+
+### Causal Relation
+
+Después del diagnóstico de cada mundo del Sector II, tres opciones de ancho completo obligan a relacionar dos o más condiciones. Conservan el material azul de las elecciones, esquinas de 12px, texto a 17px y altura mínima de 58px. No muestran verde o rojo antes de registrar la respuesta.
+
+### Mission Council
+
+El consejo final resume los ocho informes en una cuadrícula de dos columnas. Cada destino muestra nombre y veredicto; la selección recibe borde y halo amarillos, pero la consecuencia solo aparece después de confirmar. El bloque final compacta controles a 48px para que los ocho destinos, la confirmación y el reinicio convivan dentro del shell fijo.
 
 ### Motion Grammar
 
@@ -255,6 +283,9 @@ El planeta deriva lentamente durante 18 segundos; el escáner cruza la escena en
 
 - **Do** deja que un planeta o fenómeno celeste domine el escenario antes de revelar la evidencia.
 - **Do** conserva una sola consola persistente para decisión, sensor, diagnóstico y resultado.
+- **Do** representa los ocho mundos en una única progresión orbital y separa con claridad los dos sectores.
+- **Do** pide una relación causal adicional en cada caso del Sector II antes de revelar su consecuencia.
+- **Do** mantiene la decisión del consejo entre los ocho informes y revela la consecuencia solo tras confirmarla.
 - **Do** usa amarillo para comprometer acciones y cian para comunicar instrumentación o progreso.
 - **Do** expresa resultados con contorno, título y movimiento semántico, no solo con color.
 - **Do** mantiene controles legibles desde un televisor y operación completa con mouse.
@@ -266,5 +297,6 @@ El planeta deriva lentamente durante 18 segundos; el escáner cruza la escena en
 - **Don't** añadas barras laterales, métricas, puntajes o densidad de dashboard que rompa el ritmo de expedición.
 - **Don't** uses verde o rojo antes de que exista evidencia suficiente para un diagnóstico.
 - **Don't** disperses decisiones fuera de la consola ni agregues confirmaciones redundantes.
+- **Don't** conviertas la transición de sector, la relación causal o el consejo final en rutas o páginas separadas del shell fijo.
 - **Don't** uses Barlow para párrafos, instrucciones largas o lecturas de sensor.
 - **Don't** introduzcas neones múltiples, bordes brillantes o sombras duras que compitan con el mundo fotográfico.

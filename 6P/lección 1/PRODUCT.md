@@ -15,9 +15,10 @@ Primero se compromete una decisión de aterrizaje; después se examina evidencia
 ## Flujo
 
 - Briefing y objetivo explícito.
-- Cuatro expedientes: Nereida, Brasa, Umbral y Cripta.
-- En cada expediente: decisión previa, cuatro lecturas de sensores, diagnóstico y consecuencia de supervivencia.
-- Consejo final: comparación y elección del mundo más habitable.
+- Ocho expedientes divididos en dos sectores. El primero presenta casos claros (Nereida, Brasa, Umbral y Cripta); el segundo introduce casos complejos (Marea, Velo, Boreal y Helia).
+- En cada expediente: decisión previa, cuatro lecturas de sensores, diagnóstico y consecuencia de supervivencia. En el Sector II se añade una decisión causal que obliga a relacionar dos condiciones.
+- Transición de sector para recordar que una condición aislada no basta y que la incertidumbre también es un resultado científico.
+- Consejo final: comparación de los ocho informes científicos, selección de un destino y revelación de la consecuencia solo después de confirmar la decisión.
 - Cierre explícito: condiciones para la vida no equivalen a vida ya comprobada.
 
 ## Restricciones
