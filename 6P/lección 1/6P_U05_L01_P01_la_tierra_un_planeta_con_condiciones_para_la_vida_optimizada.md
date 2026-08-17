@@ -14,7 +14,7 @@
 
 ## Resumen
 
-La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica. Antes de recibir toda la evidencia, el grupo decide si intentaría vivir en cada planeta; después analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación que indica si la colonia podría sobrevivir, no sobreviviría o enfrentaría un riesgo que la evidencia aún no permite resolver. Al final compara los cuatro mundos y selecciona el más habitable.
+La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica. Antes de recibir toda la evidencia, el grupo decide si intentaría vivir en cada planeta; después analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación que indica si la colonia podría sobrevivir, no sobreviviría o enfrentaría un riesgo que la evidencia aún no permite resolver. La misión contiene ocho mundos divididos en un sector de casos claros y otro de casos complejos. Al final compara los ocho mundos y selecciona el más habitable.
 
 ## Objetivos
 
@@ -66,9 +66,9 @@ Antes del primer expediente, construye en la pizarra una red simple:
 
 Une las condiciones con flechas. Señala dos relaciones: la atmósfera influye en la temperatura; la energía recibida influye en la temperatura y en el estado del agua. Concluye que ninguna condición debe evaluarse de forma aislada.
 
-### 3. Expedición cooperativa: cuatro mundos — 12 a 36 minutos
+### 3. Expedición cooperativa: ocho mundos — 12 a 38 minutos
 
-El juego contiene cuatro planetas. En todos se repite el mismo ciclo, lo que permite comparar sin cambiar el procedimiento.
+El juego contiene ocho planetas en dos sectores. El procedimiento se mantiene para permitir comparaciones, pero el segundo sector introduce evidencias parciales y combinaciones que parecen favorables si se observa una sola condición.
 
 #### Ciclo de investigación por planeta
 
@@ -77,8 +77,9 @@ El juego contiene cuatro planetas. En todos se repite el mismo ciclo, lo que per
 3. Escaneo: aparecen, una por una, las lecturas de agua, atmósfera, energía y temperatura.
 4. Clasificación: el grupo decide si cada lectura es `Favorable`, `Crítica` o `No sabemos`.
 5. Diagnóstico integral: el grupo selecciona `Favorable para vivir`, `No favorable` o `Falta evidencia`.
-6. Simulación: la pantalla confronta la decisión previa con las condiciones reales y anuncia la consecuencia.
-7. Revisión: se observan las relaciones causales que explican el resultado y se continúa al siguiente mundo.
+6. Relación causal: en los cuatro casos del Sector II, el grupo elige la cadena de causa y consecuencia que mejor integra dos o más condiciones.
+7. Simulación: la pantalla confronta la decisión previa con las condiciones reales y anuncia la consecuencia.
+8. Revisión: se comparan el diagnóstico del grupo y el informe científico antes de continuar.
 
 El docente conduce el diálogo y registra con el mouse la decisión acordada. No hay casillas de confirmación docente ni comprobaciones externas al razonamiento visible en el juego.
 
@@ -122,13 +123,50 @@ El docente conduce el diálogo y registra con el mouse la decisión acordada. No
 - Simulación al aterrizar: el riesgo es demasiado alto.
 - Relación clave: una señal prometedora no permite ignorar la falta de evidencia sobre las demás condiciones.
 
-### 4. Consejo final: elegir con evidencia — 36 a 42 minutos
+Al cerrar Cripta, la pantalla presenta la transición `Sector II`. Recupera tres ideas antes de continuar: una condición favorable no compensa todas las demás; la apariencia no reemplaza la evidencia; y `No sabemos` puede ser una conclusión científica válida.
 
-La pantalla reúne los cuatro diagnósticos. Pide al grupo comparar mundos y elegir dónde establecería la colonia. Antes de pulsar `Comprobar decisión final`, solicita que el grupo identifique qué combinación de condiciones respalda su elección.
+#### Mundo 5: Marea
+
+- Agua: océano líquido extenso.
+- Atmósfera: demasiado delgada para proteger de la radiación.
+- Energía: moderada.
+- Temperatura: extremos rápidos por falta de regulación atmosférica.
+- Diagnóstico esperado: no favorable.
+- Relación clave: tener mucha agua no compensa la falta de atmósfera y temperatura estable.
+
+#### Mundo 6: Velo
+
+- Agua: cuencas oscuras que no permiten confirmar agua líquida.
+- Atmósfera: abundante, pero de composición desconocida.
+- Energía y temperatura: moderadas.
+- Diagnóstico esperado: evidencia insuficiente.
+- Relación clave: tres señales prometedoras no permiten afirmar habitabilidad cuando faltan datos esenciales.
+
+#### Mundo 7: Boreal
+
+- Agua: grandes reservas de hielo, sin agua líquida superficial.
+- Atmósfera: gruesa y protectora.
+- Energía: muy escasa por la distancia a su estrella.
+- Temperatura: permanentemente bajo congelación.
+- Diagnóstico esperado: no favorable.
+- Relación clave: una atmósfera protectora no produce la energía que falta para mantener agua líquida.
+
+#### Mundo 8: Helia
+
+- Agua: rastros de vapor, sin agua líquida estable.
+- Atmósfera: muy delgada.
+- Energía: excesiva y acompañada de tormentas estelares.
+- Temperatura: extrema durante el día.
+- Diagnóstico esperado: no favorable.
+- Relación clave: el exceso de energía también limita la habitabilidad.
+
+### 4. Consejo final: elegir con evidencia — 38 a 43 minutos
+
+La pantalla reúne los ocho informes científicos. Pide al grupo comparar mundos y elegir dónde establecería la colonia. Seleccionar un planeta solo marca el destino; la consecuencia no aparece hasta pulsar `Comprobar decisión final`. Antes de confirmar, solicita que el grupo descarte al menos dos opciones que parecían prometedoras y que identifique qué combinación de condiciones respalda su elección.
 
 Resultado esperado: Nereida. Si el grupo elige otro planeta, la simulación explica qué combinación impide la supervivencia y permite cambiar la elección. La meta no es acertar a la primera, sino revisar el diagnóstico hasta que la decisión sea coherente con la evidencia.
 
-### 5. Cierre y evidencia de aprendizaje — 42 a 45 minutos
+### 5. Cierre y evidencia de aprendizaje — 43 a 45 minutos
 
 Recupera el objetivo mostrado al inicio y completa colectivamente:
 
@@ -158,5 +196,5 @@ La evidencia es el diagnóstico colectivo registrado en el juego y la explicaci�
 - Control: un mouse manejado por el docente.
 - Modalidad: equipo único, decisión cooperativa.
 - Estudiantes: funciona con cuatro, seis o cualquier número que pueda deliberar como grupo.
-- Recursos visuales: cuatro imágenes planetarias originales generadas para esta lección e incrustadas en el HTML.
+- Recursos visuales: ocho imágenes planetarias originales generadas para esta lección e incrustadas en el HTML.
 - Accesibilidad: controles grandes, contraste alto, foco visible, opción de silenciar y respeto de movimiento reducido.
