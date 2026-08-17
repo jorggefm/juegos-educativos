@@ -28,4 +28,4 @@ La tripulación sobrevuela ocho mundos, pero solo dispone de cuatro módulos de 
 - Sin casillas de confirmación docente ni instrucciones de respuesta oral.
 - Operación completa con mouse; controles grandes y legibles desde un televisor.
 - Funciona en línea o totalmente sin internet.
-- Imágenes, fuentes, lógica y sonidos incrustados en `index.html`.
+- Ocho vistas orbitales y veinticuatro vistas de superficie, fuentes, lógica y sonidos incrustados en `index.html`.

@@ -197,5 +197,5 @@ La evidencia es el diagnóstico colectivo registrado en el juego y la explicaci�
 - Control: un mouse manejado por el docente.
 - Modalidad: equipo único, decisión cooperativa.
 - Estudiantes: funciona con cuatro, seis o cualquier número que pueda deliberar como grupo.
-- Recursos visuales: ocho imágenes orbitales y ocho superficies POV originales generadas para esta lección e incrustadas en el HTML.
+- Recursos visuales: ocho imágenes orbitales y veinticuatro superficies POV originales; las vistas cambian durante los sensores para mostrar la evidencia estudiada. Todo está incrustado en el HTML.
 - Accesibilidad: controles grandes, contraste alto, foco visible, opción de silenciar y respeto de movimiento reducido.

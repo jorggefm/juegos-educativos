@@ -126,7 +126,7 @@ La composición materializa la tesis pedagógica y el costo de conocer: desde la
 
 **Key Characteristics:**
 
-- Ocho retratos orbitales y ocho vistas de superficie, todos fotográficos y de escala dominante.
+- Ocho retratos orbitales y veinticuatro vistas de superficie: una llegada y dos acercamientos de evidencia por mundo, todos fotográficos y de escala dominante.
 - Consola científica flotante, estrecha y translúcida anclada a la derecha.
 - Cuatro módulos de descenso como recurso visible que convierte investigar en una decisión irreversible.
 - Cian para instrumentación, amarillo para decisión y colores semánticos solo al emitir un diagnóstico.
@@ -272,7 +272,7 @@ La entrada es una transición de 2.85 segundos que oculta consola, barra superio
 
 ### Sensor Report
 
-En superficie, un par de divisores encierra la lectura del sensor. Una retícula cian se desplaza a una zona distinta para agua, atmósfera, energía y temperatura; simultáneamente la escena aumenta de brillo y saturación en cuatro pasos. Cada respuesta se convierte en un registro compacto antes de pedir el diagnóstico integral. Los mundos omitidos nunca muestran este componente ni generan respuestas simuladas.
+En superficie, un par de divisores encierra la lectura del sensor. Una retícula cian se desplaza a una zona distinta para agua, atmósfera, energía y temperatura; simultáneamente la escena aumenta de brillo y saturación en cuatro pasos. La llegada usa la vista general, el sensor de atmósfera cambia al acercamiento agua/atmósfera y el sensor de energía cambia al acercamiento energía/temperatura. Cada respuesta se convierte en un registro compacto antes de pedir el diagnóstico integral. Los mundos omitidos nunca muestran este componente ni generan respuestas simuladas.
 
 ### Sector II Transition
 

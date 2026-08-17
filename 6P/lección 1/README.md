@@ -33,7 +33,7 @@ No hay competencia, nombres individuales ni puntajes. El producto evaluable es e
 
 Todas las imágenes se guardan dentro del HTML final como datos incrustados para conservar el modo sin conexión.
 
-Cada planeta incluye además `assets/surface-<planeta>.webp`: ocho paisajes POV originales que aparecen únicamente después del descenso.
+Cada planeta incluye una superficie general y dos vistas de evidencia (`surface-<planeta>-evidence-a/b.webp`). El juego cambia de paisaje durante los sensores: agua/atmósfera y energía/temperatura. En total se usan ocho órbitas y veinticuatro superficies POV.
 
 ## Railway
 
