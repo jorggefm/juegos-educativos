@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-17T03:15:00-05:00",
+  "title": "Design System: Expedición Hábitat",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "neutral", "displayName": "Tinta estelar", "canonical": "#f6fbff", "tonalRamp": ["#161b1f", "#343b40", "#535d63", "#758188", "#99a7ae", "#beced6", "#e0eef4", "#f6fbff"] },
+      "muted": { "role": "neutral", "displayName": "Lectura secundaria", "canonical": "#c4d5df", "tonalRamp": ["#151b1f", "#303a40", "#4c5a62", "#697c86", "#87a0ae", "#a7c4d3", "#c4d5df", "#edf7fb"] },
+      "night": { "role": "neutral", "displayName": "Noche orbital", "canonical": "#030b13", "tonalRamp": ["#030b13", "#0b1924", "#172b39", "#294151", "#405b6b", "#647f8e", "#9eb1bb", "#e4edf1"] },
+      "glass": { "role": "neutral", "displayName": "Vidrio de cabina", "canonical": "rgba(4,18,29,.76)", "tonalRamp": ["#07121b", "#102534", "#1b3a4d", "#2e5368", "#4c7184", "#7896a5", "#afc2cc", "#edf5f8"] },
+      "line": { "role": "neutral", "displayName": "Línea atmosférica", "canonical": "rgba(185,226,244,.24)", "tonalRamp": ["#132029", "#263943", "#3e5662", "#5c7581", "#8099a5", "#a8bec8", "#cce0e8", "#f0f8fb"] },
+      "sensor-cyan": { "role": "primary", "displayName": "Cian de sensor", "canonical": "#67ddff", "tonalRamp": ["#062a35", "#08485a", "#08677f", "#0a89a8", "#20adcf", "#67ddff", "#a9ebff", "#e5f9ff"] },
+      "decision-yellow": { "role": "primary", "displayName": "Amarillo de decisión", "canonical": "#ffd15a", "tonalRamp": ["#302300", "#584000", "#805f00", "#aa8100", "#d6a91d", "#ffd15a", "#ffe49a", "#fff6db"] },
+      "survival-green": { "role": "secondary", "displayName": "Verde de supervivencia", "canonical": "#67e4a6", "tonalRamp": ["#073020", "#0b5136", "#0c744d", "#139967", "#31bf83", "#67e4a6", "#a3f0c8", "#e3faee"] },
+      "danger-red": { "role": "secondary", "displayName": "Rojo de riesgo", "canonical": "#ff796f", "tonalRamp": ["#3a0b0a", "#631513", "#8d211d", "#b8322d", "#df4e47", "#ff796f", "#ffaaa3", "#ffe5e2"] },
+      "focus": { "role": "tertiary", "displayName": "Halo de foco", "canonical": "#fff2a5", "tonalRamp": ["#2d2807", "#50470c", "#746813", "#998b20", "#c0b13d", "#e5d96f", "#fff2a5", "#fffbe6"] },
+      "control-blue": { "role": "neutral", "displayName": "Azul de control", "canonical": "#183d55", "tonalRamp": ["#07151e", "#102b3c", "#183d55", "#285b77", "#447c98", "#6fa1b9", "#a7c8d7", "#e6f1f6"] },
+      "favorable-deep": { "role": "secondary", "displayName": "Verde favorable profundo", "canonical": "#145c50", "tonalRamp": ["#061d19", "#0b382f", "#145c50", "#247d6d", "#43a28e", "#70c7b4", "#a9e3d7", "#e7f8f4"] },
+      "critical-deep": { "role": "secondary", "displayName": "Rojo crítico profundo", "canonical": "#6d292d", "tonalRamp": ["#240b0d", "#47171a", "#6d292d", "#914146", "#b65f64", "#d88a8e", "#edbec0", "#faebec"] },
+      "uncertain-deep": { "role": "tertiary", "displayName": "Ámbar incierto profundo", "canonical": "#5d4b22", "tonalRamp": ["#1d1605", "#392c0e", "#5d4b22", "#7d6935", "#9f8950", "#c2aa72", "#dfce9f", "#f6eed7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display de misión", "purpose": "Nombres de mundos, diagnósticos y consejo final." },
+      "briefing-display": { "displayName": "Pregunta de briefing", "purpose": "La única pregunta monumental que abre la experiencia." },
+      "body": { "displayName": "Lectura científica", "purpose": "Preguntas, evidencia, instrucciones y consecuencias legibles desde lejos." },
+      "label": { "displayName": "Etiqueta instrumental", "purpose": "Metadatos, condiciones, controles y rótulos breves." }
+    },
+    "shadows": [
+      { "name": "console-float", "value": "0 20px 60px rgba(0,0,0,.38)", "purpose": "Separa la consola del planeta sin crear un borde duro." },
+      { "name": "briefing-command", "value": "0 30px 90px #000", "purpose": "Concentra la atención al inicio de la misión." },
+      { "name": "primary-action", "value": "0 10px 26px rgba(0,0,0,.3)", "purpose": "Eleva la decisión comprometida." },
+      { "name": "cockpit-control", "value": "0 8px 20px rgba(0,0,0,.2)", "purpose": "Conserva legibilidad sobre fotografía variable." },
+      { "name": "sensor-glow", "value": "0 0 14px var(--cyan)", "purpose": "Indica un sensor o punto de estado activo." }
+    ],
+    "motion": [
+      { "name": "world-drift", "value": "18s ease-in-out infinite alternate", "purpose": "Mantiene el planeta vivo con escala, deriva y rotación casi imperceptibles." },
+      { "name": "scan-pass", "value": "1.8s cubic-bezier(.2,.8,.2,1)", "purpose": "Barre la escena al cargar información de un mundo." },
+      { "name": "landing-vector", "value": "1.35s cubic-bezier(.2,.8,.2,1)", "purpose": "Representa la consecuencia física de comprometer una decisión." },
+      { "name": "control-response", "value": ".16s ease", "purpose": "Eleva botones al pasar el cursor." },
+      { "name": "toast-entry", "value": ".35s cubic-bezier(.2,.8,.2,1)", "purpose": "Introduce confirmación breve desde la parte superior." },
+      { "name": "reduced-motion", "value": ".001ms, 1 iteration", "purpose": "Neutraliza movimiento continuo y transiciones para quien lo solicita." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "850px" },
+      { "name": "short", "value": "700px height" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Decision Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compromete una decisión o avanza a la siguiente fase de la misión.",
+      "html": "<button class=\"ds-btn-primary\">Aterrizaríamos</button>",
+      "css": ".ds-btn-primary{min-height:54px;padding:12px 16px;border:0;border-radius:13px;background:var(--yellow,#ffd15a);color:#08131a;font-family:Atkinson,Arial,sans-serif;font-size:19px;font-weight:700;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.3);transition:transform .16s ease,background .16s ease,box-shadow .16s ease}.ds-btn-primary:hover{transform:translateY(-2px)}.ds-btn-primary:active{transform:translateY(0)}.ds-btn-primary:focus-visible{outline:3px solid var(--focus,#fff2a5);outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Decision Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Presenta una alternativa válida con menor prioridad visual.",
+      "html": "<button class=\"ds-btn-secondary\">Seguir buscando</button>",
+      "css": ".ds-btn-secondary{min-height:54px;padding:12px 16px;border:0;border-radius:13px;background:#183d55;color:var(--ink,#f6fbff);font-family:Atkinson,Arial,sans-serif;font-size:19px;font-weight:700;cursor:pointer;transition:transform .16s ease,background .16s ease}.ds-btn-secondary:hover{background:#245675;transform:translateY(-2px)}.ds-btn-secondary:active{transform:translateY(0)}.ds-btn-secondary:focus-visible{outline:3px solid var(--focus,#fff2a5);outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Utility Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Acción auxiliar que conserva el material de la consola.",
+      "html": "<button class=\"ds-btn-ghost\">Reiniciar misión</button>",
+      "css": ".ds-btn-ghost{min-height:54px;padding:12px 16px;border:1px solid var(--line,rgba(185,226,244,.24));border-radius:13px;background:transparent;color:var(--ink,#f6fbff);font-family:Atkinson,Arial,sans-serif;font-size:19px;font-weight:700;cursor:pointer;transition:transform .16s ease,background .16s ease}.ds-btn-ghost:hover{background:rgba(24,61,85,.45);transform:translateY(-2px)}.ds-btn-ghost:active{transform:translateY(0)}.ds-btn-ghost:focus-visible{outline:3px solid var(--focus,#fff2a5);outline-offset:3px}"
+    },
+    {
+      "name": "Sensor Choice",
+      "kind": "button",
+      "refersTo": "choice-default",
+      "description": "Clasifica una lectura como favorable, crítica o incierta.",
+      "html": "<div class=\"ds-choice-row\"><button class=\"ds-choice ds-choice-selected\">Favorable</button><button class=\"ds-choice\">Crítica</button><button class=\"ds-choice\">No sabemos</button></div>",
+      "css": ".ds-choice-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ds-choice{min-height:58px;padding:8px;border:1px solid var(--line,rgba(185,226,244,.24));border-radius:12px;background:rgba(23,56,74,.9);color:#fff;font-family:Atkinson,Arial,sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:background .16s ease,transform .16s ease}.ds-choice:hover{background:#245675;transform:translateY(-2px)}.ds-choice:active{transform:translateY(0)}.ds-choice:focus-visible{outline:3px solid var(--focus,#fff2a5);outline-offset:3px}.ds-choice-selected{border-color:var(--yellow,#ffd15a);background:var(--yellow,#ffd15a);color:#07131b}.ds-choice-selected:hover{background:var(--yellow,#ffd15a)}"
+    },
+    {
+      "name": "Mission Progress",
+      "kind": "nav",
+      "description": "Resume los cuatro expedientes como cuerpos orbitales numerados.",
+      "html": "<nav class=\"ds-track\" aria-label=\"Mundos investigados\"><span class=\"ds-track-item ds-track-active\">1</span><span class=\"ds-track-item ds-track-done\">2</span><span class=\"ds-track-item\">3</span><span class=\"ds-track-item\">4</span></nav>",
+      "css": ".ds-track{display:flex;gap:9px}.ds-track-item{width:54px;height:54px;border:1px solid var(--line,rgba(185,226,244,.24));border-radius:50%;background:rgba(3,14,24,.75);color:var(--muted,#c4d5df);display:grid;place-items:center;font-family:Atkinson,Arial,sans-serif;font-size:13px;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.2)}.ds-track-active{border-color:var(--yellow,#ffd15a);background:var(--yellow,#ffd15a);color:#05131c;box-shadow:0 9px 22px rgba(0,0,0,.34)}.ds-track-done{background:rgba(19,76,75,.84);color:var(--green,#67e4a6)}"
+    },
+    {
+      "name": "Planet Decision Card",
+      "kind": "card",
+      "description": "Opción de mundo en el consejo final con veredicto resumido.",
+      "html": "<button class=\"ds-planet-card ds-planet-selected\"><strong>Nereida</strong><span>Favorable</span></button>",
+      "css": ".ds-planet-card{min-height:78px;padding:12px;border:1px solid var(--line,rgba(185,226,244,.24));border-radius:13px;background:rgba(15,48,66,.82);color:#fff;text-align:left;font-family:Atkinson,Arial,sans-serif;cursor:pointer;transition:transform .16s ease,background .16s ease}.ds-planet-card strong{display:block;font-size:21px}.ds-planet-card span{color:var(--muted,#c4d5df)}.ds-planet-card:hover{background:#254d61;transform:translateY(-2px)}.ds-planet-card:active{transform:translateY(0)}.ds-planet-card:focus-visible{outline:3px solid var(--focus,#fff2a5);outline-offset:3px}.ds-planet-selected{border-color:var(--yellow,#ffd15a);background:#254d61;box-shadow:0 0 0 2px rgba(255,209,90,.2)}"
+    },
+    {
+      "name": "Survival Result",
+      "kind": "card",
+      "description": "Comunica la consecuencia del diagnóstico sin abandonar el material nocturno.",
+      "html": "<section class=\"ds-result ds-result-survive\"><h3>La colonia podría sobrevivir</h3><p>La evidencia reúne las condiciones necesarias.</p></section>",
+      "css": ".ds-result{padding:16px;border-radius:14px;background:rgba(5,28,39,.88);color:var(--ink,#f6fbff);font-family:Atkinson,Arial,sans-serif}.ds-result-survive{box-shadow:inset 0 0 0 1px var(--green,#67e4a6)}.ds-result h3{margin:0 0 8px;color:var(--green,#67e4a6);font-family:Barlow,sans-serif;font-size:32px;font-weight:800;line-height:1}.ds-result p{margin:0;font-size:18px;line-height:1.35}"
+    },
+    {
+      "name": "Decision Console",
+      "kind": "custom",
+      "refersTo": "decision-panel",
+      "description": "Superficie firma que reúne observación, evidencia y decisión sobre el mundo visible.",
+      "html": "<section class=\"ds-console\"><h2>NEREIDA</h2><div class=\"ds-meta\"><i></i>Mundo 1 de 4</div><p>Azul, nuboso y templado. Desde lejos parece prometedor.</p><div class=\"ds-evidence\"><b>DECISIÓN PREVIA</b><p>¿La expedición intentaría vivir aquí?</p></div></section>",
+      "css": ".ds-console{width:min(430px,calc(100vw - 48px));padding:22px;border:1px solid var(--line,rgba(185,226,244,.24));border-radius:16px;background:var(--glass,rgba(4,18,29,.76));color:var(--ink,#f6fbff);font-family:Atkinson,Arial,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.38);backdrop-filter:blur(18px) saturate(120%)}.ds-console h2{margin:0;font-family:Barlow,sans-serif;font-size:50px;font-weight:800;line-height:.93;letter-spacing:-.015em}.ds-console>p{font-size:20px;line-height:1.35}.ds-meta{display:flex;align-items:center;gap:10px;margin:4px 0 8px;color:var(--cyan,#67ddff);font-weight:700}.ds-meta i{width:9px;height:9px;border-radius:50%;background:var(--cyan,#67ddff);box-shadow:0 0 14px var(--cyan,#67ddff)}.ds-evidence{margin:14px 0;padding:16px 0;border-top:1px solid var(--line,rgba(185,226,244,.24));border-bottom:1px solid var(--line,rgba(185,226,244,.24))}.ds-evidence b{display:block;margin-bottom:6px;color:var(--yellow,#ffd15a);font-size:16px}.ds-evidence p{margin:0;font-size:22px;line-height:1.35}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Observatorio en Órbita",
+    "overview": "Expedición Hábitat convierte una lección colectiva en una expedición científica cinematográfica. Un planeta de escala monumental ocupa el escenario completo mientras una consola translúcida reúne solo la evidencia y las decisiones necesarias. La interfaz se siente instrumental, legible y urgente sin adoptar la frialdad de un tablero administrativo.\n\nLa composición materializa la tesis pedagógica: primero se observa una impresión planetaria dominante y se compromete una decisión; después, la consola revela sensores, diagnóstico y supervivencia. El fondo mantiene asombro y contexto, mientras la superficie de vidrio oscuro protege la lectura desde un televisor y concentra la operación con un único mouse.",
+    "keyCharacteristics": [
+      "Planetas completos, fotográficos y de escala dominante como escenario de cada expediente.",
+      "Consola científica flotante, estrecha y translúcida anclada a la derecha.",
+      "Cian para instrumentación, amarillo para decisión y colores semánticos solo al emitir un diagnóstico.",
+      "Titulares condensados de misión combinados con texto hiperlegible y generoso.",
+      "Deriva planetaria, estrellas, barrido de escáner y trayectoria de aterrizaje como motion narrativo.",
+      "Flujo visual único: briefing, cuatro diagnósticos y consejo final."
+    ],
+    "rules": [
+      { "name": "The Warm Decision Rule", "body": "El amarillo pertenece a decisiones activas, selecciones y llamadas a la acción; no decora fondos ni texto ordinario.", "section": "colors" },
+      { "name": "The Instrument Color Rule", "body": "El cian señala lo que el sistema observa o reporta; el verde, rojo y ámbar solo aparecen cuando existe un juicio semántico.", "section": "colors" },
+      { "name": "The Mission Voice Rule", "body": "Barlow se limita a nombres de mundos, títulos de fases y resultados; las decisiones y la evidencia siempre se leen en Atkinson.", "section": "typography" },
+      { "name": "The Television Test", "body": "Ninguna decisión operable baja de 17px ni de 47px de altura en los estados compactos implementados.", "section": "typography" },
+      { "name": "The Planet-First Rule", "body": "En el primer viewport, el mundo debe seguir siendo reconocible de cuerpo completo y la consola debe leerse como instrumento flotante, no como página principal opaca.", "section": "layout" },
+      { "name": "The Atmospheric Depth Rule", "body": "El vidrio y las sombras existen para conservar el planeta detrás y asegurar lectura; nunca deben multiplicar capas administrativas dentro de la consola.", "section": "elevation" },
+      { "name": "The Orbital Geometry Rule", "body": "Usa círculos para mundo, trayectoria o estado puntual; usa rectángulos redondeados para información y decisiones.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do deja que un planeta o fenómeno celeste domine el escenario antes de revelar la evidencia.",
+      "Do conserva una sola consola persistente para decisión, sensor, diagnóstico y resultado.",
+      "Do usa amarillo para comprometer acciones y cian para comunicar instrumentación o progreso.",
+      "Do expresa resultados con contorno, título y movimiento semántico, no solo con color.",
+      "Do mantiene controles legibles desde un televisor y operación completa con mouse.",
+      "Do respeta reducción de movimiento en deriva, escaneo, aterrizaje y feedback."
+    ],
+    "donts": [
+      "Don't conviertas el planeta en una miniatura, tarjeta o decoración secundaria detrás de una página opaca.",
+      "Don't añadas barras laterales, métricas, puntajes o densidad de dashboard que rompa el ritmo de expedición.",
+      "Don't uses verde o rojo antes de que exista evidencia suficiente para un diagnóstico.",
+      "Don't disperses decisiones fuera de la consola ni agregues confirmaciones redundantes.",
+      "Don't uses Barlow para párrafos, instrucciones largas o lecturas de sensor.",
+      "Don't introduzcas neones múltiples, bordes brillantes o sombras duras que compitan con el mundo fotográfico."
+    ]
+  }
+}
