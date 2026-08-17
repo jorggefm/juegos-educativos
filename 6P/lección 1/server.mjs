@@ -9,6 +9,10 @@ const types = { '.html': 'text/html; charset=utf-8', '.webp': 'image/webp', '.pn
 
 http.createServer(async (request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+  if (pathname === '/health') {
+    response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' }).end('ok');
+    return;
+  }
   const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
   if (relative.includes('..')) {
     response.writeHead(403).end('Forbidden');
