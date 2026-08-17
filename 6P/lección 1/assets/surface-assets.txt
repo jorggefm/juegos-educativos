@@ -1,0 +1,10 @@
+Generated surface POV image provenance (ImageGen, 2026-08-17)
+
+- surface-nereida.png — exec-a76871ec-a340-4a7a-baed-c9fc1a8bfba1.png
+- surface-brasa.png — exec-d57fb675-a275-4067-8e8c-9429e0cd6230.png
+- surface-umbral.png — exec-a62e88c0-794c-4b43-a281-c0cdecd070bd.png
+- surface-cripta.png — exec-163ed8d5-7afd-4954-97d7-f21aa25554f6.png
+- surface-marea.png — exec-fbb6ead9-fa07-4b80-bb12-9fb02ae9f23d.png
+- surface-velo.png — exec-1e28a774-c52e-4400-a2a4-74f9ada7c464.png
+- surface-boreal.png — exec-7b6fadc4-5ff9-428a-a469-1584d72b2863.png
+- surface-helia.png — exec-e97e573b-9d70-4740-b9f0-776e19672661.png
