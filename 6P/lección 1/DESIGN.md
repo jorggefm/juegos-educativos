@@ -1,6 +1,6 @@
 ---
 name: "Expedición Hábitat"
-description: "Una expedición científica cinematográfica para administrar cuatro descensos, investigar mundos y decidir con evidencia."
+description: "Una expedición científica cinematográfica para investigar ocho mundos y decidir con evidencia."
 colors:
   ink: "#f6fbff"
   muted: "#c4d5df"
@@ -120,19 +120,19 @@ components:
 
 **Creative North Star: "El Observatorio en Órbita"**
 
-Expedición Hábitat convierte una lección colectiva en una expedición científica cinematográfica de ocho sobrevuelos y, como máximo, cuatro aterrizajes. Cada mundo existe en dos vistas construidas —retrato orbital y punto de vista de superficie— y ocupa el escenario completo mientras una consola translúcida reúne la ruta, la evidencia y las decisiones necesarias. La interfaz se siente instrumental, legible y urgente sin adoptar la frialdad de un tablero administrativo.
+Expedición Hábitat convierte una lección colectiva en una expedición científica cinematográfica de ocho sobrevuelos y ocho aterrizajes. Cada mundo existe en dos vistas construidas —retrato orbital y punto de vista de superficie— y ocupa el escenario completo mientras una consola translúcida reúne la ruta, la evidencia y las decisiones necesarias. La interfaz se siente instrumental, legible y urgente sin adoptar la frialdad de un tablero administrativo.
 
-La composición materializa la tesis pedagógica y el costo de conocer: desde la órbita el grupo decide si consume uno de cuatro módulos o abandona el mundo sin investigarlo. Solo un aterrizaje atraviesa la atmósfera, sustituye la vista orbital por la superficie y habilita los cuatro sensores, el diagnóstico y la simulación de supervivencia. Saltar conserva el recurso y avanza sin cuestionario; esa ausencia de datos permanece visible y restringe qué puede defenderse en el consejo final.
+La composición materializa la tesis pedagógica de comprobar antes de concluir: desde la órbita el grupo formula una hipótesis inicial y luego desciende para contrastarla con evidencia. Cada aterrizaje atraviesa la atmósfera, sustituye la vista orbital por la superficie y habilita los cuatro sensores, el diagnóstico y la simulación de supervivencia.
 
 **Key Characteristics:**
 
 - Ocho retratos orbitales y veinticuatro vistas de superficie: una llegada y dos acercamientos de evidencia por mundo, todos fotográficos y de escala dominante.
 - Consola científica flotante, estrecha y translúcida anclada a la derecha.
-- Cuatro módulos de descenso como recurso visible que convierte investigar en una decisión irreversible.
+- Ocho módulos de descenso como progreso visible de la investigación completa.
 - Cian para instrumentación, amarillo para decisión y colores semánticos solo al emitir un diagnóstico.
 - Titulares condensados de misión combinados con texto hiperlegible y generoso.
 - Deriva orbital, entrada atmosférica, retícula de superficie y revelado progresivo como motion narrativo.
-- Flujo visual único: briefing, ocho sobrevuelos, hasta cuatro diagnósticos y consejo final basado solo en mundos investigados.
+- Flujo visual único: briefing, ocho sobrevuelos, ocho diagnósticos y consejo final basado en la comparación completa.
 
 ## Colors
 
@@ -190,9 +190,9 @@ La paleta combina la oscuridad azul-negra del espacio con luz instrumental fría
 
 La simulación usa un shell fijado al viewport: `html`, `body` y la aplicación ocupan toda la ventana, el cuerpo queda fijo y el documento no desplaza. Solo la consola admite scroll interno cuando su contenido excede la altura. La imagen orbital o de superficie se extiende ligeramente fuera del marco para permitir deriva sin revelar bordes; una superposición oscura refuerza el contraste hacia la consola y en el borde inferior. En escritorio, la consola se ancla a 24px de la derecha, entre 82px y 24px de los límites verticales, con un ancho máximo de 430px. La barra de misión vive arriba y el progreso orbital de ocho mundos se agrupa abajo a la izquierda, dejando la escena casi intacta.
 
-El briefing reemplaza esa geometría con una tarjeta central de hasta 760px y presenta el presupuesto de cuatro módulos. En cada sobrevuelo, la consola muestra el contador de módulos y enfrenta dos acciones: conservar el recurso o aterrizar e investigar. Saltar produce una confirmación breve de “sin diagnóstico” y avanza automáticamente; no abre sensores ni cuestionario. Aterrizar introduce una transición a pantalla completa y luego reutiliza la consola para las cuatro lecturas. Las decisiones previas se organizan en dos columnas, las tres clasificaciones de sensor pasan a una sola columna en estrecho y el consejo final presenta destinos elegibles en una cuadrícula de dos columnas.
+El briefing reemplaza esa geometría con una tarjeta central de hasta 760px y presenta ocho módulos, uno por mundo. En cada sobrevuelo, la consola muestra el contador de módulos y conduce al aterrizaje para investigar. Aterrizar introduce una transición a pantalla completa y luego reutiliza la consola para las cuatro lecturas. Las decisiones previas se organizan en dos columnas, las tres clasificaciones de sensor pasan a una sola columna en estrecho y el consejo final presenta destinos elegibles en una cuadrícula de dos columnas.
 
-Tras los primeros cuatro mundos aparece un umbral de Sector II que prepara casos más ambiguos sin cambiar el shell. En el consejo, solo los mundos con estado investigado son elegibles; los omitidos permanecen visibles como “No investigado” pero deshabilitados. La opción **Ninguno** siempre está disponible para expresar responsablemente que los aterrizajes realizados no sostienen un destino seguro.
+Tras los primeros cuatro mundos aparece un umbral de Sector II que prepara casos más ambiguos sin cambiar el shell. En el consejo, los ocho mundos investigados quedan disponibles para comparar. La opción **Ninguno** siempre está disponible para expresar responsablemente que la evidencia no sostiene un destino seguro.
 
 A 850px o menos, la consola se convierte en una lámina casi completa con márgenes de 12px, la grilla de evidencia pasa a una columna, el protocolo del briefing se apila y el progreso orbital desaparece. Por debajo de 700px de alto, la densidad aumenta: se reducen padding, cuerpo, nombres de planeta y alturas de control, manteniendo objetivos táctiles grandes.
 
@@ -240,7 +240,7 @@ Los bordes son líneas atmosféricas de un píxel y baja opacidad. Los resultado
 ### Chips
 
 - **Style:** el progreso orbital representa los ocho mundos con discos de 54px, vidrio nocturno, línea atmosférica y número centrado.
-- **State:** el mundo activo se llena de amarillo; un aterrizaje completado adopta vidrio verde oscuro y texto verde; un mundo omitido baja a 55% de opacidad y tacha su número. El tooltip distingue “investigado” de “no investigado”. La serie completa permanece en una sola trayectoria horizontal en escritorio.
+- **State:** el mundo activo se llena de amarillo; un aterrizaje completado adopta vidrio verde oscuro y texto verde. El tooltip distingue “investigado” y “pendiente”. La serie completa permanece en una sola trayectoria horizontal en escritorio.
 
 ### Cards / Containers
 
@@ -256,7 +256,7 @@ No existen campos de texto. La entrada del grupo ocurre mediante opciones discre
 
 ### Navigation
 
-La navegación es temporal, espacial y basada en recursos: marca de misión y utilidades arriba, progreso orbital de ocho abajo a la izquierda, contador de módulos dentro de la consola y avance de fase junto a la decisión actual. El cuarto mundo cierra el Sector I y abre una transición explícita antes del quinto. En vistas estrechas se ocultan el progreso y el control de sonido para priorizar la tarea, manteniendo pantalla completa y la consola.
+La navegación es temporal y espacial: marca de misión y utilidades arriba, progreso orbital de ocho abajo a la izquierda, contador de módulos dentro de la consola y avance de fase junto a la decisión actual. El cuarto mundo cierra el Sector I y abre una transición explícita antes del quinto. En vistas estrechas se ocultan el progreso y el control de sonido para priorizar la tarea, manteniendo pantalla completa y la consola.
 
 ### Decision Console
 
@@ -264,7 +264,7 @@ La consola es el componente firma. Se comporta como una única superficie persis
 
 ### Landing Modules
 
-El chip de módulos convierte el acceso a evidencia en un recurso tangible: muestra el saldo actual y el total de cuatro, con borde amarillo tenue, fondo ámbar nocturno y cifra destacada. Cuando quedan tantos módulos como mundos, el aterrizaje se vuelve obligatorio; cuando se agotan, solo permanece el sobrevuelo. Los estados deshabilitados reducen opacidad y no responden al hover.
+El chip de módulos convierte el avance de la investigación en un recurso tangible: muestra el saldo actual y el total de ocho, con borde amarillo tenue, fondo ámbar nocturno y cifra destacada. Como hay un módulo por mundo, el aterrizaje se vuelve obligatorio para completar la comparación. Los estados deshabilitados reducen opacidad y no responden al hover.
 
 ### Atmospheric Entry
 
@@ -272,7 +272,7 @@ La entrada es una transición de 2.85 segundos que oculta consola, barra superio
 
 ### Sensor Report
 
-En superficie, un par de divisores encierra la lectura del sensor. Una retícula cian se desplaza a una zona distinta para agua, atmósfera, energía y temperatura; simultáneamente la escena aumenta de brillo y saturación en cuatro pasos. La llegada usa la vista general, el sensor de atmósfera cambia al acercamiento agua/atmósfera y el sensor de energía cambia al acercamiento energía/temperatura. Cada respuesta se convierte en un registro compacto antes de pedir el diagnóstico integral. Los mundos omitidos nunca muestran este componente ni generan respuestas simuladas.
+En superficie, un par de divisores encierra la lectura del sensor. Una retícula cian se desplaza a una zona distinta para agua, atmósfera, energía y temperatura; simultáneamente la escena aumenta de brillo y saturación en cuatro pasos. La llegada usa la vista general, el sensor de atmósfera cambia al acercamiento agua/atmósfera y el sensor de energía cambia al acercamiento energía/temperatura. Cada respuesta se convierte en un registro compacto antes de pedir el diagnóstico integral.
 
 ### Sector II Transition
 
@@ -284,7 +284,7 @@ Después del diagnóstico de cada mundo del Sector II, tres opciones de ancho co
 
 ### Mission Council
 
-El consejo final muestra los ocho nombres en una cuadrícula de dos columnas, pero limita la decisión a los mundos realmente investigados y a **Ninguno**. Cada aterrizaje muestra su veredicto; cada mundo omitido queda deshabilitado como “No investigado”. La selección recibe borde y halo amarillos, pero la consecuencia solo aparece después de confirmar. Si Nereida no fue investigada y ningún descenso produjo un resultado favorable, **Ninguno** es la decisión responsable. El bloque final compacta controles a 48px para que destinos, confirmación y reinicio convivan dentro del shell fijo.
+El consejo final muestra los ocho nombres en una cuadrícula de dos columnas y la opción **Ninguno**. Cada aterrizaje muestra su veredicto. La selección recibe borde y halo amarillos, pero la consecuencia solo aparece después de confirmar. Nereida es el destino esperado cuando se relacionan las cuatro condiciones; **Ninguno** queda como respuesta cautelosa si el grupo argumenta que la evidencia no respalda una colonia. El bloque final compacta controles a 48px para que destinos, confirmación y reinicio convivan dentro del shell fijo.
 
 ### Motion Grammar
 
@@ -296,11 +296,11 @@ La órbita deriva lentamente durante 18 segundos y la superficie durante 14; el 
 
 - **Do** deja que un planeta o fenómeno celeste domine el escenario antes de revelar la evidencia.
 - **Do** conserva una sola consola persistente para decisión, sensor, diagnóstico y resultado.
-- **Do** representa los ocho mundos en una única progresión orbital, separa con claridad los dos sectores y muestra el saldo de cuatro módulos antes de cada decisión de ruta.
+- **Do** representa los ocho mundos en una única progresión orbital, separa con claridad los dos sectores y muestra el saldo de ocho módulos durante la ruta.
 - **Do** cambia de imagen orbital a imagen de superficie solo después de gastar un módulo.
 - **Do** pide una relación causal adicional en cada caso investigado del Sector II antes de revelar su consecuencia.
-- **Do** distingue investigado, omitido y activo en el track, incluso cuando el planeta ya quedó atrás.
-- **Do** limita la elección del consejo a mundos investigados y ofrece **Ninguno** cuando la evidencia no alcanza.
+- **Do** distingue investigado y activo en el track, incluso cuando el planeta ya quedó atrás.
+- **Do** ofrece **Ninguno** cuando la evidencia no alcanza.
 - **Do** usa amarillo para comprometer acciones y cian para comunicar instrumentación o progreso.
 - **Do** expresa resultados con contorno, título y movimiento semántico, no solo con color.
 - **Do** mantiene controles legibles desde un televisor y operación completa con mouse.
@@ -311,10 +311,10 @@ La órbita deriva lentamente durante 18 segundos y la superficie durante 14; el 
 - **Don't** conviertas el planeta en una miniatura, tarjeta o decoración secundaria detrás de una página opaca.
 - **Don't** añadas barras laterales, métricas, puntajes o densidad de dashboard que rompa el ritmo de expedición.
 - **Don't** abras sensores, preguntas o diagnósticos después de elegir “Seguir buscando”.
-- **Don't** permitas recuperar un mundo omitido ni gastar más de cuatro módulos.
+- **Don't** cierres el consejo final antes de que los ocho mundos tengan diagnóstico.
 - **Don't** uses verde o rojo antes de que exista evidencia suficiente para un diagnóstico.
 - **Don't** disperses decisiones fuera de la consola ni agregues confirmaciones redundantes.
-- **Don't** habilites un planeta no investigado en el consejo final ni sustituyas **Ninguno** por una elección forzada.
+- **Don't** sustituyas **Ninguno** por una elección forzada.
 - **Don't** conviertas la transición de sector, la relación causal o el consejo final en rutas o páginas separadas del shell fijo.
 - **Don't** uses Barlow para párrafos, instrucciones largas o lecturas de sensor.
 - **Don't** introduzcas neones múltiples, bordes brillantes o sombras duras que compitan con el mundo fotográfico.

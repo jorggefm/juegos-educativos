@@ -12,7 +12,7 @@ Juego cooperativo para una pantalla principal manejada por el docente con un sol
 ## Secuencia del juego
 
 1. El grupo decide si aterrizaría en un planeta con una primera impresión.
-2. Administra cuatro módulos de descenso para ocho planetas. Seguir buscando omite el cuestionario y deja el mundo sin investigar.
+2. Usa ocho módulos de descenso para investigar los ocho planetas antes del consejo final.
 3. Al aterrizar, una reentrada animada cambia la órbita por una superficie en primera persona.
 4. Clasifica evidencia sobre agua, atmósfera, energía y temperatura y emite un diagnóstico integral.
 5. Después de cuatro sobrevuelos, entra en un segundo sector que añade relaciones causales entre condiciones.

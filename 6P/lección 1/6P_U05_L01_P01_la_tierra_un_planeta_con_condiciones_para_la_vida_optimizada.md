@@ -14,7 +14,7 @@
 
 ## Resumen
 
-La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica que sobrevuela ocho mundos, pero solo dispone de cuatro módulos de descenso. Si el grupo elige `Seguir buscando`, conserva el módulo y ese mundo queda sin investigar; si elige `Aterrizar e investigar`, observa la reentrada, llega a una superficie en primera persona, analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación de supervivencia. Al final compara únicamente la evidencia obtenida y selecciona el destino más habitable o concluye que ninguno puede elegirse con seguridad.
+La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica que sobrevuela ocho mundos y dispone de ocho módulos de descenso. En cada mundo formula una hipótesis inicial, observa la reentrada, llega a una superficie en primera persona, analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación de supervivencia. Al final compara toda la evidencia obtenida y selecciona el destino más habitable o concluye que ninguno puede elegirse con seguridad.
 
 ## Objetivos
 
@@ -41,7 +41,7 @@ Explicar cómo el agua líquida, la atmósfera, la energía y una temperatura ad
 4. Ubica a los estudiantes de modo que todos observen la pantalla. El docente será el único que manipule el mouse.
 5. Explica que no habrá puntajes ni competencia: el producto es un diagnóstico colectivo basado en evidencia.
 
-Plan alternativo: si falla la pantalla, lee los ocho expedientes de esta planificación. Dibuja cuatro fichas que representen los módulos de descenso y retira una cada vez que el grupo decida investigar un mundo.
+Plan alternativo: si falla la pantalla, lee los ocho expedientes de esta planificación. Dibuja ocho fichas que representen los módulos de descenso y retira una cada vez que el grupo investigue un mundo.
 
 ### 1. Apertura: una decisión antes de conocer todo — 0 a 4 minutos
 
@@ -66,16 +66,16 @@ Antes del primer expediente, construye en la pizarra una red simple:
 
 Une las condiciones con flechas. Señala dos relaciones: la atmósfera influye en la temperatura; la energía recibida influye en la temperatura y en el estado del agua. Concluye que ninguna condición debe evaluarse de forma aislada.
 
-### 3. Expedición cooperativa: ocho mundos y cuatro descensos — 8 a 34 minutos
+### 3. Expedición cooperativa: ocho mundos y ocho descensos — 8 a 34 minutos
 
-El juego contiene ocho planetas en dos sectores y solo cuatro módulos. La escasez vuelve significativa la decisión de ruta: no es posible responder todos los cuestionarios. El segundo sector introduce evidencias parciales y combinaciones que parecen favorables si se observa una sola condición.
+El juego contiene ocho planetas en dos sectores y ocho módulos. La ruta permite responder todos los cuestionarios para sostener una comparación completa. El segundo sector introduce evidencias parciales y combinaciones que parecen favorables si se observa una sola condición.
 
 #### Ciclo de investigación por planeta
 
 1. Sobrevuelo: la vista orbital ocupa toda la pantalla y el panel flotante muestra una primera impresión.
 2. Decisión de recurso: el grupo elige `Aterrizar e investigar` o `Seguir buscando`.
-3. Ruta de búsqueda: si continúa, el planeta queda `No investigado`, no aparece cuestionario y se pasa al siguiente mundo.
-4. Ruta de descenso: si aterriza, se consume un módulo y una secuencia animada lleva de la órbita a una superficie POV.
+3. Hipótesis inicial: el grupo conversa si la primera impresión parece favorable o riesgosa.
+4. Ruta de descenso: al aterrizar, se consume un módulo y una secuencia animada lleva de la órbita a una superficie POV.
 5. Escaneo en superficie: aparecen, una por una, las lecturas de agua, atmósfera, energía y temperatura; el retículo cambia de zona y el paisaje gana claridad.
 6. Clasificación: el grupo decide si cada lectura es `Favorable`, `Crítica` o `No sabemos`.
 7. Diagnóstico integral: el grupo selecciona `Favorable para vivir`, `No favorable` o `Falta evidencia`.
@@ -163,9 +163,9 @@ Al cerrar Cripta, la pantalla presenta la transición `Sector II`. Recupera tres
 
 ### 4. Consejo final: elegir con evidencia — 34 a 38 minutos
 
-La pantalla reúne los cuatro informes obtenidos y marca los demás mundos como `No investigado`. Solo los planetas examinados pueden seleccionarse; también existe la opción `Ninguno` cuando la evidencia disponible no respalda un destino seguro. La consecuencia no aparece hasta pulsar `Comprobar decisión final`. Antes de confirmar, pide identificar qué combinación de condiciones respalda la elección.
+La pantalla reúne los ocho informes obtenidos. Los planetas examinados pueden seleccionarse; también existe la opción `Ninguno` cuando la evidencia disponible no respalda un destino seguro. La consecuencia no aparece hasta pulsar `Comprobar decisión final`. Antes de confirmar, pide identificar qué combinación de condiciones respalda la elección.
 
-Resultado esperado: Nereida si fue investigada. Si Nereida quedó sin investigar y ningún planeta examinado es favorable, la respuesta responsable es `Ninguno`. La meta no es adivinar el planeta correcto, sino decidir únicamente con evidencia disponible y reconocer sus límites.
+Resultado esperado: Nereida, porque reúne agua líquida, atmósfera protectora, energía suficiente y temperatura moderada. La meta no es adivinar el planeta correcto, sino decidir con evidencia disponible y reconocer cómo se relacionan las condiciones.
 
 ### 5. Cierre y evidencia de aprendizaje — 38 a 40 minutos
 
@@ -186,7 +186,7 @@ La evidencia es el diagnóstico colectivo registrado en el juego y la explicaci�
 - clasifica las cuatro condiciones usando la evidencia mostrada;
 - integra las condiciones en un diagnóstico coherente;
 - explica al menos una relación causal entre condiciones;
-- elige Nereida por la combinación de condiciones, si fue investigada, o justifica `Ninguno` cuando falta evidencia de un destino favorable;
+- elige Nereida por la combinación de condiciones, o justifica `Ninguno` cuando considera que falta evidencia de un destino favorable;
 - mantiene cautela científica sobre la existencia de vida.
 
 ## Ficha de aplicación
