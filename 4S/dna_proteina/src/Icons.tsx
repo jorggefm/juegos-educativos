@@ -29,3 +29,12 @@ export function InfoIcon({ size = 18, className }: IconProps) {
 export function EyeIcon({ size = 18, className }: IconProps) {
   return <svg {...base(size, className)}><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>
 }
+export function SunIcon({ size = 18, className }: IconProps) {
+  return <svg {...base(size, className)}><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
+}
+export function MoonIcon({ size = 18, className }: IconProps) {
+  return <svg {...base(size, className)}><path d="M20.2 15.3A8.5 8.5 0 0 1 8.7 3.8 8.5 8.5 0 1 0 20.2 15.3Z"/></svg>
+}
+export function PanelIcon({ size = 18, className }: IconProps) {
+  return <svg {...base(size, className)}><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v16M16 4v16"/></svg>
+}

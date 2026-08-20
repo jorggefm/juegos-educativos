@@ -23,6 +23,7 @@ type SceneProps = {
   exportProgress: number
   proteinView: 'fold' | 'active' | 'reaction' | 'altered'
   reducedMotion: boolean
+  theme: 'dark' | 'light'
 }
 
 class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
@@ -67,6 +68,15 @@ function SceneMotion({ children, amount = .05, paused = false }: { children: Rea
 
 function CellScene({ quality, reducedMotion }: { quality: Quality; reducedMotion: boolean }) {
   const pores = quality === 'high' ? 16 : 8
+  const porePlacements = useMemo(() => Array.from({ length: pores }, (_, i) => {
+    const y = 1 - (i / Math.max(1, pores - 1)) * 2
+    const radial = Math.sqrt(Math.max(0, 1 - y * y))
+    const angle = i * Math.PI * (3 - Math.sqrt(5))
+    const normal = new THREE.Vector3(Math.cos(angle) * radial, y, Math.sin(angle) * radial)
+    const position = normal.clone().multiplyScalar(1.68).add(new THREE.Vector3(-.35, .05, .1))
+    const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal)
+    return { position, quaternion }
+  }), [pores])
   return <SceneMotion amount={.08} paused={reducedMotion}>
     <mesh scale={[1.45, 1, 1]}>
       <sphereGeometry args={[3.25, quality === 'high' ? 72 : 40, quality === 'high' ? 48 : 28]} />
@@ -76,9 +86,8 @@ function CellScene({ quality, reducedMotion }: { quality: Quality; reducedMotion
       <sphereGeometry args={[1.68, quality === 'high' ? 64 : 36, quality === 'high' ? 42 : 24]} />
       <meshPhysicalMaterial color="#25a7a1" transparent opacity={.3} roughness={.22} transmission={.1} side={THREE.DoubleSide} depthWrite={false} />
     </mesh>
-    {Array.from({ length: pores }, (_, i) => {
-      const angle = (i / pores) * Math.PI * 2
-      return <mesh key={i} position={[-.35 + Math.cos(angle) * 1.62, Math.sin(angle) * 1.16, .9]} rotation={[Math.PI / 2, 0, angle]}>
+    {porePlacements.map(({ position, quaternion }, i) => {
+      return <mesh key={i} position={position} quaternion={quaternion}>
         <torusGeometry args={[.08, .025, 8, 18]} /><meshStandardMaterial color="#7ef1d3" emissive="#1a7c72" emissiveIntensity={.45} />
       </mesh>
     })}
@@ -251,6 +260,21 @@ function ActiveSite({ view }: { view: 'active'|'reaction'|'altered' }) {
   return <group><mesh><sphereGeometry args={[.34,32,22]}/><meshStandardMaterial color="#b9dcff" metalness={.72} roughness={.18} emissive="#4d82a8" emissiveIntensity={.32}/></mesh><Label position={[0,.55,0]} tone="accent">Zn²⁺</Label>{residues.map((residue,index)=><group key={residue.name}><Bond a={zinc} b={residue.p} color={view==='altered'&&index===2?'#ff6e59':'#d9b4ff'} radius={.045}/><mesh position={residue.p}><torusGeometry args={[.28,.09,12,24]}/><meshStandardMaterial color={view==='altered'&&index===2?'#ff6e59':'#a98be8'} roughness={.32}/></mesh><Label position={[residue.p.x,residue.p.y+.48,residue.p.z]} tone={view==='altered'&&index===2?'warm':'light'}>{residue.name}</Label></group>)}<mesh position={[0,-.72,-.1]}><sphereGeometry args={[.18,20,14]}/><meshStandardMaterial color="#7bd8ff"/></mesh><Label position={[0,-1.12,0]}>H₂O / OH⁻</Label>{view==='reaction'&&<><group position={[1.35,-.25,.2]}><mesh position={[-.22,0,0]}><sphereGeometry args={[.18,18,12]}/><meshStandardMaterial color="#616a70"/></mesh><mesh position={[.18,.18,0]}><sphereGeometry args={[.14,18,12]}/><meshStandardMaterial color="#ff7968"/></mesh><mesh position={[.18,-.18,0]}><sphereGeometry args={[.14,18,12]}/><meshStandardMaterial color="#ff7968"/></mesh><Label position={[0,.7,0]} tone="warm">CO₂ ENTRA</Label></group><group position={[-1.45,-.25,.2]}><mesh><tetrahedronGeometry args={[.3,0]}/><meshStandardMaterial color="#70d8d0"/></mesh><Label position={[0,.65,0]} tone="accent">HCO₃⁻ SALE</Label></group><Label position={[0,1.75,0]} tone="accent">CO₂ + H₂O ⇌ HCO₃⁻ + H⁺</Label></>}{view==='altered'&&<Label position={[0,1.75,0]} tone="warm">COORDINACIÓN ALTERADA · FUNCIÓN COMPROMETIDA</Label>}<Annotation position={[0,0,.35]} title="Centro catalítico" text="El zinc orienta agua/hidróxido y está coordinado por His94, His96 y His119." radius={.52}/></group>
 }
 
+function HemeSite({ view }: { view: 'active'|'reaction'|'altered' }) {
+  const iron = new THREE.Vector3(0,0,0)
+  const nitrogen = [new THREE.Vector3(-.9,0,0),new THREE.Vector3(.9,0,0),new THREE.Vector3(0,.9,0),new THREE.Vector3(0,-.9,0)]
+  const histidine = new THREE.Vector3(view==='altered'?1.55:-.08,-1.65,.18)
+  return <group>
+    <mesh><torusGeometry args={[1.05,.16,16,64]}/><meshStandardMaterial color="#b33b4b" roughness={.34}/></mesh>
+    {nitrogen.map((point,index)=><group key={index}><Bond a={iron} b={point} color="#ef9da8" radius={.035}/><mesh position={point}><sphereGeometry args={[.13,16,12]}/><meshStandardMaterial color="#92b8ff"/></mesh></group>)}
+    <mesh><sphereGeometry args={[.3,28,18]}/><meshStandardMaterial color="#d77a38" metalness={.65} roughness={.2} emissive="#8f351f" emissiveIntensity={.28}/></mesh><Label position={[0,.48,0]} tone="warm">Fe²⁺</Label>
+    <Bond a={iron} b={histidine} color={view==='altered'?'#ff6e59':'#d9b4ff'} radius={.045}/><mesh position={histidine}><torusGeometry args={[.25,.08,12,24]}/><meshStandardMaterial color={view==='altered'?'#ff6e59':'#a98be8'}/></mesh><Label position={[histidine.x,histidine.y-.42,histidine.z]} tone={view==='altered'?'warm':'light'}>His92</Label>
+    {view==='reaction'&&<group position={[0,0,.92]}><mesh position={[-.13,0,0]}><sphereGeometry args={[.16,18,12]}/><meshStandardMaterial color="#ff7968"/></mesh><mesh position={[.13,0,0]}><sphereGeometry args={[.16,18,12]}/><meshStandardMaterial color="#ff7968"/></mesh><Bond a={new THREE.Vector3(-.13,0,0)} b={new THREE.Vector3(.13,0,0)} color="#ffd1ca" radius={.04}/><Label position={[0,.52,0]} tone="accent">O₂ UNIDO</Label></group>}
+    {view==='altered'&&<Label position={[0,1.65,0]} tone="warm">GEOMETRÍA ALTERADA · UNIÓN DE O₂ COMPROMETIDA</Label>}
+    <Annotation position={[0,0,.35]} title="Grupo hemo" text="El Fe²⁺ del hemo se coordina con la histidina proximal y puede unir oxígeno de forma reversible." radius={.55}/>
+  </group>
+}
+
 function ProteinScene({ gene, selectedExon, selectedCodon, proteinView, reducedMotion }: { gene: GeneRecord; selectedExon: number; selectedCodon: number; proteinView: 'fold'|'active'|'reaction'|'altered'; reducedMotion: boolean }) {
   const curve = useMemo(() => Array.from({length:70},(_,i)=>{
     const t=i/8
@@ -259,6 +283,7 @@ function ProteinScene({ gene, selectedExon, selectedCodon, proteinView, reducedM
   const center=Math.round((selectedCodon/Math.max(1,gene.codons.length-1))*(curve.length-1))
   const trace=curve.slice(Math.max(0,center-3),Math.min(curve.length,center+4))
   if(gene.symbol==='CA2'&&proteinView!=='fold') return <SceneMotion amount={.025} paused={reducedMotion}><group position={[0,.28,0]} scale={1.02}><ActiveSite view={proteinView}/></group><Label position={[0,-1.72,0]}>MODELO GUIADO · PDB 1CA2</Label></SceneMotion>
+  if(gene.symbol==='HBB'&&proteinView!=='fold') return <SceneMotion amount={.025} paused={reducedMotion}><group position={[0,.2,0]} scale={1.02}><HemeSite view={proteinView}/></group><Label position={[0,-1.52,0]}>MODELO GUIADO · PDB 4HHB</Label></SceneMotion>
   return <SceneMotion amount={.04} paused={reducedMotion}><Tube points={curve} color={gene.symbol==='HBB'?'#db646f':'#43c7b4'} radius={.11}/><Tube points={trace} color="#fff2b2" radius={.17}/>
     <mesh position={[.35,.2,.2]}><sphereGeometry args={[.25,24,16]}/><meshStandardMaterial color={gene.symbol==='HBB'?'#a83232':'#b7d9ff'} metalness={.55} roughness={.22}/></mesh>
     <Label position={[.35,-.35,.2]} tone="warm">{gene.symbol==='HBB'?'GRUPO HEMO · Fe²⁺':'Zn²⁺ · SITIO ACTIVO'}</Label><Label position={[0,2.45,0]} tone="accent">{gene.pdb.join(' · ')} · CODÓN {selectedCodon+1} RESALTADO (MAPEO DIDÁCTICO)</Label>
@@ -289,9 +314,9 @@ export default function MolecularScene(props: SceneProps) {
   if (props.quality === 'basic') return <FallbackScene step={props.step}/>
   return <SceneBoundary fallback={<FallbackScene step={props.step}/>}>
     <Canvas dpr={props.quality === 'high' ? [1, 1.75] : [1, 1.25]} camera={{ position: [0, 0, 9], fov: 42 }} gl={{ antialias: props.quality === 'high', alpha: true, powerPreference: 'high-performance' }}>
-      <color attach="background" args={['#071a20']} />
-      <fog attach="fog" args={['#071a20', 9, 18]} />
-      <ambientLight intensity={1.15} />
+      <color attach="background" args={[props.theme === 'light' ? '#dbe9e8' : '#071a20']} />
+      <fog attach="fog" args={[props.theme === 'light' ? '#dbe9e8' : '#071a20', 9, 18]} />
+      <ambientLight intensity={props.theme === 'light' ? 1.65 : 1.15} />
       <directionalLight position={[5,6,8]} intensity={2.2} color="#d9fff3" />
       <pointLight position={[-5,-3,4]} intensity={35} distance={14} color="#148fa5" />
       <pointLight position={[4,2,-2]} intensity={24} distance={12} color="#f0904d" />

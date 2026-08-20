@@ -1,5 +1,5 @@
 ---
-name: ProteinLab 2.1
+name: ProteinLab 2.2
 description: Observatorio editorial inmersivo para seguir ADN → ARN → proteína.
 colors:
   ink: "#142a31"
@@ -96,19 +96,19 @@ components:
     padding: "0.35rem 0.58rem"
 ---
 
-# Design System: ProteinLab 2.1
+# Design System: ProteinLab 2.2
 
 ## Overview
 
 **Creative North Star: “El observatorio editorial inmersivo”**
 
-ProteinLab 2.1 convierte la pantalla en una cámara de observación molecular. El campo nocturno WebGL ocupa toda la altura útil; ruta, evidencia, títulos y controles se posan encima como instrumental científico translúcido. La dimensión editorial surge de esa composición precisa dentro de la escena, no de una página blanca alrededor del visor.
+ProteinLab 2.2 convierte la pantalla en una cámara de observación molecular. El visor puede operar en noche azul petróleo o en papel mineral claro; ruta, evidencia, títulos y controles se posan encima como instrumental científico translúcido. La dimensión editorial surge de esa composición precisa dentro de la escena, no de una página alrededor del visor.
 
-La experiencia cuenta una historia causal en diez estaciones. El 3D explica espacio, escala y transformación; el mapa 2D inferior explica secuencia, dirección y pertenencia. HBB y CA2 comparten lenguaje, y cada exón conserva identidad ordinal y cromática de ADN a proteína. Toda estación distingue dato real de modelo didáctico.
+La experiencia cuenta una historia causal en once estaciones, incluida una misión final de cinco preguntas sin imágenes. El 3D explica espacio, escala y transformación; el mapa 2D inferior explica secuencia, dirección y pertenencia. HBB y CA2 comparten lenguaje, y cada exón conserva identidad ordinal y cromática de ADN a proteína. Toda estación distingue dato real de modelo didáctico.
 
 **Características clave:**
 
-- Visor nocturno a pantalla útil completa como protagonista absoluto.
+- Visor claro u oscuro a pantalla útil completa como protagonista absoluto.
 - Instrumentos compactos de vidrio oscuro anclados a la periferia.
 - Corredor central despejado para modelos, etiquetas y manipulación orbital.
 - Menta luminosa para acción; ámbar escaso para foco y rastreo.
@@ -181,6 +181,7 @@ El ritmo usa 0.25, 0.5, 0.75, 1, 1.25 y 1.5rem. El espacio amplio pertenece al m
 
 ### Responsive
 
+- **821–1180px, tablet horizontal:** composición de dos márgenes compactos, ruta 166px, evidencia 230px y corredor central 194px/256px; objetivos táctiles de 44px cuando el puntero es grueso.
 - **≤1100px:** ruta 178px, evidencia 252px, corredor 212px/284px; datos en una columna.
 - **≤820px:** topbar 58px; visor `max(760px,calc(100svh - 58px))`. Ruta horizontal de 46px arriba; se ocultan su título y calidad. Título, evidencia y controles se apilan dentro del visor. Evidencia limita altura a 220px y oculta datos secundarios; deck desplazable verticalmente. Desaparecen escala y ayuda gestual, no la escena.
 - **≤470px:** marca abreviada, visor mínimo 780px, título 14ch, evidencia 168px y deck 228px. Ancho mínimo: 320px.
@@ -189,6 +190,8 @@ El ritmo usa 0.25, 0.5, 0.75, 1, 1.25 y 1.5rem. El espacio amplio pertenece al m
 **La regla de escena primero.** En móvil se comprime la instrumentación; el visor nunca baja detrás de evidencia ni se vuelve tarjeta.
 
 **La regla de precisión desplazable.** Las secuencias se desplazan antes de perder etiquetas o proporción.
+
+**La regla de orientación.** Tablet horizontal conserva el observatorio completo; tablet vertical usa ruta horizontal, divulgación progresiva y una columna sin retirar funciones esenciales.
 
 ## Elevation & Depth
 
@@ -223,6 +226,8 @@ Canvas base con cámara FOV 42, niebla nocturna y luces fría/teal/ámbar. Orbit
 - 5′/3′, hebra, locus, START/STOP, sitios E/P/A y estatuto didáctico permanecen explícitos.
 - En móvil, evitar ruta 0–54px, encabezado desde 66px, evidencia desde 174px y deck inferior. Reducir etiquetas simultáneas antes que su legibilidad.
 - Resaltado exón→codón→residuo usa crema, escala/emisión y siempre se rotula como mapeo didáctico.
+- Los poros nucleares se distribuyen sobre la superficie esférica mediante una malla de Fibonacci y cada torus se orienta con la normal local; nunca forman un anillo coplanar frontal.
+- HBB y CA2 tienen inspección guiada paralela: hemo/Fe²⁺/O₂/His92 y Zn²⁺/agua/His94/His96/His119.
 
 `prefers-reduced-motion` detiene flotación, hace inmediata la exportación y reduce CSS; conserva rotación/zoom manual y elimina solo el damping orbital.
 
@@ -233,6 +238,14 @@ Ruta/evidencia usan noche al 82%, blur 14px, radio 14px. Deck: noche al 82%, blu
 Acción base: mínimo 36px, radio 8px, fondo petróleo y borde mineral. Primaria/seleccionada: menta con tinta oscura. Toggles usan `aria-pressed`; deshabilitados reducen opacidad. Cada grupo cierra con explicación de progreso o resultado.
 
 Estados: carga/calidad, fallback, ruta actual/completa/bloqueada, hebra/región/marco/codón/exón/proteína, transcripción/exportación/traducción, fuentes, Profesor/PIN, Mol* y enlace RCSB. El mapa sincronizado combina contorno, desplazamiento, sombra, crema o marca inferior y conserva equivalente semántico.
+
+Mol* incluye un control persistente **Ocultar interfaz / Mostrar interfaz**. En modo inmersivo desaparecen topbar, ruta, evidencia, heading, deck, escala, navegación y caption; solo permanecen Mol* y el botón de retorno. Aplica por igual a HBB y CA2.
+
+La versión Profesor aporta navegación libre, estados completos y guía orientativa de la misión. Sus herramientas permanecen contraídas en un único botón inferior hasta que el docente las solicita; no deben cubrir controles ni preguntas.
+
+### Misión final
+
+La estación 11 sustituye el canvas por cinco preguntas textuales para responder en el cuaderno. Cada fila ofrece un regreso explícito a la estación pertinente. La guía de respuestas solo aparece con Profesor desbloqueado. En claro usa fondo `#edf5f3`; en oscuro, `#0a2027`; no emplea imágenes ni repite tarjetas decorativas.
 
 ### Accesibilidad
 
