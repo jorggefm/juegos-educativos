@@ -1,0 +1,36 @@
+a inspirada en tu referencia anterior.</div>
+        <div><strong>Edificio 2:</strong> edificio comercial de esquina inspirado en la nueva foto.</div>
+        <div><strong>Vista destruida:</strong> puedes inspeccionar el edificio colapsado incluso sin jugar.</div>
+        <div><strong>Destino del edificio:</strong> se controla con varios parámetros, no solo con la intensidad.</div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button id="enterBtn" class="actionBtn" style="background:linear-gradient(180deg,#85f0dd,#5bccbb);color:#032526;font-weight:1000">Entrar al simulador</button></div>
+    </div>
+    <div class="imgCol"><div class="thumb"></div><div class="thumb"></div></div>
+  </div>
+</div>
+<script>
+(()=>{
+'use strict';
+const B=window.BABYLON;
+if(!B){alert('No se pudo cargar Babylon.js.');return;}
+const $=id=>document.getElementById(id);
+const canvas=$('game');
+const engine=new B.Engine(canvas,false,{preserveDrawingBuffer:false,stencil:false});engine.setHardwareScalingLevel(2);
+const scene=new B.Scene(engine);scene.skipPointerMovePicking=true;
+scene.clearColor=B.Color4.FromHexString('#8ab8daff');
+const camera=new B.ArcRotateCamera('cam',Math.PI*.84,1.02,33,new B.Vector3(0,6.5,1),scene);camera.attachControl(canvas,true);camera.lowerRadiusLimit=17;camera.upperRadiusLimit=56;camera.lowerBetaLimit=.58;camera.upperBetaLimit=1.28;camera.wheelPrecision=28;camera.inertia=.72;
+const hemi=new B.HemisphericLight('hemi',new B.Vector3(0,1,0),scene);hemi.intensity=.92;hemi.groundColor=B.Color3.FromHexString('#5d6873');
+const sun=new B.DirectionalLight('sun',new B.Vector3(-.58,-1,.42),scene);sun.position=new B.Vector3(18,28,-22);sun.intensity=1.08;
+function mat(name,hex,alpha=1,em=''){const m=new B.StandardMaterial(name,scene);m.diffuseColor=B.Color3.FromHexString(hex);m.specularColor=new B.Color3(.05,.05,.05);m.alpha=alpha;if(em)m.emissiveColor=B.Color3.FromHexString(em);return m;}
+const mats={
+  ground:mat('g','#b7c7af'), concrete:mat('c','#d8d1c5'), road:mat('r','#6c7378'), line:mat('l','#dadddf'), fence:mat('f','#596a77'),
+  tower:mat('t','#e5e0d4'), beige:mat('b','#bd9976'), white:mat('w','#f0eee8'), orange:mat('o','#d09a7d'), window:mat('wi','#95b8c8'), rail:mat('ra','#d7dfe8'), roof:mat('ro','#9f785e'), annex:mat('an','#b28f68'), void:mat('vo','#423129'),
+  brick:mat('br','#c57f62'), brickDark:mat('brd','#aa634f'), trim:mat('tr','#d59677'), glass:mat('gl','#7cb1c7',.9), storeRed:mat('sr','#cb2d2d'), storeYellow:mat('sy','#e0bf44'), canopy:mat('ca','#38434f'),
+  pad:mat('pa','#405f68',.42,'#173238'), padActive:mat('p2','#5be6d0',.85,'#2fa793'), padOcc:mat('p3','#293437',.28),
+  isolator:mat('is','#78bbff',1,'#315b89'), isolatorGlow:mat('ig','#92d5ff',.34,'#5676cb'), alarm:mat('al','#f07070',1,'#7f2222'), alarmGlow:mat('ag','#ff9999',.36,'#bb4545'),
+  pulseFast:mat('pf','#96f0ff',.56,'#57d2f2'), pulseStrong:mat('ps','#7fd1ff',.56,'#3ba0e3'), pulseSurface:mat('pu','#ffd17b',.6,'#ffb54e'),
+  crack:mat('cr','#4e3125',.92), debris:mat('de','#8e7b6d'), safe:mat('sa','#67d5b7',.24,'#2ba194'),
+  personA:mat('pA','#ffb36d'), personB:mat('pB','#7db2ff'), personC:mat('pC','#98e78e'),
+  fire:mat('fi','#ffae42',.95,'#ff7c1f'), fireGlow:mat('fg','#ff7435',.44,'#ff5620'), smoke:mat('sm','#575351',.35), dust:mat('du','#c7b49d',.26)
+};Object.values(mats).forEach(m=>{try{m.freeze();}catch(e){}});
+const ground=B.MeshBuilder.CreateGround('ground',{width:44,height:38},scene);ground.material=mats.gr
