@@ -7,7 +7,10 @@ const PORT = Number(process.env.PORT || 3000);
 const ROOT = __dirname;
 const V5_PARTS = [
   'v5/part01.htmlfrag',
-  'v5/part02.htmlfrag',
+  'v5/part02a.htmlfrag',
+  'v5/part02b.htmlfrag',
+  'v5/part02c.htmlfrag',
+  'v5/part02d.htmlfrag',
   'v5/part03.htmlfrag',
   'v5/part04.htmlfrag',
   'v5/part05.htmlfrag'
