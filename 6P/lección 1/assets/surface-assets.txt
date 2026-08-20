@@ -1,0 +1,21 @@
+Generated surface POV image provenance (ImageGen, 2026-08-17)
+
+- surface-nereida.png — exec-a76871ec-a340-4a7a-baed-c9fc1a8bfba1.png
+- surface-brasa.png — exec-d57fb675-a275-4067-8e8c-9429e0cd6230.png
+- surface-umbral.png — exec-a62e88c0-794c-4b43-a281-c0cdecd070bd.png
+- surface-cripta.png — exec-163ed8d5-7afd-4954-97d7-f21aa25554f6.png
+- surface-marea.png — exec-fbb6ead9-fa07-4b80-bb12-9fb02ae9f23d.png
+- surface-velo.png — exec-1e28a774-c52e-4400-a2a4-74f9ada7c464.png
+- surface-boreal.png — exec-7b6fadc4-5ff9-428a-a469-1584d72b2863.png
+- surface-helia.png — exec-e97e573b-9d70-4740-b9f0-776e19672661.png
+
+Sensor evidence views (ImageGen, 2026-08-17):
+
+- Nereida A/B — exec-0f818c53-7954-4351-b956-4edd663d0946.png / exec-4fa46ff3-424a-4117-8b7a-608feee8a679.png
+- Brasa A/B — exec-5acd17f2-5a14-40c9-b460-773e492005be.png / exec-7d149615-e0c7-4afc-8d11-f97d05b432ae.png
+- Umbral A/B — exec-80e8a3fc-6ae6-40fd-b98a-009f7bc3b3a6.png / exec-23bb04c5-0398-47a0-a3fe-b00bf6609fb4.png
+- Cripta A/B — exec-41c9ceb7-bff9-4232-9435-28ab07781c89.png / exec-269b7842-52c1-49fa-a6c6-271af2b4848a.png
+- Marea A/B — exec-175e4149-261c-4dfe-965f-d545878f574d.png / exec-853cea20-436f-4b3d-ae06-ee8903a80d81.png
+- Velo A/B — exec-dbb8ce7f-9952-4e5a-bb71-cc6cf449dc70.png / exec-46dd7e7f-cfbc-4aed-8609-176dd379f85b.png
+- Boreal A/B — exec-3f5e6116-7ab9-4780-87b1-d3c78fb2c2d8.png / exec-a0cc2cdf-3197-40a8-b993-3fcfb93a8570.png
+- Helia A/B — exec-1bceeb5a-8071-45d8-b2ab-1cbeebf63e9b.png / exec-699fd9a3-e860-487e-b266-1e7c76011b85.png

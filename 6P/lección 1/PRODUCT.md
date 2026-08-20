@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Experiencia cooperativa de 45 minutos para sexto de primaria. El docente opera un único mouse en la pantalla principal y el grupo toma las decisiones.
+Experiencia cooperativa de 40 minutos para sexto de primaria. El docente opera un único mouse en la pantalla principal y el grupo toma las decisiones.
 
 ## Objetivo de aprendizaje
 
@@ -10,15 +10,16 @@ Explicar cómo el agua líquida, la atmósfera, la energía y una temperatura ad
 
 ## Regla pedagógica central
 
-Primero se compromete una decisión de aterrizaje; después se examina evidencia. La simulación confronta la intuición con las condiciones reales y permite revisar el razonamiento. Tener una sola condición favorable nunca basta.
+La tripulación sobrevuela ocho mundos y dispone de ocho módulos de descenso, uno por planeta. `Aterrizar e investigar` consume un módulo, ejecuta una reentrada y abre cuatro sensores sobre una superficie POV. La decisión inicial funciona como hipótesis antes de ver datos, pero el recorrido completo permite investigar todos los mundos. Tener una sola condición favorable nunca basta.
 
 ## Flujo
 
 - Briefing y objetivo explícito.
 - Ocho expedientes divididos en dos sectores. El primero presenta casos claros (Nereida, Brasa, Umbral y Cripta); el segundo introduce casos complejos (Marea, Velo, Boreal y Helia).
-- En cada expediente: decisión previa, cuatro lecturas de sensores, diagnóstico y consecuencia de supervivencia. En el Sector II se añade una decisión causal que obliga a relacionar dos condiciones.
+- En cada sobrevuelo: hipótesis inicial antes de descender y comprobar con evidencia.
+- En cada descenso: animación orbital-superficie, cuatro lecturas de sensores, diagnóstico y consecuencia de supervivencia. En el Sector II se añade una decisión causal que obliga a relacionar dos condiciones.
 - Transición de sector para recordar que una condición aislada no basta y que la incertidumbre también es un resultado científico.
-- Consejo final: comparación de los ocho informes científicos, selección de un destino y revelación de la consecuencia solo después de confirmar la decisión.
+- Consejo final: comparación de los ocho informes obtenidos. `Ninguno` permite actuar con cautela si la evidencia no respalda un destino seguro.
 - Cierre explícito: condiciones para la vida no equivalen a vida ya comprobada.
 
 ## Restricciones
@@ -27,4 +28,4 @@ Primero se compromete una decisión de aterrizaje; después se examina evidencia
 - Sin casillas de confirmación docente ni instrucciones de respuesta oral.
 - Operación completa con mouse; controles grandes y legibles desde un televisor.
 - Funciona en línea o totalmente sin internet.
-- Imágenes, fuentes, lógica y sonidos incrustados en `index.html`.
+- Ocho vistas orbitales y veinticuatro vistas de superficie, fuentes, lógica y sonidos incrustados en `index.html`.

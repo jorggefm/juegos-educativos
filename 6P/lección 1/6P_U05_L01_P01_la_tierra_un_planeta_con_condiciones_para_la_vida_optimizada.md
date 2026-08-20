@@ -8,13 +8,13 @@
 - Parte: 01
 - Área: Ciencia y Tecnología
 - Tema: La Tierra, un planeta con condiciones para la vida
-- Duración: 45 minutos
+- Duración: 40 minutos
 - Recurso central: juego HTML autocontenido `Expedición Hábitat`
 - Organización: un solo equipo; el docente opera el mouse y el grupo toma las decisiones
 
 ## Resumen
 
-La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica. Antes de recibir toda la evidencia, el grupo decide si intentaría vivir en cada planeta; después analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación que indica si la colonia podría sobrevivir, no sobreviviría o enfrentaría un riesgo que la evidencia aún no permite resolver. La misión contiene ocho mundos divididos en un sector de casos claros y otro de casos complejos. Al final compara los ocho mundos y selecciona el más habitable.
+La clase presenta a la Tierra como un planeta que reúne condiciones relacionadas que favorecen la vida conocida: agua líquida, una atmósfera, energía y un intervalo adecuado de temperatura. En `Expedición Hábitat`, el aula funciona como una sola tripulación científica que sobrevuela ocho mundos y dispone de ocho módulos de descenso. En cada mundo formula una hipótesis inicial, observa la reentrada, llega a una superficie en primera persona, analiza cuatro lecturas de sensores, emite un diagnóstico y observa una simulación de supervivencia. Al final compara toda la evidencia obtenida y selecciona el destino más habitable o concluye que ninguno puede elegirse con seguridad.
 
 ## Objetivos
 
@@ -41,9 +41,9 @@ Explicar cómo el agua líquida, la atmósfera, la energía y una temperatura ad
 4. Ubica a los estudiantes de modo que todos observen la pantalla. El docente será el único que manipule el mouse.
 5. Explica que no habrá puntajes ni competencia: el producto es un diagnóstico colectivo basado en evidencia.
 
-Plan alternativo: si falla la pantalla, lee los cuatro expedientes de esta planificación y registra en la pizarra la decisión previa, las cuatro clasificaciones, el diagnóstico y la revisión final.
+Plan alternativo: si falla la pantalla, lee los ocho expedientes de esta planificación. Dibuja ocho fichas que representen los módulos de descenso y retira una cada vez que el grupo investigue un mundo.
 
-### 1. Apertura: una decisión antes de conocer todo — 0 a 6 minutos
+### 1. Apertura: una decisión antes de conocer todo — 0 a 4 minutos
 
 Proyecta la portada `¿Dónde podríamos vivir?` y lee el objetivo de la misión. Pregunta:
 
@@ -55,7 +55,7 @@ Pulsa `Iniciar expedición`. Presenta la regla central: primero el grupo asumir�
 
 Evidencia esperada: el grupo anticipa al menos dos condiciones y reconoce que una imagen no prueba habitabilidad.
 
-### 2. Construcción del concepto: las condiciones forman un sistema — 6 a 12 minutos
+### 2. Construcción del concepto: las condiciones forman un sistema — 4 a 8 minutos
 
 Antes del primer expediente, construye en la pizarra una red simple:
 
@@ -66,20 +66,21 @@ Antes del primer expediente, construye en la pizarra una red simple:
 
 Une las condiciones con flechas. Señala dos relaciones: la atmósfera influye en la temperatura; la energía recibida influye en la temperatura y en el estado del agua. Concluye que ninguna condición debe evaluarse de forma aislada.
 
-### 3. Expedición cooperativa: ocho mundos — 12 a 38 minutos
+### 3. Expedición cooperativa: ocho mundos y ocho descensos — 8 a 34 minutos
 
-El juego contiene ocho planetas en dos sectores. El procedimiento se mantiene para permitir comparaciones, pero el segundo sector introduce evidencias parciales y combinaciones que parecen favorables si se observa una sola condición.
+El juego contiene ocho planetas en dos sectores y ocho módulos. La ruta permite responder todos los cuestionarios para sostener una comparación completa. El segundo sector introduce evidencias parciales y combinaciones que parecen favorables si se observa una sola condición.
 
 #### Ciclo de investigación por planeta
 
-1. Observación inicial: la imagen ocupa toda la pantalla y el panel flotante muestra una breve descripción.
-2. Decisión previa: el grupo elige `Aterrizaríamos` o `Seguir buscando`.
-3. Escaneo: aparecen, una por una, las lecturas de agua, atmósfera, energía y temperatura.
-4. Clasificación: el grupo decide si cada lectura es `Favorable`, `Crítica` o `No sabemos`.
-5. Diagnóstico integral: el grupo selecciona `Favorable para vivir`, `No favorable` o `Falta evidencia`.
-6. Relación causal: en los cuatro casos del Sector II, el grupo elige la cadena de causa y consecuencia que mejor integra dos o más condiciones.
-7. Simulación: la pantalla confronta la decisión previa con las condiciones reales y anuncia la consecuencia.
-8. Revisión: se comparan el diagnóstico del grupo y el informe científico antes de continuar.
+1. Sobrevuelo: la vista orbital ocupa toda la pantalla y el panel flotante muestra una primera impresión.
+2. Decisión de recurso: el grupo elige `Aterrizar e investigar` o `Seguir buscando`.
+3. Hipótesis inicial: el grupo conversa si la primera impresión parece favorable o riesgosa.
+4. Ruta de descenso: al aterrizar, se consume un módulo y una secuencia animada lleva de la órbita a una superficie POV.
+5. Escaneo en superficie: aparecen, una por una, las lecturas de agua, atmósfera, energía y temperatura; el retículo cambia de zona y el paisaje gana claridad.
+6. Clasificación: el grupo decide si cada lectura es `Favorable`, `Crítica` o `No sabemos`.
+7. Diagnóstico integral: el grupo selecciona `Favorable para vivir`, `No favorable` o `Falta evidencia`.
+8. Relación causal: en los casos investigados del Sector II, el grupo elige la cadena que mejor integra dos o más condiciones.
+9. Simulación y revisión: se revela la consecuencia, se compara el diagnóstico del grupo con el informe científico y se regresa a órbita.
 
 El docente conduce el diálogo y registra con el mouse la decisión acordada. No hay casillas de confirmación docente ni comprobaciones externas al razonamiento visible en el juego.
 
@@ -160,13 +161,13 @@ Al cerrar Cripta, la pantalla presenta la transición `Sector II`. Recupera tres
 - Diagnóstico esperado: no favorable.
 - Relación clave: el exceso de energía también limita la habitabilidad.
 
-### 4. Consejo final: elegir con evidencia — 38 a 43 minutos
+### 4. Consejo final: elegir con evidencia — 34 a 38 minutos
 
-La pantalla reúne los ocho informes científicos. Pide al grupo comparar mundos y elegir dónde establecería la colonia. Seleccionar un planeta solo marca el destino; la consecuencia no aparece hasta pulsar `Comprobar decisión final`. Antes de confirmar, solicita que el grupo descarte al menos dos opciones que parecían prometedoras y que identifique qué combinación de condiciones respalda su elección.
+La pantalla reúne los ocho informes obtenidos. Los planetas examinados pueden seleccionarse; también existe la opción `Ninguno` cuando la evidencia disponible no respalda un destino seguro. La consecuencia no aparece hasta pulsar `Comprobar decisión final`. Antes de confirmar, pide identificar qué combinación de condiciones respalda la elección.
 
-Resultado esperado: Nereida. Si el grupo elige otro planeta, la simulación explica qué combinación impide la supervivencia y permite cambiar la elección. La meta no es acertar a la primera, sino revisar el diagnóstico hasta que la decisión sea coherente con la evidencia.
+Resultado esperado: Nereida, porque reúne agua líquida, atmósfera protectora, energía suficiente y temperatura moderada. La meta no es adivinar el planeta correcto, sino decidir con evidencia disponible y reconocer cómo se relacionan las condiciones.
 
-### 5. Cierre y evidencia de aprendizaje — 43 a 45 minutos
+### 5. Cierre y evidencia de aprendizaje — 38 a 40 minutos
 
 Recupera el objetivo mostrado al inicio y completa colectivamente:
 
@@ -185,7 +186,7 @@ La evidencia es el diagnóstico colectivo registrado en el juego y la explicaci�
 - clasifica las cuatro condiciones usando la evidencia mostrada;
 - integra las condiciones en un diagnóstico coherente;
 - explica al menos una relación causal entre condiciones;
-- elige Nereida por la combinación de condiciones y no por su apariencia;
+- elige Nereida por la combinación de condiciones, o justifica `Ninguno` cuando considera que falta evidencia de un destino favorable;
 - mantiene cautela científica sobre la existencia de vida.
 
 ## Ficha de aplicación
@@ -196,5 +197,5 @@ La evidencia es el diagnóstico colectivo registrado en el juego y la explicaci�
 - Control: un mouse manejado por el docente.
 - Modalidad: equipo único, decisión cooperativa.
 - Estudiantes: funciona con cuatro, seis o cualquier número que pueda deliberar como grupo.
-- Recursos visuales: ocho imágenes planetarias originales generadas para esta lección e incrustadas en el HTML.
+- Recursos visuales: ocho imágenes orbitales y veinticuatro superficies POV originales; las vistas cambian durante los sensores para mostrar la evidencia estudiada. Todo está incrustado en el HTML.
 - Accesibilidad: controles grandes, contraste alto, foco visible, opción de silenciar y respeto de movimiento reducido.

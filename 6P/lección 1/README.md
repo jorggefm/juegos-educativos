@@ -12,11 +12,11 @@ Juego cooperativo para una pantalla principal manejada por el docente con un sol
 ## Secuencia del juego
 
 1. El grupo decide si aterrizaría en un planeta con una primera impresión.
-2. Clasifica evidencia sobre agua, atmósfera, energía y temperatura.
-3. Emite un diagnóstico integral.
-4. Observa si su decisión inicial permitiría o no la supervivencia.
-5. Después de cuatro casos claros, entra en un segundo sector que añade relaciones causales entre condiciones.
-6. Tras investigar ocho planetas, selecciona y confirma el destino antes de revelar la consecuencia final.
+2. Usa ocho módulos de descenso para investigar los ocho planetas antes del consejo final.
+3. Al aterrizar, una reentrada animada cambia la órbita por una superficie en primera persona.
+4. Clasifica evidencia sobre agua, atmósfera, energía y temperatura y emite un diagnóstico integral.
+5. Después de cuatro sobrevuelos, entra en un segundo sector que añade relaciones causales entre condiciones.
+6. En el consejo final solo puede elegir entre los mundos investigados o declarar que ninguno es seguro.
 
 No hay competencia, nombres individuales ni puntajes. El producto evaluable es el diagnóstico científico colectivo y la decisión final basada en evidencia.
 
@@ -32,3 +32,11 @@ No hay competencia, nombres individuales ni puntajes. El producto evaluable es e
 - `assets/helia.webp`: mundo desértico expuesto a radiación y calor extremos.
 
 Todas las imágenes se guardan dentro del HTML final como datos incrustados para conservar el modo sin conexión.
+
+Cada planeta incluye una superficie general y dos vistas de evidencia (`surface-<planeta>-evidence-a/b.webp`). El juego cambia de paisaje durante los sensores: agua/atmósfera y energía/temperatura. En total se usan ocho órbitas y veinticuatro superficies POV.
+
+## Railway
+
+- `server.mjs` sirve el juego sin dependencias externas.
+- `railway.json` ejecuta la compilación autocontenida y publica `index.html`.
+- Inicio local equivalente: `npm start`.
