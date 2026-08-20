@@ -1,0 +1,17 @@
+.life/d.maxLife;d.mesh.scaling.setAll(.7+age*2.4);d.mesh.position.y+=dt*.42;}
+}
+function playImpactSound(strength,collapse=false){if(!state.musicStarted||!state.music||!state.music.ctx)return;const ctx=state.music.ctx,now=ctx.currentTime;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=collapse?'sawtooth':'triangle';osc.frequency.setValueAtTime(collapse?52:70-strength*22,now);osc.frequency.exponentialRampToValueAtTime(collapse?28:38,now+(collapse?.65:.22));gain.gain.setValueAtTime(0.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.008,.04*strength),now+.01);gain.gain.exponentialRampToValueAtTime(.0001,now+(collapse?.8:.28));osc.connect(gain);gain.connect(state.music.master);osc.start(now);osc.stop(now+(collapse?.85:.32));}
+function triggerImpact(strength,damage){if(!currentBuilding)return;const s=Math.min(1.4,Math.max(.15,strength+damage/45));if(cinematicEnabled())swayVelocity+=s*2.9;cameraKick=Math.max(cameraKick,s);spawnCinematicFx(s,false);playImpactSound(s,false);}
+function toast(msg,type='good'){const t=$('toast');t.textContent=msg;t.className='toast on '+type;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>t.className='toast',2500);}
+function showWarning(t,s=''){ $('warningText').textContent=t;$('warningSub').textContent=s||'La escala 5–15 es intensidad del juego, no magnitud sísmica real.';const w=$('warning');w.classList.add('on');clearTimeout(showWarning._t);showWarning._t=setTimeout(()=>w.classList.remove('on'),2600); }
+function totalDefense(type){let n=0;defenses.forEach(d=>{if(d.type===type)n++;});return n;}
+function isoReduction(){return Math.min(.54,totalDefense('isolator')*.18);}
+function alarmCount(){return totalDefense('alarm');}
+function damageState(){return state.hp<=0?'Colapsado':state.hp<=20?'Daño severo':state.hp<=45?'Daño moderado':state.hp<=72?'Daño leve':'Operativo';}
+function setPhase(txt){$('phaseText').textContent=txt;}
+function pulseMat(type){return type==='fast'?mats.pulseFast:type==='surface'?mats.pulseSurface:mats.pulseStrong;}
+function pulseLabel(type){return type==='fast'?'SEÑAL RÁPIDA':type==='surface'?'ONDA SUPERFICIAL':'MOVIMIENTO FUERTE';}
+function rootPick(root,kind,id){root.getChildMeshes().forEach(m=>{m.isPickable=false;});const towerLike=root.name==='towerRoot';const proxy=B.MeshBuilder.CreateBox('pickProxy:'+id,{width:towerLike?9.8:14.2,height:towerLike?20.8:15.2,depth:towerLike?7.6:9.4},scene);proxy.parent=root;proxy.position.y=towerLike?10.2:7.4;proxy.visibility=.001;proxy.isPickable=true;proxy.metadata={pickKind:kind,id};}
+function resetPads(){padMeshes.forEach(m=>m.dispose());padMeshes.clear();occupancyMap.clear();defenses.forEach(d=>{d.root.getChildMeshes().forEach(m=>m.dispose());d.root.dispose();});defenses.clear();defenseNo=1;const def=buildingDefs[state.buildingType];def.pads.forEach((p,i)=>{const m=B.MeshBuilder.CreateCylinder('pad'+i,{diameter:2.2,height:.12,tessellation:32},scene);m.position.set(p[0],.1,p[1]);m.material=mats.pad;m.metadata={pickKind:'pad',id:'p'+(i+1)};padMeshes.set('p'+(i+1),m);});}
+function disposeCurrentBuilding(){if(!currentBuilding) return; currentBuilding.root.getChildMeshes().forEach(m=>m.dispose()); currentBuilding.root.dispose(); currentBuilding=null;}
+function createTowerModel(){const root=new B.TransformNode('towerRoot',scene);root.position.set(0,0,-2.3);const lower=new B.TransformNode('lower',scene);lower.parent=root;lower.position.y=4.9;const upper=new B.TransformNode('upper',scene);upper
