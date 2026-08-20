@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Torre Segura 3D v4 Lite — Multi Edificio</title>
+<style>
+:root{--bg:#09121f;--panel:#0b1523e6;--line:#ffffff22;--teal:#79e1d0;--gold:#f6cb73;--danger:#ff9068;--muted:#a8bfd4;--good:#98efcb;color-scheme:dark;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}*{box-sizing:border-box}html,body,#game{width:100%;height:100%;margin:0}body{overflow:hidden;background:var(--bg)}button,select,input{font:inherit}#game{position:fixed;inset:0;touch-action:none}.ui{position:fixed;inset:0;pointer-events:none}.panel{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 18px 60px #0005}.top{position:absolute;left:16px;right:16px;top:14px;display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.brand p{margin:0;color:var(--teal);font-size:10px;font-weight:900;letter-spacing:.18em}.brand h1{margin:4px 0 0;font-size:clamp(24px,3.1vw,38px);line-height:1;letter-spacing:-.05em}.brand .sub{margin:8px 0 0;max-width:420px;font-size:12px;color:var(--muted);line-height:1.4}.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:min(730px,60vw)}.pill{min-width:92px;padding:8px 10px;border-radius:14px;border:1px solid #ffffff20;background:#09121fcc}.pill small{display:block;color:#8ea4b9;font-size:8px;font-weight:900;letter-spacing:.13em}.pill strong{display:block;margin-top:2px;font-size:19px}.hp strong{color:var(--good)}.ce strong{color:var(--gold)}.ev strong{color:#ffd498}.trap strong{color:#ffb89f}.bar{margin-top:6px;height:6px;border-radius:999px;background:#ffffff12;overflow:hidden}.bar span{display:block;height:100%;transform-origin:left center;background:#72e4a7}.centerBanner{position:absolute;top:98px;left:50%;transform:translateX(-50%);width:min(700px,calc(100vw - 32px));text-align:center}.phase{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid #ffffff20;background:#09121fcc;font-size:11px;font-weight:900;letter-spacing:.08em}.phase .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}#warning{margin-top:12px;padding:14px 16px;border-radius:16px;border:1px solid #7ddcff55;background:linear-gradient(180deg,#0d1827ec,#09111de5);font-size:19px;font-weight:900;letter-spacing:-.02em;opacity:0;transform:translateY(-4px);transition:.2s}#warning.on{opacity:1;transform:none}#warning small{display:block;margin-top:5px;font-size:11px;color:#cbe5f7;font-weight:700;letter-spacing:.08em}.left{position:absolute;left:16px;top:142px;bottom:16px;width:min(390px,calc(100vw - 32px));display:flex;flex-direction:column;gap:10px}.card{padding:14px;border-radius:18px}.title{margin:0 0 10px;font-size:11px;font-weight:900;color:#9db8cf;text-transform:uppercase;letter-spacing:.14em}.grid{display:grid;gap:10px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;color:#d7e7f3}.field select,.field input[type=range]{width:100%;pointer-events:auto}.field select{padding:10px;border-radius:12px;background:#111c2d;color:#eef7ff;border:1px solid #ffffff1d}.rangeLine{display:flex;justify-content:space-between;align-items:center;gap:10px}.rangeLine output{min-width:48px;text-align:right;color:var(--gold);font-weight:900}.buildBtns{display:grid;gap:8px}.buildBtn,.actionBtn,.bigBtn{pointer-events:auto;border:1px solid #ffffff20;background:#111c2d;color:#edf6ff;border-radius:14px;padding:11px 12px;cursor:pointer;font-weight:800}.buildBtn:hover,.actionBtn:hover,.bigBtn:hover{transform:translateY(-1px);border-color:#7de0d26a}.buildBtn small{display:block;color:#a9bfd2;font-size:11px;font-weight:600;margin-top:2px}.buildBtn .cost{float:right;color:#ffd38c}.bigBtn{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;padding:14px 26px;border-radius:999px;background:linear-gradient(180deg,#85f0dd,#5bccbb);color:#022426;font-size:16px;font-weight:1000;letter-spacing:.02em;box-shadow:0 14px 30px #0005}.inspector{padding:14px;border-radius:18px;flex:1;min-height:240px}.inspector h2{margin:2px 0 0;font-size:24px;line-height:1.03}.inspector p{margin:8px 0 0;color:#acc5d9;font-size:12px;line-height:1.45}.stats{margin-top:12px;display:grid;gap:8px}.stat{display:flex;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:1px solid #ffffff12;font-size:12px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.quickInfo{position:absolute;right:16px;bottom:16px;max-width:360px;padding:10px 12px;border-radius:14px;font-size:11px;color:#a5bfd0}.toast{position:absolute;left:50%;bottom:72px;transform:translate(-50%,12px);padding:12px 14px;border-radius:14px;background:#0b1728ef;border:1px solid #ffffff24;font-size:13px;font-weight:900;opacity:0;transition:.2s;max-width:min(80vw,620px);text-align:center}.toast.on{opacity:1;transform:translate(-50%,0)}.toast.good{border-color:#69eacb63}.toast.bad{border-color:#ff8f6666}.toast.warn{border-color:#ffcf7260}.alarmBadge,.fireBadge{position:absolute;right:16px;padding:9px 12px;border-radius:12px;font-size:10px;font-weight:900;opacity:0;transition:.2s}.alarmBadge{bottom:120px;border:1px solid #ff77775d;background:#551818d6;color:#ffd4d4}.fireBadge{bottom:82px;border:1px solid #ff8f5a5f;background:#5f2817dc;color:#ffc7a6}.alarmBadge.on,.fireBadge.on{opacity:1}.collapseBadge{position:absolute;left:50%;transform:translateX(-50%);top:146px;padding:10px 15px;border-radius:999px;border:1px solid #ff8b6660;background:#4f1717e8;color:#ffd4c8;font-size:11px;font-weight:1000;letter-spacing:.09em;opacity:0;transition:.25s;pointer-events:none}.collapseBadge.on{opacity:1}.modalWrap{position:fixed;inset:0;display:grid;place-items:center;background:#06101bc9;padding:20px}.modal{width:min(980px,100%);padding:24px;border-radius:24px}.intro{display:grid;grid-template-columns:1.15fr .95fr;gap:18px}.intro h2{margin:0;font-size:clamp(28px,4vw,54px);line-height:.95;letter-spacing:-.055em}.intro p{color:#c5d8e6;font-size:14px;line-height:1.55}.bullets{display:grid;gap:8px;margin-top:14px}.bullets div{padding:10px 12px;border-radius:14px;border:1px solid #ffffff15;background:#0e1827c9;font-size:13px;color:#ddebf5}.imgCol{display:grid;gap:10px}.thumb{min-height:190px;border-radius:18px;border:1px solid #ffffff18;background:linear-gradient(135deg,#304861,#5e7a9c)}.thumb:nth-child(2){background:linear-gradient(135deg,#805d52,#d08b61)}.result{position:fixed;inset:0;display:none;place-items:center;background:#06101bd4;padding:20px}.result.show{display:none}.resultGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.metric{padding:12px;border-radius:14px;background:#0e1726;border:1px solid #ffffff16}.metric small{display:block;font-size:10px;color:#8ba2b7;font-weight:900;letter-spacing:.11em}.metric strong{display:block;margin-top:4px;font-size:24px}.hidden{display:none!important}@media (max-width:980px){.top{flex-direction:column}.pills{justify-content:flex-start;max-width:100%}.left{width:min(420px,calc(100vw - 32px));top:auto;max-height:56vh;overflow:auto}.quickInfo{display:none}.intro{grid-template-columns:1fr}.resultGrid{grid-template-columns:repeat(2,1fr)}.bigBtn{bottom:10px}}
+</style>
+</head>
+<body>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<canvas id="game"></canvas>
+<div class="ui">
+  <div class="top">
+    <div class="brand">
+      <p>V5 CINEMATIC EARTHQUAKE · MULTI EDIFICIO</p>
+      <h1>Torre Segura 3D</h1>
+      <div class="sub">V5 con animación sísmica avanzada: respuesta por secciones, golpes de cámara, polvo, escombros dinámicos, audio reactivo y modo Rendimiento/Cinemático.</div>
+    </div>
+    <div class="pills">
+      <div class="pill hp"><small>INTEGRIDAD</small><strong id="hpValue">100</strong><div class="bar"><span id="hpBar"></span></div></div>
+      <div class="pill ce"><small>CRÉDITOS</small><strong id="credits">420</strong></div>
+      <div class="pill"><small>OLEADA</small><strong id="waveValue">1 / 4</strong></div>
+      <div class="pill ev"><small>EVACUADOS</small><strong id="evacValue">0 / 120</strong></div>
+      <div class="pill"><small>EN SALIDA</small><strong id="movingValue">0</strong></div>
+      <div class="pill trap"><small>ATRAPADOS</small><strong id="trappedValue">0</strong></div>
+    </div>
+  </div>
+  <div class="centerBanner">
+    <div class="phase"><span class="dot"></span><span id="phaseText">PREPARACIÓN</span></div>
+    <div id="warning"><span id="warningText">Configura el escenario, elige un edificio e instala defensas.</span><small id="warningSub">La escala 5–15 es intensidad del juego, no magnitud sísmica real.</small></div>
+  </div>
+  <aside class="left">
+    <section class="panel card">
+      <h3 class="title">Escenario</h3>
+      <div class="grid">
+        <div class="field">
+          <label for="buildingSelect">Edificio activo</label>
+          <select id="buildingSelect">
+            <option value="tower">Torre residencial alta</option>
+            <option value="corner">Edificio comercial de esquina</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="intensityRange">Intensidad del simulador (5–15)</label>
+          <div class="rangeLine"><input id="intensityRange" type="range" min="5" max="15" value="10" step="1" /><output id="intensityOut">10</output></div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="soilSelect">Suelo</label>
+            <select id="soilSelect">
+              <option value="0.86">Roca</option>
+              <option value="1" selected>Normal</option>
+              <option value="1.18">Suelo blando</option>
+              <option value="1.34">Relleno</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="conditionSelect">Condición estructural</label>
+            <select id="conditionSelect">
+              <option value="0.84">Reforzado</option>
+              <option value="1" selected>Normal</option>
+              <option value="1.18">Deteriorado</option>
+              <option value="1.34">Crítico</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="occupancyRange">Ocupación inicial</label>
+          <div class="rangeLine"><input id="occupancyRange" type="range" min="50" max="180" value="120" step="10" /><output id="occupancyOut">120</output></div>
+        </div>
+        <div class="field">
+          <label for="qualitySelect">Calidad gráfica</label>
+          <select id="qualitySelect">
+            <option value="2" selected>Rendimiento (recomendado)</option>
+            <option value="1.5">Equilibrado</option>
+            <option value="1">Normal</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="animationMode">Animación sísmica</label>
+          <select id="animationMode">
+            <option value="performance" selected>Rendimiento</option>
+            <option value="cinematic">Cinemático</option>
+          </select>
+        </div>
+        <div class="row2">
+          <button id="applyScene" class="actionBtn">Aplicar cambios</button>
+          <button id="resetMission" class="actionBtn">Reiniciar misión</button>
+        </div>
+        <div class="row2">
+          <button id="previewDestroyed" class="actionBtn">Ver edificio destruido</button>
+          <button id="previewIntact" class="actionBtn">Volver a intacto</button>
+        </div>
+      </div>
+    </section>
+    <section class="panel card">
+      <h3 class="title">Defensas</h3>
+      <div class="buildBtns">
+        <button class="buildBtn" data-build="isolator">1 · Aislador sísmico <span class="cost">90 CE</span><small>Reduce 18% del daño. Tope acumulado 54%.</small></button>
+        <button class="buildBtn" data-build="alarm">2 · Alarma de evacuación <span class="cost">70 CE</span><small>Inicia la evacuación antes del impacto y acelera la salida.</small></button>
+      </div>
+    </section>
+    <section class="panel inspector">
+      <p class="title">Inspector</p>
+      <h2 id="name">Edificio activo</h2>
+      <p id="desc">Selecciona el edificio o una defensa para ver su información.</p>
+      <div id="stats" class="stats"></div>
+      <div class="actions">
+        <button id="repairBtn" class="actionBtn">Reparar +10 HP · 28 CE</button>
+        <button id="sellBtn" class="actionBtn hidden">Vender defensa</button>
+      </div>
+    </section>
+  </aside>
+  <button id="quickStart" class="bigBtn">🌊 Iniciar terremoto</button>
+  <div id="alarmBadge" class="alarmBadge">🚨 ALARMA ACTIVA — la evacuación está en marcha</div>
+  <div id="fireBadge" class="fireBadge">🔥 INCENDIOS / DAÑO INTERNO — el riesgo de atrapados sube</div><div id="collapseBadge" class="collapseBadge">⚠ EDIFICIO COLAPSADO · puedes rotar y acercar la cámara para inspeccionar la ruina</div>
+  <div id="toast" class="toast"></div>
+  <div class="panel quickInfo">MODO RENDIMIENTO sigue siendo el predeterminado. Activa CINEMÁTICO para movimiento por secciones, cámara de impacto, polvo, escombros dinámicos y audio reactivo.</div>
+</div>
+<div id="startModal" class="modalWrap">
+  <div class="panel modal intro">
+    <div>
+      <p class="title" style="margin-bottom:8px">V5 CINEMATIC EARTHQUAKE</p>
+      <h2>Elige el edificio,<br/>siente el impacto.</h2>
+      <p>La V5 conserva edificios intercambiables y añade una animación sísmica más expresiva. Puedes cambiar el destino del escenario con: <strong>intensidad del simulador</strong>, <strong>tipo de suelo</strong>, <strong>condición estructural</strong> y <strong>ocupación</strong>. Luego puedes instalar aisladores y alarmas, y lanzar la secuencia sísmica.</p>
+      <div class="bullets">
+        <div><strong>Edificio 1:</strong> torre residencial alt
