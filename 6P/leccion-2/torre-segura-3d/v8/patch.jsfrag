@@ -23,6 +23,54 @@ const v8Pose = {
   upperY: 0
 };
 
+// The main tower volumes need an explicit, non-emissive façade material. On
+// some GPU/driver combinations the inherited frozen material was rendered as a
+// cyan flat fill and obscured the façade language during motion.
+const v8TowerFacade = new B.StandardMaterial('v8TowerFacade', scene);
+v8TowerFacade.diffuseColor = B.Color3.FromHexString('#d6d0c3');
+v8TowerFacade.ambientColor = B.Color3.FromHexString('#4d4941');
+v8TowerFacade.specularColor = new B.Color3(.025, .025, .025);
+v8TowerFacade.emissiveColor = B.Color3.FromHexString('#c7bdad');
+v8TowerFacade.disableLighting = true;
+v8TowerFacade.backFaceCulling = true;
+
+function v8StabilizeTowerFacade(){
+  if(!currentBuilding || currentBuilding.type !== 'tower')return;
+  const refs = currentBuilding.refs;
+  if(!refs.v8FacadeShells){
+    const lowerShell = B.MeshBuilder.CreateBox('v8LowerFacade',{width:8.9,height:9.6,depth:6.8},scene);
+    lowerShell.parent = refs.lower;
+    lowerShell.isPickable = false;
+    const upperShell = B.MeshBuilder.CreateBox('v8UpperFacade',{width:8.9,height:10.2,depth:6.8},scene);
+    upperShell.parent = refs.upper;
+    upperShell.isPickable = false;
+    refs.v8FacadeShells = [lowerShell, upperShell];
+  }
+  // Retire the legacy selectable boxes. Their outline shader can cover their
+  // entire face in cyan on some GPUs, while these passive shells retain the
+  // same geometry and follow the exact V6/V8 transforms.
+  currentBuilding.root.getChildMeshes()
+    .filter(mesh=>mesh.name === 'lb' || mesh.name === 'ub')
+    .forEach(mesh=>{mesh.isVisible = false; mesh.renderOutline = false;});
+  currentBuilding.root.getChildMeshes().forEach(mesh=>{mesh.renderOutline = false;});
+  refs.v8FacadeShells.forEach(mesh=>{
+    mesh.isVisible = true;
+    mesh.material = v8TowerFacade;
+    mesh.renderOutline = false;
+  });
+}
+
+// Babylon's mesh-outline pass can fill large boxes on some integrated GPUs.
+// The inspector already identifies the selected building, so do not outline the
+// structural shell; keep outlines available for small defense objects instead.
+const v8BaseHighlight = highlight;
+highlight = function(root, color){
+  v8BaseHighlight(root, color);
+  if(root && currentBuilding && root === currentBuilding.root){
+    root.getChildMeshes().forEach(mesh=>{mesh.renderOutline = false;});
+  }
+};
+
 function v8Clamp(value, min, max){
   return Math.max(min, Math.min(max, value));
 }
@@ -221,6 +269,7 @@ applyDamageVisual = function(targetRatio, collapse){
   // the four authored collapse phases.
   v7VisualDamage = v8Damage;
   v8BaseApplyDamageVisual(v8Damage, v8Collapse);
+  v8StabilizeTowerFacade();
 };
 
 const v8BaseTriggerImpact = triggerImpact;
