@@ -1,0 +1,179 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// V7 DAMAGE EVOLUTION — visual damage is progressive instead of binary.
+// Keeps the V6 structural solver and replaces abrupt visibility changes with
+// deterministic transitions, residual deformation and staged collapse cues.
+// ─────────────────────────────────────────────────────────────────────────────
+let v7VisualDamage = 0;
+let v7ResidualLean = 0;
+let v7ResidualShift = 0;
+let v7LastBuildingKey = '';
+let v7CollapseStage = 0;
+let v7ImpactEnergy = 0;
+const v7ModuleState = new Map();
+
+function v7Smooth01(x){ x=Math.max(0,Math.min(1,x)); return x*x*(3-2*x); }
+function v7Smoother01(x){ x=Math.max(0,Math.min(1,x)); return x*x*x*(x*(x*6-15)+10); }
+function v7Band(x,a,b){ return v7Smooth01((x-a)/Math.max(.0001,b-a)); }
+function v7EaseOut(x){ x=Math.max(0,Math.min(1,x)); return 1-Math.pow(1-x,3); }
+
+function v7ResetVisualEvolution(){
+  v7VisualDamage = 0;
+  v7ResidualLean = 0;
+  v7ResidualShift = 0;
+  v7CollapseStage = 0;
+  v7ImpactEnergy = 0;
+  v7ModuleState.clear();
+}
+
+function v7EnsureModuleState(m, index){
+  let s=v7ModuleState.get(m.uniqueId);
+  if(!s){
+    s={
+      targetHidden:false,
+      progress:0,
+      started:false,
+      seed:((index*37 + m.uniqueId*17)%101)/101,
+      basePos:m.position.clone(),
+      baseRot:m.rotation.clone(),
+      baseScale:m.scaling.clone()
+    };
+    v7ModuleState.set(m.uniqueId,s);
+  }
+  return s;
+}
+
+function v7AnimateModuleFailures(refs, dt){
+  if(!refs||!refs.modules)return;
+  refs.modules.forEach((m,i)=>{
+    if(!m||m.isDisposed?.())return;
+    const s=v7EnsureModuleState(m,i);
+    // applyDamageVisual V6 decides *which* pieces fail. V7 decides *how* they fail.
+    if(m.isVisible===false && !s.targetHidden){
+      s.targetHidden=true;
+      s.started=true;
+      s.progress=0;
+    }
+    if(!s.targetHidden){
+      m.scaling.copyFrom(s.baseScale);
+      return;
+    }
+    s.progress=Math.min(1,s.progress+dt*(.70+s.seed*.48));
+    const p=v7Smoother01(s.progress);
+    // Keep the element visible while it detaches, then retire it.
+    m.isVisible=s.progress<.985;
+    if(m.isVisible){
+      const side=s.seed>.5?1:-1;
+      m.position.x=s.basePos.x+side*p*(.10+.20*s.seed);
+      m.position.y=s.basePos.y-p*p*(.26+.52*s.seed);
+      m.position.z=s.basePos.z+p*(.04+.14*(1-s.seed));
+      m.rotation.z=s.baseRot.z+side*p*(.04+.12*s.seed);
+      m.rotation.x=s.baseRot.x+p*(.02+.08*(1-s.seed));
+      const sc=1-p*.13;
+      m.scaling.set(s.baseScale.x*sc,s.baseScale.y*sc,s.baseScale.z*sc);
+    }
+  });
+}
+
+function v7ProgressiveCracks(refs, d){
+  if(!refs)return;
+  const c1=v7Band(d,.10,.27), c2=v7Band(d,.22,.43), hole=v7Band(d,.46,.72);
+  if(refs.crack1){refs.crack1.isVisible=c1>.01;refs.crack1.scaling.set(.42+.58*c1,.20+.80*c1,1);refs.crack1.rotation.z=-.025*(1-c1);}
+  if(refs.crack2){refs.crack2.isVisible=c2>.01;refs.crack2.scaling.set(.35+.65*c2,.16+.84*c2,1);refs.crack2.rotation.z=.035*(1-c2);}
+  if(refs.voidHole){refs.voidHole.isVisible=hole>.035;const hs=.18+.82*v7Smoother01(hole);refs.voidHole.scaling.set(hs,hs,hs);}
+  if(refs.debris2)refs.debris2.forEach((m,i)=>{const p=v7Band(d,.25+i*.018,.46+i*.014);m.isVisible=p>.015;m.scaling.setAll(.22+.78*v7EaseOut(p));if(m.isVisible)m.rotation.y+=(i%2?1:-1)*.0008;});
+  if(refs.debris3)refs.debris3.forEach((m,i)=>{const p=v7Band(d,.48+i*.018,.72+i*.012);m.isVisible=p>.015;m.scaling.setAll(.18+.82*v7EaseOut(p));if(m.isVisible)m.rotation.y+=(i%2?-1:1)*.0011;});
+}
+
+function v7CollapseMap(c){
+  // Four perceptual phases: settle -> hinge -> fall -> settle in rubble.
+  if(c<=0)return 0;
+  if(c<.20)return .08*v7Smoother01(c/.20);
+  if(c<.52)return .08+.38*v7Smoother01((c-.20)/.32);
+  if(c<.84)return .46+.40*v7Smoother01((c-.52)/.32);
+  return .86+.14*v7EaseOut((c-.84)/.16);
+}
+
+const v7BaseApplyDamageVisual = applyDamageVisual;
+applyDamageVisual = function(targetRatio, collapse){
+  if(!currentBuilding)return;
+  const buildingKey=currentBuilding.root.uniqueId+':'+currentBuilding.type;
+  if(buildingKey!==v7LastBuildingKey){v7LastBuildingKey=buildingKey;v7ResetVisualEvolution();}
+
+  // Damage itself never teleports. Severe changes approach the target faster than minor ones.
+  const rate=targetRatio>v7VisualDamage?(state.phase==='wave'?.055:.085):.12;
+  v7VisualDamage += (targetRatio-v7VisualDamage)*rate;
+  if(Math.abs(targetRatio-v7VisualDamage)<.0005)v7VisualDamage=targetRatio;
+
+  const mappedCollapse=v7CollapseMap(collapse||0);
+  v7BaseApplyDamageVisual(v7VisualDamage,mappedCollapse);
+
+  const refs=currentBuilding.refs;
+  v7ProgressiveCracks(refs,v7VisualDamage);
+
+  // Permanent set: once damaged, the structure does not return perfectly vertical.
+  const residualTarget=(v7Band(v7VisualDamage,.28,.88)*.024 + v7Band(v7VisualDamage,.62,1)*.030) * (currentBuilding.type==='tower'?1:.72);
+  v7ResidualLean += (residualTarget-v7ResidualLean)*.026;
+  v7ResidualShift += ((residualTarget*5.2)-v7ResidualShift)*.022;
+  currentBuilding.root.rotation.z-=v7ResidualLean;
+  currentBuilding.root.position.x+=v7ResidualShift;
+
+  // Tower: local story drift/sag becomes visible before global collapse.
+  if(currentBuilding.type==='tower'&&refs.upper){
+    const drift=v7Band(v7VisualDamage,.38,.82);
+    refs.upper.position.y-=drift*.16;
+    refs.upper.rotation.z-=drift*.018;
+    refs.upper.position.x+=drift*.10;
+  }
+
+  // Collapse dust is staged, not one giant instantaneous puff.
+  if(collapse>0){
+    const thresholds=[.22,.48,.72];
+    while(v7CollapseStage<thresholds.length && collapse>=thresholds[v7CollapseStage]){
+      const s=[.44,.72,1.02][v7CollapseStage];
+      if(cinematicEnabled())spawnCinematicFx(s,v7CollapseStage===2);
+      playImpactSound(Math.min(1,s*.78),v7CollapseStage===2);
+      v7CollapseStage++;
+    }
+  }
+};
+
+const v7BaseTriggerImpact = triggerImpact;
+triggerImpact = function(strength,damage){
+  v7BaseTriggerImpact(strength,damage);
+  const e=Math.min(1.5,.18+strength*.72+damage/70);
+  v7ImpactEnergy=Math.max(v7ImpactEnergy,e);
+  // Damage leaves a tiny permanent bias, with deterministic direction by wave/time.
+  if(damage>4){
+    const sign=Math.sin((waveRuntime?.elapsed||time)*1.91+state.waveIndex)>.0?1:-1;
+    v7ResidualLean+=sign*Math.min(.0065,damage*.00018);
+  }
+  // Light localized dust for moderate impacts; large impacts already have the V6 FX.
+  if(cinematicEnabled()&&damage>2.6&&damage<6.2)spawnCinematicFx(.24+damage*.035,false);
+};
+
+const v7BaseUpdateShake = updateShake;
+updateShake = function(dt){
+  v7BaseUpdateShake(dt);
+  if(!currentBuilding)return;
+  v7ImpactEnergy*=Math.exp(-3.0*dt);
+  v7AnimateModuleFailures(currentBuilding.refs,dt);
+
+  // Very small torsional component tied to structural energy, not random camera jitter.
+  if(state.phase==='wave'&&currentBuilding.type==='tower'){
+    const torsion=Math.sin(time*3.15+v6X[4]*2.4)*Math.min(.012,Math.abs(v6Z[5]-v6Z[2])*.022+v7ImpactEnergy*.0015);
+    currentBuilding.refs.upper.rotation.y+=torsion;
+  }
+};
+
+const v7BaseResetBuildingVisualState = resetBuildingVisualState;
+resetBuildingVisualState = function(){
+  v7BaseResetBuildingVisualState();
+  v7ResetVisualEvolution();
+};
+
+// Update labels after the existing V6 boot code runs.
+setTimeout(()=>{
+  const tag=document.querySelector('.brand p');if(tag)tag.textContent='V7 · DAÑO PROGRESIVO + RESPUESTA ESTRUCTURAL';
+  const sub=document.querySelector('.brand .sub');if(sub)sub.textContent='V7: respuesta sísmica por altura, deformación residual, grietas progresivas, desprendimientos y colapso por etapas.';
+  const phase=$('phaseText');if(phase&&phase.textContent==='PREPARACIÓN')phase.textContent='PREPARACIÓN · V7';
+},0);
