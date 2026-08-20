@@ -1,0 +1,17 @@
+ound;ground.isPickable=false;
+const lot=B.MeshBuilder.CreateBox('lot',{width:28,height:.08,depth:18},scene);lot.position.set(0,.04,2.2);lot.material=mats.concrete;lot.isPickable=false;
+const road=B.MeshBuilder.CreateBox('road',{width:44,height:.06,depth:5.6},scene);road.position.set(0,.03,12.8);road.material=mats.road;road.isPickable=false;
+const road2=B.MeshBuilder.CreateBox('road2',{width:5.6,height:.06,depth:30},scene);road2.position.set(-16.4,.03,-1.6);road2.material=mats.road;road2.isPickable=false;
+[[0,.08,-4.8,18,.12],[0,.08,0,18,.12],[0,.08,4.8,18,.12],[-5.2,.08,2.2,.12,16],[0,.08,2.2,.12,16],[5.2,.08,2.2,.12,16],[-16.4,.08,-11,.12,11],[-16.4,.08,-4,.12,11],[-16.4,.08,3,.12,11]].forEach((v,i)=>{const [x,y,z,w,d]=v;const line=B.MeshBuilder.CreateBox('line'+i,{width:w,height:.02,depth:d},scene);line.position.set(x,y,z);line.material=mats.line;line.isPickable=false;});
+const fenceRoot=new B.TransformNode('fenceRoot',scene);for(let i=-18;i<=18;i+=2.2){const bar=B.MeshBuilder.CreateBox('bar'+i,{width:.12,height:3.4,depth:.12},scene);bar.position.set(i,1.7,9.6);bar.material=mats.fence;bar.parent=fenceRoot;bar.isPickable=false;}const topRail=B.MeshBuilder.CreateBox('topRail',{width:37,height:.18,depth:.18},scene);topRail.position.set(0,3.35,9.6);topRail.material=mats.fence;topRail.parent=fenceRoot;topRail.isPickable=false;
+const safeZone=B.MeshBuilder.CreateTorus('safe',{diameter:8.5,thickness:.18,tessellation:64},scene);safeZone.rotation.x=Math.PI/2;safeZone.position.set(-11,.12,6);safeZone.material=mats.safe;safeZone.isPickable=false;const safeDisc=B.MeshBuilder.CreateCylinder('safe2',{diameter:2.2,height:.2},scene);safeDisc.position.set(-11,.09,6);safeDisc.material=mats.safe;safeDisc.isPickable=false;
+[[6.2,6.0,'#c5524b'],[-1.8,6.0,'#273443'],[11.0,6.3,'#8e949c'],[-12.4,-7.7,'#d14e4f']].forEach(([x,z,c],i)=>{const r=new B.TransformNode('car'+i,scene);r.position.set(x,0,z);const body=B.MeshBuilder.CreateBox('carBody'+i,{width:2.2,height:.7,depth:3.7},scene);body.parent=r;body.position.y=.45;body.material=mat('carM'+i,c);const top=B.MeshBuilder.CreateBox('carTop'+i,{width:1.7,height:.55,depth:1.8},scene);top.parent=r;top.position.set(0,.95,-.1);top.material=mat('carTopM'+i,'#2b313d');r.getChildMeshes().forEach(m=>m.isPickable=false);});
+
+const cost={isolator:90,alarm:70};
+const sellRate=.7;
+const buildingDefs={
+  tower:{id:'tower',name:'Torre residencial alta',fragility:1.0,desc:'Torre de departamentos de varios pisos, sensible al daño acumulado en fachada y niveles superiores.',pads:[[-6.6,1.3],[6.6,1.3],[-6.7,-4.8],[6.7,-4.8],[-3.2,6.2],[2.8,6.2]],peopleDefault:120,door:()=>new B.Vector3(0.25,.2,1.15)},
+  corner:{id:'corner',name:'Edificio comercial de esquina',fragility:.92,desc:'Volumen comercial de esquina con base vidriada y niveles superiores, inspirado en la nueva referencia.',pads:[[-7.8,2.5],[-7.8,-3.7],[6.5,4.5],[7.8,-2.4],[-1.6,7.5],[4.2,7.6]],peopleDefault:90,door:()=>new B.Vector3(-1.6,.2,3.4)}
+};
+const state={credits:420,maxHp:100,hp:100,phase:'build',waveIndex:0,peopleTotal:120,inside:120,evacuating:0,evacuated:0,trapped:0,lastDamage:0,burning:false,paused:false,gameOver:false,intensityLevel:10,previewMode:'intact',buildingType:'tower',soilFactor:1,conditionFactor:1,toastTimer:null,musicStarted:false,music:null,uiDirty:true,animationMode:'performance'};
+let currentBuilding=null,padMeshes=new Map(),occupancyMap=new Map(),defenses=new Map(),defenseNo=1,buildType=null,selected=null,activePulses=[
