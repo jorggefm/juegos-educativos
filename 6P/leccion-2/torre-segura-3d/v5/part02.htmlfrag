@@ -1,0 +1,93 @@
+a inspirada en tu referencia anterior.</div>
+        <div><strong>Edificio 2:</strong> edificio comercial de esquina inspirado en la nueva foto.</div>
+        <div><strong>Vista destruida:</strong> puedes inspeccionar el edificio colapsado incluso sin jugar.</div>
+        <div><strong>Destino del edificio:</strong> se controla con varios parámetros, no solo con la intensidad.</div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button id="enterBtn" class="actionBtn" style="background:linear-gradient(180deg,#85f0dd,#5bccbb);color:#032526;font-weight:1000">Entrar al simulador</button></div>
+    </div>
+    <div class="imgCol"><div class="thumb"></div><div class="thumb"></div></div>
+  </div>
+</div>
+<script>
+(()=>{
+'use strict';
+const B=window.BABYLON;
+if(!B){alert('No se pudo cargar Babylon.js.');return;}
+const $=id=>document.getElementById(id);
+const canvas=$('game');
+const engine=new B.Engine(canvas,false,{preserveDrawingBuffer:false,stencil:false});engine.setHardwareScalingLevel(2);
+const scene=new B.Scene(engine);scene.skipPointerMovePicking=true;
+scene.clearColor=B.Color4.FromHexString('#8ab8daff');
+const camera=new B.ArcRotateCamera('cam',Math.PI*.84,1.02,33,new B.Vector3(0,6.5,1),scene);camera.attachControl(canvas,true);camera.lowerRadiusLimit=17;camera.upperRadiusLimit=56;camera.lowerBetaLimit=.58;camera.upperBetaLimit=1.28;camera.wheelPrecision=28;camera.inertia=.72;
+const hemi=new B.HemisphericLight('hemi',new B.Vector3(0,1,0),scene);hemi.intensity=.92;hemi.groundColor=B.Color3.FromHexString('#5d6873');
+const sun=new B.DirectionalLight('sun',new B.Vector3(-.58,-1,.42),scene);sun.position=new B.Vector3(18,28,-22);sun.intensity=1.08;
+function mat(name,hex,alpha=1,em=''){const m=new B.StandardMaterial(name,scene);m.diffuseColor=B.Color3.FromHexString(hex);m.specularColor=new B.Color3(.05,.05,.05);m.alpha=alpha;if(em)m.emissiveColor=B.Color3.FromHexString(em);return m;}
+const mats={
+  ground:mat('g','#b7c7af'), concrete:mat('c','#d8d1c5'), road:mat('r','#6c7378'), line:mat('l','#dadddf'), fence:mat('f','#596a77'),
+  tower:mat('t','#e5e0d4'), beige:mat('b','#bd9976'), white:mat('w','#f0eee8'), orange:mat('o','#d09a7d'), window:mat('wi','#95b8c8'), rail:mat('ra','#d7dfe8'), roof:mat('ro','#9f785e'), annex:mat('an','#b28f68'), void:mat('vo','#423129'),
+  brick:mat('br','#c57f62'), brickDark:mat('brd','#aa634f'), trim:mat('tr','#d59677'), glass:mat('gl','#7cb1c7',.9), storeRed:mat('sr','#cb2d2d'), storeYellow:mat('sy','#e0bf44'), canopy:mat('ca','#38434f'),
+  pad:mat('pa','#405f68',.42,'#173238'), padActive:mat('p2','#5be6d0',.85,'#2fa793'), padOcc:mat('p3','#293437',.28),
+  isolator:mat('is','#78bbff',1,'#315b89'), isolatorGlow:mat('ig','#92d5ff',.34,'#5676cb'), alarm:mat('al','#f07070',1,'#7f2222'), alarmGlow:mat('ag','#ff9999',.36,'#bb4545'),
+  pulseFast:mat('pf','#96f0ff',.56,'#57d2f2'), pulseStrong:mat('ps','#7fd1ff',.56,'#3ba0e3'), pulseSurface:mat('pu','#ffd17b',.6,'#ffb54e'),
+  crack:mat('cr','#4e3125',.92), debris:mat('de','#8e7b6d'), safe:mat('sa','#67d5b7',.24,'#2ba194'),
+  personA:mat('pA','#ffb36d'), personB:mat('pB','#7db2ff'), personC:mat('pC','#98e78e'),
+  fire:mat('fi','#ffae42',.95,'#ff7c1f'), fireGlow:mat('fg','#ff7435',.44,'#ff5620'), smoke:mat('sm','#575351',.35), dust:mat('du','#c7b49d',.26)
+};Object.values(mats).forEach(m=>{try{m.freeze();}catch(e){}});
+const ground=B.MeshBuilder.CreateGround('ground',{width:44,height:38},scene);ground.material=mats.ground;ground.isPickable=false;
+const lot=B.MeshBuilder.CreateBox('lot',{width:28,height:.08,depth:18},scene);lot.position.set(0,.04,2.2);lot.material=mats.concrete;lot.isPickable=false;
+const road=B.MeshBuilder.CreateBox('road',{width:44,height:.06,depth:5.6},scene);road.position.set(0,.03,12.8);road.material=mats.road;road.isPickable=false;
+const road2=B.MeshBuilder.CreateBox('road2',{width:5.6,height:.06,depth:30},scene);road2.position.set(-16.4,.03,-1.6);road2.material=mats.road;road2.isPickable=false;
+[[0,.08,-4.8,18,.12],[0,.08,0,18,.12],[0,.08,4.8,18,.12],[-5.2,.08,2.2,.12,16],[0,.08,2.2,.12,16],[5.2,.08,2.2,.12,16],[-16.4,.08,-11,.12,11],[-16.4,.08,-4,.12,11],[-16.4,.08,3,.12,11]].forEach((v,i)=>{const [x,y,z,w,d]=v;const line=B.MeshBuilder.CreateBox('line'+i,{width:w,height:.02,depth:d},scene);line.position.set(x,y,z);line.material=mats.line;line.isPickable=false;});
+const fenceRoot=new B.TransformNode('fenceRoot',scene);for(let i=-18;i<=18;i+=2.2){const bar=B.MeshBuilder.CreateBox('bar'+i,{width:.12,height:3.4,depth:.12},scene);bar.position.set(i,1.7,9.6);bar.material=mats.fence;bar.parent=fenceRoot;bar.isPickable=false;}const topRail=B.MeshBuilder.CreateBox('topRail',{width:37,height:.18,depth:.18},scene);topRail.position.set(0,3.35,9.6);topRail.material=mats.fence;topRail.parent=fenceRoot;topRail.isPickable=false;
+const safeZone=B.MeshBuilder.CreateTorus('safe',{diameter:8.5,thickness:.18,tessellation:64},scene);safeZone.rotation.x=Math.PI/2;safeZone.position.set(-11,.12,6);safeZone.material=mats.safe;safeZone.isPickable=false;const safeDisc=B.MeshBuilder.CreateCylinder('safe2',{diameter:2.2,height:.2},scene);safeDisc.position.set(-11,.09,6);safeDisc.material=mats.safe;safeDisc.isPickable=false;
+[[6.2,6.0,'#c5524b'],[-1.8,6.0,'#273443'],[11.0,6.3,'#8e949c'],[-12.4,-7.7,'#d14e4f']].forEach(([x,z,c],i)=>{const r=new B.TransformNode('car'+i,scene);r.position.set(x,0,z);const body=B.MeshBuilder.CreateBox('carBody'+i,{width:2.2,height:.7,depth:3.7},scene);body.parent=r;body.position.y=.45;body.material=mat('carM'+i,c);const top=B.MeshBuilder.CreateBox('carTop'+i,{width:1.7,height:.55,depth:1.8},scene);top.parent=r;top.position.set(0,.95,-.1);top.material=mat('carTopM'+i,'#2b313d');r.getChildMeshes().forEach(m=>m.isPickable=false);});
+
+const cost={isolator:90,alarm:70};
+const sellRate=.7;
+const buildingDefs={
+  tower:{id:'tower',name:'Torre residencial alta',fragility:1.0,desc:'Torre de departamentos de varios pisos, sensible al daño acumulado en fachada y niveles superiores.',pads:[[-6.6,1.3],[6.6,1.3],[-6.7,-4.8],[6.7,-4.8],[-3.2,6.2],[2.8,6.2]],peopleDefault:120,door:()=>new B.Vector3(0.25,.2,1.15)},
+  corner:{id:'corner',name:'Edificio comercial de esquina',fragility:.92,desc:'Volumen comercial de esquina con base vidriada y niveles superiores, inspirado en la nueva referencia.',pads:[[-7.8,2.5],[-7.8,-3.7],[6.5,4.5],[7.8,-2.4],[-1.6,7.5],[4.2,7.6]],peopleDefault:90,door:()=>new B.Vector3(-1.6,.2,3.4)}
+};
+const state={credits:420,maxHp:100,hp:100,phase:'build',waveIndex:0,peopleTotal:120,inside:120,evacuating:0,evacuated:0,trapped:0,lastDamage:0,burning:false,paused:false,gameOver:false,intensityLevel:10,previewMode:'intact',buildingType:'tower',soilFactor:1,conditionFactor:1,toastTimer:null,musicStarted:false,music:null,uiDirty:true,animationMode:'performance'};
+let currentBuilding=null,padMeshes=new Map(),occupancyMap=new Map(),defenses=new Map(),defenseNo=1,buildType=null,selected=null,activePulses=[],movingPeople=[],waveRuntime=null,evacuationActive=false,evacAccumulator=0,time=0,collapseProgress=0;
+let sway=0,swayVelocity=0,cameraKick=0,lastCameraAlphaOffset=0,lastCameraBetaOffset=0;
+let lastMotion={rootX:0,rootZ:0,rootRot:0,lowerRot:0,upperRot:0,upperX:0};
+const cinematicDebris=[],cinematicDust=[];
+const epicenter=new B.Vector3(-18,0,-15);
+function cinematicEnabled(){return state.animationMode==='cinematic';}
+function initCinematicPools(){
+  for(let i=0;i<14;i++){const m=B.MeshBuilder.CreateBox('cineDebris'+i,{width:.55+(i%3)*.16,height:.32+(i%2)*.12,depth:.42+((i+1)%3)*.13},scene);m.material=mats.debris;m.isVisible=false;m.isPickable=false;cinematicDebris.push({mesh:m,life:0,vx:0,vy:0,vz:0,rx:0,ry:0,rz:0});}
+  for(let i=0;i<10;i++){const m=B.MeshBuilder.CreateSphere('cineDust'+i,{diameter:1.0+(i%3)*.25,segments:6},scene);m.material=mats.dust;m.isVisible=false;m.isPickable=false;cinematicDust.push({mesh:m,life:0,maxLife:1});}
+}
+initCinematicPools();
+function resetMotionState(){
+  sway=0;swayVelocity=0;cameraKick=0;
+  if(currentBuilding){
+    currentBuilding.root.position.x-=lastMotion.rootX;currentBuilding.root.position.z-=lastMotion.rootZ;currentBuilding.root.rotation.z-=lastMotion.rootRot;
+    if(currentBuilding.type==='tower'){currentBuilding.refs.lower.rotation.z-=lastMotion.lowerRot;currentBuilding.refs.upper.rotation.z-=lastMotion.upperRot;currentBuilding.refs.upper.position.x-=lastMotion.upperX;}
+  }
+  if(camera){camera.alpha-=lastCameraAlphaOffset;camera.beta-=lastCameraBetaOffset;}
+  lastCameraAlphaOffset=lastCameraBetaOffset=0;lastMotion={rootX:0,rootZ:0,rootRot:0,lowerRot:0,upperRot:0,upperX:0};
+  cinematicDebris.forEach(d=>{d.life=0;d.mesh.isVisible=false;});cinematicDust.forEach(d=>{d.life=0;d.mesh.isVisible=false;});
+}
+function spawnCinematicFx(strength,collapse=false){if(!cinematicEnabled()||!currentBuilding)return;const origin=currentBuilding.root.position;const debrisCount=Math.min(cinematicDebris.length,collapse?12:(strength>.7?6:strength>.45?4:2));let used=0;for(const d of cinematicDebris){if(used>=debrisCount)break;if(d.life>0)continue;used++;d.life=collapse?3.0:1.8+Math.random()*.8;d.mesh.isVisible=true;d.mesh.position.set(origin.x+(Math.random()-.5)*5.5,2.0+Math.random()*(collapse?10:7),origin.z+2.6+(Math.random()-.5)*2.8);const side=(Math.random()<.5?-1:1);d.vx=side*(1.4+Math.random()*3.0)*strength;d.vy=2.4+Math.random()*4.2*strength;d.vz=(Math.random()-.5)*3.0;d.rx=(Math.random()-.5)*5;d.ry=(Math.random()-.5)*5;d.rz=(Math.random()-.5)*5;}
+  const dustCount=collapse?8:Math.min(5,2+Math.floor(strength*4));used=0;for(const d of cinematicDust){if(used>=dustCount)break;if(d.life>0)continue;used++;d.life=d.maxLife=collapse?2.2:1.2+Math.random()*.6;d.mesh.isVisible=true;d.mesh.position.set(origin.x+(Math.random()-.5)*7,.45+Math.random()*1.2,origin.z+2+(Math.random()-.5)*4);d.mesh.scaling.setAll(.6+Math.random()*.5);}
+}
+function updateCinematicFx(dt){if(!cinematicEnabled())return;for(const d of cinematicDebris){if(d.life<=0)continue;d.life-=dt;if(d.life<=0){d.mesh.isVisible=false;continue;}d.vy-=9.1*dt;d.mesh.position.x+=d.vx*dt;d.mesh.position.y=Math.max(.15,d.mesh.position.y+d.vy*dt);d.mesh.position.z+=d.vz*dt;d.mesh.rotation.x+=d.rx*dt;d.mesh.rotation.y+=d.ry*dt;d.mesh.rotation.z+=d.rz*dt;if(d.mesh.position.y<=.16){d.vy=Math.abs(d.vy)*.22;d.vx*=.78;d.vz*=.78;}}
+  for(const d of cinematicDust){if(d.life<=0)continue;d.life-=dt;if(d.life<=0){d.mesh.isVisible=false;continue;}const age=1-d.life/d.maxLife;d.mesh.scaling.setAll(.7+age*2.4);d.mesh.position.y+=dt*.42;}
+}
+function playImpactSound(strength,collapse=false){if(!state.musicStarted||!state.music||!state.music.ctx)return;const ctx=state.music.ctx,now=ctx.currentTime;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=collapse?'sawtooth':'triangle';osc.frequency.setValueAtTime(collapse?52:70-strength*22,now);osc.frequency.exponentialRampToValueAtTime(collapse?28:38,now+(collapse?.65:.22));gain.gain.setValueAtTime(0.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.008,.04*strength),now+.01);gain.gain.exponentialRampToValueAtTime(.0001,now+(collapse?.8:.28));osc.connect(gain);gain.connect(state.music.master);osc.start(now);osc.stop(now+(collapse?.85:.32));}
+function triggerImpact(strength,damage){if(!currentBuilding)return;const s=Math.min(1.4,Math.max(.15,strength+damage/45));if(cinematicEnabled())swayVelocity+=s*2.9;cameraKick=Math.max(cameraKick,s);spawnCinematicFx(s,false);playImpactSound(s,false);}
+function toast(msg,type='good'){const t=$('toast');t.textContent=msg;t.className='toast on '+type;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>t.className='toast',2500);}
+function showWarning(t,s=''){ $('warningText').textContent=t;$('warningSub').textContent=s||'La escala 5–15 es intensidad del juego, no magnitud sísmica real.';const w=$('warning');w.classList.add('on');clearTimeout(showWarning._t);showWarning._t=setTimeout(()=>w.classList.remove('on'),2600); }
+function totalDefense(type){let n=0;defenses.forEach(d=>{if(d.type===type)n++;});return n;}
+function isoReduction(){return Math.min(.54,totalDefense('isolator')*.18);}
+function alarmCount(){return totalDefense('alarm');}
+function damageState(){return state.hp<=0?'Colapsado':state.hp<=20?'Daño severo':state.hp<=45?'Daño moderado':state.hp<=72?'Daño leve':'Operativo';}
+function setPhase(txt){$('phaseText').textContent=txt;}
+function pulseMat(type){return type==='fast'?mats.pulseFast:type==='surface'?mats.pulseSurface:mats.pulseStrong;}
+function pulseLabel(type){return type==='fast'?'SEÑAL RÁPIDA':type==='surface'?'ONDA SUPERFICIAL':'MOVIMIENTO FUERTE';}
+function rootPick(root,kind,id){root.getChildMeshes().forEach(m=>{m.isPickable=false;});const towerLike=root.name==='towerRoot';const proxy=B.MeshBuilder.CreateBox('pickProxy:'+id,{width:towerLike?9.8:14.2,height:towerLike?20.8:15.2,depth:towerLike?7.6:9.4},scene);proxy.parent=root;proxy.position.y=towerLike?10.2:7.4;proxy.visibility=.001;proxy.isPickable=true;proxy.metadata={pickKind:kind,id};}
+function resetPads(){padMeshes.forEach(m=>m.dispose());padMeshes.clear();occupancyMap.clear();defenses.forEach(d=>{d.root.getChildMeshes().forEach(m=>m.dispose());d.root.dispose();});defenses.clear();defenseNo=1;const def=buildingDefs[state.buildingType];def.pads.forEach((p,i)=>{const m=B.MeshBuilder.CreateCylinder('pad'+i,{diameter:2.2,height:.12,tessellation:32},scene);m.position.set(p[0],.1,p[1]);m.material=mats.pad;m.metadata={pickKind:'pad',id:'p'+(i+1)};padMeshes.set('p'+(i+1),m);});}
+function disposeCurrentBuilding(){if(!currentBuilding) return; currentBuilding.root.getChildMeshes().forEach(m=>m.dispose()); currentBuilding.root.dispose(); currentBuilding=null;}
+function createTowerModel(){const root=new B.TransformNode('towerRoot',scene);root.position.set(0,0,-2.3);const lower=new B.TransformNode('lower',scene);lower.parent=root;lower.position.y=4.9;const upper=new B.TransformNode('upper',scene);upper.parent=root;upper.position.y=13.8;
