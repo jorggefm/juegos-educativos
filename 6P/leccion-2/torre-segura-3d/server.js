@@ -17,6 +17,7 @@ const BASE_PARTS = [
 ];
 const V7_PATCH = 'v7/patch.jsfrag';
 const V8_PATCH = 'v8/patch.jsfrag';
+const V9_PATCH = 'v9/patch.jsfrag';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -30,17 +31,18 @@ const MIME = {
   '.ico': 'image/x-icon'
 };
 
-function serveV8(res) {
+function serveV9(res) {
   Promise.all([
     Promise.all(BASE_PARTS.map(relative => fs.promises.readFile(path.join(ROOT, relative), 'utf8'))),
     fs.promises.readFile(path.join(ROOT, V7_PATCH), 'utf8'),
-    fs.promises.readFile(path.join(ROOT, V8_PATCH), 'utf8')
+    fs.promises.readFile(path.join(ROOT, V8_PATCH), 'utf8'),
+    fs.promises.readFile(path.join(ROOT, V9_PATCH), 'utf8')
   ])
-    .then(([parts, v7Patch, v8Patch]) => {
+    .then(([parts, v7Patch, v8Patch, v9Patch]) => {
       let html = parts.join('')
         .replace(
           '<title>Torre Segura 3D v4 Lite — Multi Edificio</title>',
-          '<title>Torre Segura 3D — V8.1 Continuidad y Masa</title>'
+          '<title>Torre Segura 3D — V9 Laboratorio de Estabilidad</title>'
         );
 
       // Inject the visual passes inside the existing IIFE so they can extend the
@@ -50,6 +52,7 @@ function serveV8(res) {
       html = html.slice(0, closeIndex)
         + '\n' + v7Patch
         + '\n' + v8Patch
+        + '\n' + v9Patch
         + '\n' + html.slice(closeIndex);
 
       res.writeHead(200, {
@@ -57,14 +60,14 @@ function serveV8(res) {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',
-        'X-Torre-Segura-Version': '8.1'
+        'X-Torre-Segura-Version': '9.0'
       });
       res.end(html);
     })
     .catch(err => {
-      console.error('Unable to assemble V8.1:', err);
+      console.error('Unable to assemble V9:', err);
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Unable to load Torre Segura 3D V8.1');
+      res.end('Unable to load Torre Segura 3D V9');
     });
 }
 
@@ -73,7 +76,7 @@ const server = http.createServer((req, res) => {
   const relative = requestPath === '/' ? 'index.html' : requestPath.replace(/^\/+/, '');
 
   if (relative === 'index.html') {
-    serveV8(res);
+    serveV9(res);
     return;
   }
 
@@ -101,5 +104,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Torre Segura 3D V8.1 listening on http://${HOST}:${PORT}`);
+  console.log(`Torre Segura 3D V9 listening on http://${HOST}:${PORT}`);
 });
