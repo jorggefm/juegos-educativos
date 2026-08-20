@@ -1,0 +1,26 @@
+],movingPeople=[],waveRuntime=null,evacuationActive=false,evacAccumulator=0,time=0,collapseProgress=0;
+let sway=0,swayVelocity=0,cameraKick=0,lastCameraAlphaOffset=0,lastCameraBetaOffset=0;
+let lastMotion={rootX:0,rootZ:0,rootRot:0,lowerRot:0,upperRot:0,upperX:0};
+const cinematicDebris=[],cinematicDust=[];
+const epicenter=new B.Vector3(-18,0,-15);
+function cinematicEnabled(){return state.animationMode==='cinematic';}
+function initCinematicPools(){
+  for(let i=0;i<14;i++){const m=B.MeshBuilder.CreateBox('cineDebris'+i,{width:.55+(i%3)*.16,height:.32+(i%2)*.12,depth:.42+((i+1)%3)*.13},scene);m.material=mats.debris;m.isVisible=false;m.isPickable=false;cinematicDebris.push({mesh:m,life:0,vx:0,vy:0,vz:0,rx:0,ry:0,rz:0});}
+  for(let i=0;i<10;i++){const m=B.MeshBuilder.CreateSphere('cineDust'+i,{diameter:1.0+(i%3)*.25,segments:6},scene);m.material=mats.dust;m.isVisible=false;m.isPickable=false;cinematicDust.push({mesh:m,life:0,maxLife:1});}
+}
+initCinematicPools();
+function resetMotionState(){
+  sway=0;swayVelocity=0;cameraKick=0;
+  if(currentBuilding){
+    currentBuilding.root.position.x-=lastMotion.rootX;currentBuilding.root.position.z-=lastMotion.rootZ;currentBuilding.root.rotation.z-=lastMotion.rootRot;
+    if(currentBuilding.type==='tower'){currentBuilding.refs.lower.rotation.z-=lastMotion.lowerRot;currentBuilding.refs.upper.rotation.z-=lastMotion.upperRot;currentBuilding.refs.upper.position.x-=lastMotion.upperX;}
+  }
+  if(camera){camera.alpha-=lastCameraAlphaOffset;camera.beta-=lastCameraBetaOffset;}
+  lastCameraAlphaOffset=lastCameraBetaOffset=0;lastMotion={rootX:0,rootZ:0,rootRot:0,lowerRot:0,upperRot:0,upperX:0};
+  cinematicDebris.forEach(d=>{d.life=0;d.mesh.isVisible=false;});cinematicDust.forEach(d=>{d.life=0;d.mesh.isVisible=false;});
+}
+function spawnCinematicFx(strength,collapse=false){if(!cinematicEnabled()||!currentBuilding)return;const origin=currentBuilding.root.position;const debrisCount=Math.min(cinematicDebris.length,collapse?12:(strength>.7?6:strength>.45?4:2));let used=0;for(const d of cinematicDebris){if(used>=debrisCount)break;if(d.life>0)continue;used++;d.life=collapse?3.0:1.8+Math.random()*.8;d.mesh.isVisible=true;d.mesh.position.set(origin.x+(Math.random()-.5)*5.5,2.0+Math.random()*(collapse?10:7),origin.z+2.6+(Math.random()-.5)*2.8);const side=(Math.random()<.5?-1:1);d.vx=side*(1.4+Math.random()*3.0)*strength;d.vy=2.4+Math.random()*4.2*strength;d.vz=(Math.random()-.5)*3.0;d.rx=(Math.random()-.5)*5;d.ry=(Math.random()-.5)*5;d.rz=(Math.random()-.5)*5;}
+  const dustCount=collapse?8:Math.min(5,2+Math.floor(strength*4));used=0;for(const d of cinematicDust){if(used>=dustCount)break;if(d.life>0)continue;used++;d.life=d.maxLife=collapse?2.2:1.2+Math.random()*.6;d.mesh.isVisible=true;d.mesh.position.set(origin.x+(Math.random()-.5)*7,.45+Math.random()*1.2,origin.z+2+(Math.random()-.5)*4);d.mesh.scaling.setAll(.6+Math.random()*.5);}
+}
+function updateCinematicFx(dt){if(!cinematicEnabled())return;for(const d of cinematicDebris){if(d.life<=0)continue;d.life-=dt;if(d.life<=0){d.mesh.isVisible=false;continue;}d.vy-=9.1*dt;d.mesh.position.x+=d.vx*dt;d.mesh.position.y=Math.max(.15,d.mesh.position.y+d.vy*dt);d.mesh.position.z+=d.vz*dt;d.mesh.rotation.x+=d.rx*dt;d.mesh.rotation.y+=d.ry*dt;d.mesh.rotation.z+=d.rz*dt;if(d.mesh.position.y<=.16){d.vy=Math.abs(d.vy)*.22;d.vx*=.78;d.vz*=.78;}}
+  for(const d of cinematicDust){if(d.life<=0)continue;d.life-=dt;if(d.life<=0){d.mesh.isVisible=false;continue;}const age=1-d
