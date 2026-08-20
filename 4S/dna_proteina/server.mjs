@@ -9,6 +9,6 @@ const port = Number(process.env.PORT || 3000)
 
 app.disable('x-powered-by')
 app.use(express.static(dist, { maxAge: '1y', immutable: true, index: false }))
-app.get('/health', (_request, response) => response.json({ status: 'ok', product: 'ProteinLab 2.0' }))
+app.get('/health', (_request, response) => response.json({ status: 'ok', product: 'ProteinLab 2.1' }))
 app.get('*path', (_request, response) => response.sendFile(path.join(dist, 'index.html')))
 app.listen(port, '0.0.0.0', () => console.log(`ProteinLab escuchando en ${port}`))
