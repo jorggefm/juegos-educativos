@@ -5,7 +5,7 @@ const path = require('path');
 const HOST = '0.0.0.0';
 const PORT = Number(process.env.PORT || 3000);
 const ROOT = __dirname;
-const V5_PARTS = [
+const V6_PARTS = [
   'v5/part01.htmlfrag',
   'v5/part02a.htmlfrag',
   'v5/part02b.htmlfrag',
@@ -28,13 +28,13 @@ const MIME = {
   '.ico': 'image/x-icon'
 };
 
-function serveV5(res) {
-  Promise.all(V5_PARTS.map(relative => fs.promises.readFile(path.join(ROOT, relative), 'utf8')))
+function serveV6(res) {
+  Promise.all(V6_PARTS.map(relative => fs.promises.readFile(path.join(ROOT, relative), 'utf8')))
     .then(parts => {
       const html = parts.join('')
         .replace(
           '<title>Torre Segura 3D v4 Lite — Multi Edificio</title>',
-          '<title>Torre Segura 3D — V5 Cinematic Earthquake</title>'
+          '<title>Torre Segura 3D — V6 Structural Response</title>'
         );
       res.writeHead(200, {
         'Content-Type': 'text/html; charset=utf-8',
@@ -45,9 +45,9 @@ function serveV5(res) {
       res.end(html);
     })
     .catch(err => {
-      console.error('Unable to assemble V5:', err);
+      console.error('Unable to assemble V6:', err);
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Unable to load Torre Segura 3D V5');
+      res.end('Unable to load Torre Segura 3D V6');
     });
 }
 
@@ -56,7 +56,7 @@ const server = http.createServer((req, res) => {
   const relative = requestPath === '/' ? 'index.html' : requestPath.replace(/^\/+/, '');
 
   if (relative === 'index.html') {
-    serveV5(res);
+    serveV6(res);
     return;
   }
 
@@ -84,5 +84,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Torre Segura 3D V5 listening on http://${HOST}:${PORT}`);
+  console.log(`Torre Segura 3D V6 listening on http://${HOST}:${PORT}`);
 });
