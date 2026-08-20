@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ProteinLab · v1.4 · CA2 + H107Y + ligandos</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/molstar@5.11.0/build/viewer/molstar.css" />
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18262e;background:#eef3f5;--ink:#18262e;--muted:#5f707a;--line:#d7e1e5;--panel:#fff;--accent:#286a66;--accent2:#174e4b;--soft:#e7f2f0;--warn:#7b5238;--warnbg:#f7efe7;--good:#265d45;--goodbg:#e7f4ed;--bad:#7c4138;--badbg:#f9ece9}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f4f8f9 0,#edf2f4 45%,#e9eff1 100%);min-height:100vh}button,input,textarea,select{font:inherit}button{touch-action:manipulation}.hidden{display:none!important}.app{max-width:1480px;margin:auto;padding:18px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:14px}.eyebrow{margin:0 0 6px;color:var(--accent);font-weight:850;letter-spacing:.1em;font-size:.76rem}.top h1{margin:0;font-size:clamp(1.9rem,3.2vw,3rem);line-height:1.04}.top p{max-width:900px;color:var(--muted);line-height:1.5}.pill,.badge{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border-radius:999px;background:#d9eeeb;color:#1d5b57;font-size:.74rem;font-weight:850;white-space:nowrap}.pill.urea{background:#f4e9df;color:#724932}.badge.bio{background:#edf1f7;color:#415674}.badge.did{background:#f5eee6;color:#74563b}.badge.func{background:#eeeaf6;color:#5a4d76}.card,.viewer,.console,.final-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}.card{padding:17px}.card h2,.console h2,.final-card h2{margin:0 0 8px;font-size:1.1rem}.card p,.console p,.final-card p{color:#566873;line-height:1.48}.grid{display:grid;grid-template-columns:minmax(245px,.88fr) minmax(520px,2.1fr) minmax(245px,.92fr);gap:13px}.viewer{overflow:hidden}.toolbar{display:flex;gap:7px;flex-wrap:wrap;padding:10px;border-bottom:1px solid #dde5e8;background:#fbfcfc}.toolbar button,.primary,.secondary,.danger,.state-btn,.choice,.res-btn,.mini-btn{border:1px solid #c7d4d7;border-radius:10px;padding:9px 10px;background:#fff;color:#253842;cursor:pointer}.toolbar button:hover,.secondary:hover,.state-btn:hover,.choice:hover,.res-btn:hover,.mini-btn:hover{border-color:var(--accent);background:#f2f8f7}.toolbar button:disabled,.primary:disabled,.secondary:disabled,.danger:disabled{opacity:.42;cursor:not-allowed}.primary,.danger{font-weight:800;margin-top:10px}.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.danger{background:#744233;color:#fff;border-color:#744233}.secondary{font-weight:750;margin-top:8px}.mol{position:relative;height:min(610px,57vh);min-height:440px;background:#f7fafb}.mol>div{position:absolute!important;inset:0!important}.status{padding:8px 10px;color:#53646f;font-size:.84rem;border-bottom:1px solid #e2e7e9;display:flex;justify-content:space-between;gap:8px;align-items:center}.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:9px 11px;color:#61717b;font-size:.8rem;border-top:1px solid #dce4e7}.facts div{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #edf1f3}.facts b{text-align:right}.notice,.question{padding:12px;margin:13px 0;border-radius:12px;background:#f2f7f7;border-left:4px solid var(--accent)}.notice.warn{background:var(--warnbg);border-color:#9b7350;color:#654e3c}.progress{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:13px;padding:9px;background:#fff;border:1px solid var(--line);border-radius:14px}.progress span{text-align:center;padding:6px 2px;border-bottom:3px solid #e5eaed;color:#8a969d;font-size:.73rem;font-weight:850}.progress .done{color:var(--accent);border-color:#8bbdb8}.progress .active{color:var(--accent2);border-color:var(--accent)}.stepdots{display:flex;gap:6px;margin-top:14px}.stepdots i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-content:center;border:1px solid #d8e0e4;color:#849198;font-size:.75rem;font-weight:850}.stepdots i.done{background:#e7f3ef;color:#2a674f}.stepdots i.current{background:var(--accent);color:#fff}.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.res-btn{display:grid;text-align:left}.res-btn small{color:#6a7982;font-size:.72rem}.res-btn.selected{background:#e8f3f1;border-color:#327c76}.feedback{padding:10px 11px;border-radius:10px;margin:10px 0}.ok{background:var(--goodbg);color:var(--good);border-left:4px solid #4c8d68}.bad{background:var(--badbg);color:var(--bad);border-left:4px solid #ad6a5f}.choices{display:grid;gap:7px}.choices label,.prediction label{display:flex;gap:8px;align-items:flex-start;padding:8px;border:1px solid #dce4e7;border-radius:10px;background:#fff}.sequence{font-family:ui-monospace,monospace;background:#f4f7f8;padding:15px;border-radius:12px;text-align:center;margin:12px 0}.sequence b{padding:4px 7px;background:#d9eeeb;border-radius:7px;color:#1f5d58}.prediction{display:grid;gap:7px}.prediction textarea,.final textarea{width:100%;min-height:90px;border:1px solid #ccd7db;border-radius:10px;padding:9px;margin-top:8px;resize:vertical}.compare{display:grid;grid-template-columns:1fr 1fr;gap:13px}.compare-col{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.compare-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid #e0e6e8}.compare-head h2{margin:0}.compare-head p{margin:3px 0 0;font-size:.78rem;color:#6a7780}.state-code{display:inline-grid;place-content:center;width:38px;height:38px;border-radius:11px;background:#e9f2f1;color:#205f5a;font-weight:900;margin-right:7px}.head-title{display:flex;align-items:center}.evidence-stack{display:grid;gap:4px;justify-items:end}.ensemble{position:relative;min-height:min(520px,57vh);display:grid;place-items:center;background:#f7fafb;overflow:hidden}.ensemble svg{width:min(90%,520px)}.solvent{fill:#8bb3bc}.chain{fill:none;stroke:#426a72;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}.secondary-mark{fill:none;stroke:#8b6847;stroke-width:7;stroke-linecap:round}.contact{stroke:#5d8f8a;stroke-width:2.5;stroke-dasharray:5 5}.contact.lost{stroke:#ad6a5f;opacity:.45}.core-dot{fill:#815c90}.ensemble-label{position:absolute;left:12px;right:12px;bottom:10px;background:#fbf6f0;border:1px solid #dfd4c9;color:#705943;border-radius:9px;padding:7px;text-align:center;font-size:.72rem;font-weight:850}.console{padding:14px;margin-top:13px}.state-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.state-btn{display:grid;gap:2px}.state-btn.active{background:#e7f1ef;border-color:#327c76}.state-btn span{font-size:.78rem;font-weight:750}.state-btn small{font-size:.69rem;color:#728089}.analysis{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:13px}.analysis>div{background:#f7f9fa;border-radius:12px;padding:12px}.metric{display:grid;grid-template-columns:180px 1fr;gap:8px;align-items:center;margin:7px 0}.metric header{display:flex;justify-content:space-between;font-size:.78rem}.dots{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.dots i{height:8px;background:#e0e6e8;border-radius:999px}.dots i.on{background:#487e79}.methods{margin-top:10px;padding:10px;background:#eef3f6;border-radius:10px;color:#49606d;font-size:.8rem}.function-box{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-top:10px;padding:10px;border-radius:10px;background:#f1eff7}.function-box strong{font-size:.78rem}.function-box span{font-weight:900;color:#5b4d78}.final{display:grid;grid-template-columns:1fr 1fr;gap:13px}.causal{display:grid;gap:6px;margin:10px 0}.cause{display:grid;grid-template-columns:28px 1fr auto;gap:7px;align-items:center;padding:8px;border:1px solid #dde4e6;border-radius:9px;background:#fafbfb}.cause em{font-style:normal;width:26px;height:26px;display:grid;place-content:center;border-radius:50%;background:#e6f0ef}.cause button{border:1px solid #cdd7da;background:#fff;border-radius:7px;padding:5px 8px;cursor:pointer}.complete-card{max-width:960px;margin:30px auto;padding:24px;background:#fff;border:1px solid var(--line);border-radius:20px}.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.score-card{padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafb}.score-card span{display:block;color:#667782;font-size:.75rem}.score-card b{font-size:1.5rem}.evidence-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.evidence-compare>div{padding:12px;border:1px solid var(--line);border-radius:12px}.report{white-space:pre-wrap;background:#f5f7f8;padding:12px;border-radius:10px;font-family:ui-monospace,monospace;font-size:.8rem;color:#40515b}.start{max-width:980px;margin:38px auto;padding:28px;background:#fff;border:1px solid var(--line);border-radius:22px}.start h1{font-size:clamp(2rem,5vw,3.6rem);margin:.2rem 0}.start p{color:var(--muted);line-height:1.55}.start-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.start-grid div{padding:13px;border:1px solid var(--line);border-radius:12px;background:#f7fafb}.start-grid b{display:block;margin-bottom:5px}.fallback-protein{position:absolute;inset:0;display:grid;place-items:center;background:#f7fafb}.fallback-protein svg{width:min(82%,600px);height:auto}.fallback-protein .ribbon{fill:none;stroke:#396c73;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}.fallback-protein .beta{fill:none;stroke:#82664d;stroke-width:9;stroke-linecap:round}.fallback-protein .zinc{fill:#7d5c90;stroke:#fff;stroke-width:4}.fallback-protein .ligand{fill:#2f7a73}.fallback-note{position:absolute;left:12px;right:12px;bottom:10px;padding:7px;border:1px solid #dfd4c9;border-radius:9px;background:#fbf6f0;color:#705943;text-align:center;font-size:.72rem;font-weight:850}.demo-banner{padding:7px 10px;background:#f7efe7;color:#73543e;font-size:.78rem;border-bottom:1px solid #e1d4c7}.toolbar .active{background:#e8f3f1;border-color:#327c76}.tiny{font-size:.74rem;color:#697983}.hidden-visually{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(1px,1px,1px,1px)!important}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+@media(max-width:1020px){.grid{grid-template-columns:1fr 2fr}.grid>.card:last-child{grid-column:1/-1}.compare,.final,.evidence-compare{grid-template-columns:1fr}.analysis{grid-template-columns:1fr}.score-grid{grid-template-columns:1fr 1fr}}@media(max-width:720px){.app{padding:11px}.top{flex-direction:column}.grid{grid-template-columns:1fr}.res-grid{grid-template-columns:1fr}.state-selector{grid-template-columns:1fr 1fr}.progress{grid-template-columns:repeat(3,1fr)}.mol{min-height:370px}.metric{grid-template-columns:1fr}.evidence-stack{justify-items:start}.compare-head{flex-direction:column}.start-grid{grid-template-columns:1fr}.score-grid{grid-template-columns:1fr 1fr}}
+
+/* MÓDULO 2 · CA2 H107Y */
+.mutation-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:13px}.mutation-stage,.mutation-evidence,.mutation-summary{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}.mutation-stage h2,.mutation-evidence h2,.mutation-summary h2{margin:0 0 8px}.mutation-network{position:relative;min-height:400px;border:1px solid #dce4e7;border-radius:16px;background:#f7fafb;overflow:hidden;display:grid;place-items:center}.mutation-network svg{width:min(92%,620px);height:auto}.wt-node{fill:#d9eeeb;stroke:#2b6f69;stroke-width:3}.mut-node{fill:#f1e7df;stroke:#8a6049;stroke-width:3}.network-node{fill:#fff;stroke:#8a9aa2;stroke-width:2}.network-line{stroke:#688b88;stroke-width:3;stroke-dasharray:7 6}.network-line.changed{stroke:#a46b59;stroke-width:4}.network-label{font:700 14px Inter,system-ui,sans-serif;fill:#24363f}.mutation-callout{position:absolute;left:12px;right:12px;bottom:10px;padding:8px 10px;border-radius:10px;background:#fbf6f0;border:1px solid #dfd4c9;color:#705943;font-size:.75rem;font-weight:800;text-align:center}.mutation-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.mutation-tabs button{border:1px solid #c7d4d7;background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}.mutation-tabs button.active{background:#e8f3f1;border-color:#327c76;color:#195a56;font-weight:800}.evidence-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.evidence-metric{padding:11px;border-radius:12px;background:#f7fafb;border:1px solid #dce4e7}.evidence-metric span{display:block;color:#677984;font-size:.72rem}.evidence-metric b{display:block;margin-top:4px;font-size:1.15rem}.mutation-chain{display:grid;gap:6px;margin:12px 0}.mutation-chain .node{padding:10px;border:1px solid #dae3e6;border-radius:10px;background:#fafbfb;text-align:center;font-weight:750}.mutation-chain .arrow{text-align:center;color:#6d7e87;font-weight:900}.mutation-stage textarea{width:100%;min-height:105px;border:1px solid #ccd7db;border-radius:10px;padding:9px;margin-top:10px;resize:vertical}.mutation-question{padding:12px;border-radius:12px;background:#f2f7f7;border-left:4px solid var(--accent);margin:12px 0}.mutation-complete{max-width:980px;margin:22px auto;padding:22px;border:1px solid var(--line);border-radius:20px;background:#fff}.mutation-badge{display:inline-flex;padding:6px 9px;border-radius:999px;background:#efeaf5;color:#5b4f76;font-size:.72rem;font-weight:850}.disease-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.disease-grid div{padding:11px;border:1px solid #dce4e7;border-radius:12px;background:#f8fafb}.disease-grid b{display:block;margin-bottom:4px}.compare-fact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.compare-fact>div{padding:11px;border-radius:12px;border:1px solid #dce4e7}.compare-fact .wt{background:#f0f7f6}.compare-fact .mut{background:#faf2ec}.h107-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}.h107-progress span{padding:7px;text-align:center;border-bottom:3px solid #e1e8ea;color:#87949b;font-size:.72rem;font-weight:800}.h107-progress .done{color:#2a675f;border-color:#8bbdb8}.h107-progress .active{color:#174e4b;border-color:#286a66}
+@media(max-width:900px){.mutation-grid{grid-template-columns:1fr}.evidence-metrics,.disease-grid{grid-template-columns:1fr}.compare-fact{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<section id="start" class="start">
+<p class="eyebrow">PROTEINLAB · v1.4</p>
+<h1>Del estado nativo a la desnaturalización</h1>
+<p>Explora una estructura experimental real de anhidrasa carbónica II, localiza su centro activo, formula una predicción y compara el estado nativo con intermediarios detectados durante la desnaturalización por urea.</p>
+<div class="start-grid"><div><b>FASE 1 · NATIVO</b><span>CA2 real en 3D, Zn²⁺ y residuos clave.</span></div><div><b>FASE 2 · UREA</b><span>N → X1 → X2 → D con evidencia biofísica.</span></div><div><b>CIERRE · EXPLICA</b><span>Construye la cadena causal y tu reporte.</span></div></div>
+<div class="notice"><b>Regla científica:</b> X1, X2 y D no se mostrarán como falsas PDB. Se usarán representaciones didácticas claramente etiquetadas.</div>
+<button id="startBtn" class="primary">INICIAR INVESTIGACIÓN</button>
+<button id="demoBtn" class="secondary">Abrir en modo demostración</button>
+<p class="tiny">El modo demostración permite probar toda la misión sin conexión; la visualización molecular se reemplaza por un respaldo conceptual explícito.</p>
+</section>
+
+<main id="app" class="app hidden">
+<header class="top"><div><p class="eyebrow" id="eyebrow">PROTEINLAB · v1.4</p><h1 id="title">¿Qué mantiene funcional a una proteína?</h1><p id="subtitle">Primero construye una referencia molecular real. Solo después podrás perturbarla.</p></div><span class="pill" id="phase">FASE 1 · NATIVO</span></header>
+
+<section id="phase1" class="grid">
+  <aside class="card"><div id="mission"></div></aside>
+  <section class="viewer" id="mol-shell">
+    <div id="demoBanner" class="demo-banner hidden">MODO DEMOSTRACIÓN · La vista de respaldo no representa coordenadas atómicas experimentales.</div>
+    <div class="toolbar" id="toolbar"><button id="activeSite" class="active" disabled>CENTRO ACTIVO · Zn²⁺ + coordinantes</button><button id="zinc" disabled>Solo Zn²⁺</button><button id="his94" disabled>Enfocar His94</button><button id="ligands" disabled>His94 · His96 · His119</button><button id="clear" disabled>Limpiar</button><button id="reset" disabled>Reiniciar vista</button></div>
+    <div class="status" id="status"><span>Preparando ProteinLab…</span><button id="fallbackSwitch" class="mini-btn hidden">Usar respaldo</button></div>
+    <div id="molstar" class="mol"></div>
+    <div class="meta"><span class="badge">E1 · EXPERIMENTAL</span><span>PDB 1CA2 · Homo sapiens · rayos X · 2.00 Å</span></div>
+  </section>
+  <aside class="card"><p class="eyebrow">EVIDENCIA</p><h2>¿Qué estás mirando?</h2><div class="facts"><div><span>Proteína</span><b>CA II</b></div><div><span>Gen</span><b>CA2</b></div><div><span>PDB</span><b>1CA2</b></div><div><span>Cofactor</span><b>Zn²⁺</b></div><div><span>Organismo</span><b>Homo sapiens</b></div></div><div class="question"><b>Regla</b><p>N es una estructura experimental. X1/X2/D son estados biofísicos y no se convertirán en estructuras atómicas inventadas.</p></div><div class="stepdots" id="stepdots"></div></aside>
+</section>
+
+<section id="phase2" class="hidden">
+  <div class="compare">
+    <div class="compare-col" id="nativeSlot"><div class="compare-head"><div class="head-title"><span class="state-code">N</span><div><h2>Nativo</h2><p>estructura de referencia</p></div></div><span class="badge">E1 · PDB 1CA2</span></div></div>
+    <div class="compare-col"><div class="compare-head"><div class="head-title"><span class="state-code" id="stateCode">N</span><div><h2 id="stateTitle">Nativo</h2><p id="stateSubtitle">0 M · referencia</p></div></div><div class="evidence-stack" id="stateEvidence"></div></div><div class="ensemble" id="ensemble"></div></div>
+  </div>
+  <section class="console"><div class="state-selector" id="states"></div><div class="analysis"><div><h2 id="analysisTitle"></h2><p id="analysisText"></p><div id="warning"></div><div id="metrics"></div><div class="function-box"><strong>Compatibilidad funcional</strong><span id="functionState"></span></div></div><div id="challenge"></div></div><div class="methods"><b>¿Cómo sabemos que existen intermediarios?</b><br>Far-UV CD · Near-UV CD · DLS · fluorescencia de ANS.<br><span>Estas técnicas informan sobre estructura secundaria, orden terciario, tamaño hidrodinámico y exposición hidrofóbica; no son fotografías atómicas.</span></div><button id="explainBtn" class="primary" disabled>Visita X1, X2 y D y resuelve sus retos</button></section>
+</section>
+
+<section id="explain" class="hidden final">
+  <div class="final-card"><p class="eyebrow">COMPARA</p><h2>Ordena la cadena causal</h2><p>Coloca primero la perturbación y termina en la consecuencia funcional.</p><div id="causal" class="causal"></div><button id="checkCausal" class="primary">Comprobar orden</button><div id="causalFeedback"></div></div>
+  <div class="final-card final"><p class="eyebrow">EXPLICA</p><h2>Tu explicación científica</h2><p>¿Por qué una proteína puede perder función aunque la cadena peptídica no se rompa?</p><textarea id="finalText" placeholder="La urea puede alterar…"></textarea><div class="notice"><b>Incluye:</b> interacciones · conformación · sitio funcional · estructura primaria.</div><button id="finishBtn" class="primary" disabled>FINALIZAR MISIÓN</button></div>
+</section>
+
+<section id="complete" class="complete-card hidden"><p class="eyebrow">MISIÓN COMPLETADA</p><h1>La secuencia seguía allí. La función no necesariamente.</h1><p>Has diferenciado estructura experimental, evidencia biofísica y modelo didáctico.</p><div class="score-grid" id="scoreGrid"></div><div class="evidence-compare"><div><h2>Tu predicción</h2><p id="predictionEcho"></p></div><div><h2>Lo que permite concluir la evidencia</h2><p>La urea altera el balance de interacciones y puede modificar la organización terciaria, la exposición al solvente y la geometría funcional sin implicar ruptura inmediata de todos los enlaces peptídicos.</p></div></div><h2>Tu explicación final</h2><p id="finalEcho"></p><div class="notice"><b>Siguiente caso:</b> CA2 H107Y. Allí cambiará la secuencia, no el entorno.</div><button id="continueH107Y" class="danger">CONTINUAR A H107Y →</button> <button id="downloadReport" class="secondary">Descargar reporte .txt</button> <button id="restart" class="primary">Reiniciar misión</button><details><summary>Ver reporte técnico</summary><pre id="report" class="report"></pre></details></section>
+
+<section id="mutation" class="hidden">
+  <div class="mutation-grid">
+    <div>
+      <div class="compare-col" id="mutationWT">
+        <div class="compare-head"><div class="head-title"><span class="state-code">WT</span><div><h2>CA2 de referencia</h2><p>PDB 1CA2 · estructura experimental</p></div></div><span class="badge">E1 · EXPERIMENTAL</span></div>
+        <div id="mutationViewerSlot"></div>
+      </div>
+    </div>
+    <aside class="mutation-stage">
+      <p class="eyebrow">MÓDULO 2 · H107Y</p>
+      <div class="h107-progress" id="h107Progress"></div>
+      <div id="h107Mission"></div>
+    </aside>
+  </div>
+  <section class="mutation-evidence" id="h107Evidence"></section>
+</section>
+
+<section id="mutationComplete" class="mutation-complete hidden">
+  <p class="eyebrow">MÓDULO H107Y COMPLETADO</p>
+  <h1>Mutación y desnaturalización pueden encontrarse, pero no significan lo mismo.</h1>
+  <p>H107Y cambia la secuencia. Los experimentos muestran que la sustitución desestabiliza fuertemente CA2 y favorece estados no nativos bajo condiciones fisiológicas.</p>
+  <div class="compare-fact"><div class="wt"><b>DESNATURALIZACIÓN POR UREA</b><p>La secuencia de CA2 permanece como referencia; cambia el entorno químico y el equilibrio conformacional.</p></div><div class="mut"><b>MUTACIÓN H107Y</b><p>Cambia un residuo de la secuencia; esa modificación altera la estabilidad del paisaje de plegamiento.</p></div></div>
+  <div class="notice"><b>Siguiente módulo:</b> Talidomida — una molécula puede cambiar el reconocimiento entre proteínas sin desnaturalizarlas.</div>
+  <button id="restartAll" class="primary">Volver al inicio</button>
+</section>
+
+<div class="progress" id="progress"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/molstar@5.11.0/build/viewer/molstar.js">
+
+/* ===== v1.4 patch: ligandos, reset correcto y modo AZM ===== */
+const ENTRY_INFO={
+  '1CA2':{protein:'CA II',gene:'CA2',pdb:'1CA2',cofactor:'Zn²⁺',organism:'Homo sapiens',meta:'PDB 1CA2 · Homo sapiens · rayos X · 2.00 Å',badge:'E1 · EXPERIMENTAL'},
+  '3HS4':{protein:'CA II + AZM',gene:'CA2',pdb:'3HS4',cofactor:'Zn²⁺ + AZM',organism:'Homo sapiens',meta:'PDB 3HS4 · CA II + acetazolamida · rayos X · 1.10 Å',badge:'E1 · EXPERIMENTAL'}
+};
+let sceneState={mode:'base1ca2',entry:'1CA2',selectedResidues:[],showProtein:true,showWater:false};
+function patchV14Ui(){
+  const toolbar=document.getElementById('toolbar');
+  if(toolbar){
+    toolbar.innerHTML=''
+      + '<button id="baseCA2" disabled>Vista base CA2</button>'
+      + '<button id="activeSite" disabled>Centro activo · Zn²⁺ + coordinantes</button>'
+      + '<button id="zinc" disabled>Solo Zn²⁺</button>'
+      + '<button id="ligands" disabled>Coordinación Zn–His</button>'
+      + '<button id="his94" disabled>Enfocar His94</button>'
+      + '<button id="organic" disabled>Ligando orgánico · AZM</button>'
+      + '<button id="toggleProtein" disabled>Proteína: ON</button>'
+      + '<button id="toggleWater" disabled>Aguas: OFF</button>'
+      + '<button id="reset" disabled>Restaurar vista</button>';
+  }
+  const meta=document.querySelector('#mol-shell .meta');
+  if(meta) meta.innerHTML='<span class="badge" id="metaBadge">E1 · EXPERIMENTAL</span><span id="metaText">PDB 1CA2 · Homo sapiens · rayos X · 2.00 Å</span>';
+  const facts=document.querySelector('#phase1 aside.card:last-child .facts');
+  if(facts) facts.innerHTML=''
+    + '<div><span>Proteína</span><b id="factProtein">CA II</b></div>'
+    + '<div><span>Gen</span><b id="factGene">CA2</b></div>'
+    + '<div><span>PDB</span><b id="factPdb">1CA2</b></div>'
+    + '<div><span>Ligando / cofactor</span><b id="factCofactor">Zn²⁺</b></div>'
+    + '<div><span>Organismo</span><b id="factOrganism">Homo sapiens</b></div>';
+  const q=document.querySelector('#phase1 aside.card:last-child .question');
+  if(q) q.innerHTML='<b>Regla</b><p>N es una estructura experimental. X1/X2/D son estados biofísicos y no se convertirán en estructuras atómicas inventadas.</p><p class="tiny"><b>Ojo:</b> hélices alfa y láminas beta son partes de la proteína, no ligandos. Los ligandos suelen ser iones, aguas, cofactores o moléculas externas como acetazolamida.</p>';
+}
+function setFacts(entry){
+  const info=ENTRY_INFO[entry]||ENTRY_INFO['1CA2'];
+  const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val};
+  set('factProtein',info.protein); set('factGene',info.gene); set('factPdb',info.pdb); set('factCofactor',info.cofactor); set('factOrganism',info.organism);
+  const metaText=document.getElementById('metaText'); if(metaText) metaText.textContent=info.meta;
+  const metaBadge=document.getElementById('metaBadge'); if(metaBadge) metaBadge.textContent=info.badge;
+}
+function setToolbarLabels(){
+  const bp=document.getElementById('toggleProtein'); if(bp) bp.textContent='Proteína: '+(sceneState.showProtein?'ON':'OFF');
+  const bw=document.getElementById('toggleWater'); if(bw) bw.textContent='Aguas: '+(sceneState.showWater?'ON':'OFF');
+  ['baseCA2','activeSite','zinc','ligands','his94','organic'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  const activeMap={base1ca2:'baseCA2',activeSite:'activeSite',zincOnly:'zinc',selected:'his94',coordination:'ligands',azm:'organic'};
+  const aid=activeMap[sceneState.mode]; if(aid) document.getElementById(aid)?.classList.add('active');
+}
+function fallbackGraphicV14(mode='base1ca2'){
+  const isAzm=mode==='azm';
+  return `<div class="fallback-protein"><svg viewBox="0 0 700 500" role="img" aria-label="Representación de respaldo">
+  <path class="ribbon" d="M88 276 C56 181 129 89 230 111 C281 122 307 77 365 83 C460 94 573 149 576 245 C579 345 492 390 411 368 C353 352 316 405 230 394 C154 384 112 343 88 276Z" opacity="${sceneState.showProtein?0.42:0.08}"/>
+  <path class="beta" d="M155 205 C210 170 255 233 309 193 M330 274 C385 230 438 286 485 245 M202 327 C248 290 295 341 350 311" opacity="${sceneState.showProtein?0.48:0.08}"/>
+  <circle class="zinc" cx="348" cy="226" r="18"/>
+  <line x1="348" y1="226" x2="298" y2="204" class="contact"/>
+  <line x1="348" y1="226" x2="329" y2="171" class="contact"/>
+  <line x1="348" y1="226" x2="402" y2="214" class="contact"/>
+  <path d="M284 209 L295 191 L314 195 L319 214 L304 226 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <path d="M321 168 L333 151 L352 156 L356 176 L340 187 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <path d="M395 220 L406 203 L425 207 L430 226 L414 237 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <text x="315" y="238" font-size="18">His94</text>
+  <text x="345" y="147" font-size="18">His96</text>
+  <text x="432" y="216" font-size="18">His119</text>
+  <text x="365" y="229" font-size="18" fill="#5b4d78">Zn²⁺</text>
+  ${sceneState.showWater?'<circle cx="364" cy="184" r="9" fill="#d74e42"/><text x="376" y="186" font-size="16">H₂O</text>':''}
+  ${isAzm?'<g transform="translate(475,140)"><path d="M0 40 L24 20 L52 28 L60 56 L42 80 L14 73 Z" fill="none" stroke="#666" stroke-width="4"/><path d="M60 56 L88 64" stroke="#666" stroke-width="4"/><circle cx="100" cy="68" r="6" fill="#1b6cf2"/><circle cx="113" cy="68" r="6" fill="#d74e42"/><text x="-8" y="100" font-size="18">Acetazolamida (AZM)</text></g>':''}
+  </svg><div class="fallback-note">${isAzm?'VISTA DE RESPALDO · CA II + acetazolamida (AZM) en modo conceptual':'VISTA DE RESPALDO · coordinación Zn–histidinas en modo conceptual'}</div></div>`;
+}
+function enableDemo(reason='Modo demostración'){
+  demoMode=true;
+  document.getElementById('demoBanner').classList.remove('hidden');
+  document.getElementById('demoBanner').textContent=`${reason} · La vista de respaldo es conceptual.`;
+  document.getElementById('molstar').innerHTML=fallbackGraphicV14(sceneState.mode);
+  document.getElementById('status').querySelector('span').textContent='Respaldo conceptual listo.';
+  document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false);
+  setToolbarLabels();
+  setFacts(sceneState.entry);
+}
+function makeMvsStructure(builder,pdb){
+  return builder.download({url:`https://files.rcsb.org/download/${pdb}.cif`}).parse({format:'mmcif'}).modelStructure({});
+}
+async function loadScene(builder,statusText,entry='1CA2'){
+  const api=mvsApi();
+  if(!api) throw new Error('MolViewSpec API no disponible');
+  await api.loadMVS(viewer.plugin,builder.getState(),{sourceUrl:undefined,sanityChecks:true,replaceExisting:true});
+  document.getElementById('status').querySelector('span').textContent=statusText;
+  setFacts(entry);
+  setToolbarLabels();
+}
+async function renderBaseScene(entry='1CA2'){
+  sceneState.entry=entry;
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14(entry==='3HS4'?'azm':'base1ca2');setFacts(entry);setToolbarLabels();return;}
+  if(!viewer||!mvsApi()) return;
+  const builder=mvsApi().MVSData.createBuilder();
+  const structure=makeMvsStructure(builder,entry);
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.8}).color({color:'#1b8d7b'});
+  if(sceneState.showWater){
+    try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.75,ignore_hydrogens:true});}catch(e){}
+  }
+  if(entry==='1CA2'){
+    const zn=structure.component({selector:{label_comp_id:'ZN'}});
+    zn.representation({type:'spacefill',size_factor:1.3,ignore_hydrogens:true}).color({color:'#8b5ca8'});zn.label({text:'Zn²⁺'});
+    structure.component({selector:[{label_comp_id:'ZN'},{auth_asym_id:'A',auth_seq_id:94},{auth_asym_id:'A',auth_seq_id:96},{auth_asym_id:'A',auth_seq_id:119}]}).focus({radius_extent:8});
+    await loadScene(builder,'CA2 lista para explorar.',entry);
+  }else{
+    const zn=structure.component({selector:{label_comp_id:'ZN'}});
+    zn.representation({type:'spacefill',size_factor:1.15,ignore_hydrogens:true}).color({color:'#8b5ca8'});zn.label({text:'Zn²⁺'});
+    try{const azm=structure.component({selector:{label_comp_id:'AZM'}}); azm.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); azm.label({text:'AZM'}); structure.component({selector:[{label_comp_id:'ZN'},{label_comp_id:'AZM'}]}).focus({radius_extent:8});}catch(e){}
+    if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.65,ignore_hydrogens:true});}catch(e){}}
+    await loadScene(builder,'CA II con acetazolamida (AZM) lista para explorar.',entry);
+  }
+}
+async function showZincOnlyScene(){
+  sceneState.mode='zincOnly'; sceneState.entry='1CA2';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent='Zn²⁺ aislado en la vista conceptual.';setFacts('1CA2');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.68}).color({color:'#c6d1d5'}).opacity({opacity:0.12});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.6,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.7,ignore_hydrogens:true});}catch(e){}}
+  structure.component({selector:[{label_comp_id:'ZN'}]}).focus({radius_extent:4.5}); builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Zn²⁺ aislado. Ahora puedes comparar qué residuos se acercan realmente al ion.','1CA2');
+}
+async function showChosenResiduesScene(numbers=[]){
+  sceneState.mode='selected'; sceneState.entry='1CA2'; sceneState.selectedResidues=[...numbers];
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent=numbers.length?`Residuo(s) seleccionado(s): ${numbers.join(', ')}.`:'Zn²⁺ aislado para comparar candidatos.';setFacts('1CA2');setToolbarLabels();return;}
+  if(!viewer||!mvsApi()) return;
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.64}).color({color:'#c4d0d4'}).opacity({opacity:0.14});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.35,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  for(const n of numbers){ const row=residueData.find(r=>r[1]===n); const label=row?row[0]:`Residuo ${n}`; const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}}); c.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); c.label({text:label}); }
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.62,ignore_hydrogens:true});}catch(e){}}
+  const selectors=[{label_comp_id:'ZN'},...numbers.map(n=>({auth_asym_id:'A',auth_seq_id:n}))]; structure.component({selector:selectors}).focus({radius_extent:numbers.length?5.2:4.8}); builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,numbers.length?`3D: Zn²⁺ + ${numbers.map(n=>residueData.find(r=>r[1]===n)?.[0]||n).join(' · ')}`:'3D: Zn²⁺ aislado. Selecciona candidatos a la izquierda.','1CA2');
+}
+async function showActiveSiteScene(){
+  sceneState.mode='activeSite'; sceneState.entry='1CA2';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent='Centro activo resaltado en el respaldo conceptual.';setFacts('1CA2');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.6}).color({color:'#c5d1d4'}).opacity({opacity:0.12});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.45,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  for(const [n,name] of [[94,'His94'],[96,'His96'],[119,'His119']]){const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}}); c.representation({type:'ball_and_stick',size_factor:1.05,ignore_hydrogens:true}); c.label({text:name});}
+  if(sceneState.showWater){try{const w=structure.component({selector:'water'}); w.representation({type:'ball_and_stick',size_factor:0.65,ignore_hydrogens:true}); w.label({text:'H₂O'});}catch(e){}}
+  const site=structure.component({selector:[{auth_asym_id:'A',auth_seq_id:94},{auth_asym_id:'A',auth_seq_id:96},{auth_asym_id:'A',auth_seq_id:119},{label_comp_id:'ZN'}]}); site.focus({radius_extent:4.7});
+  const prim=structure.primitives({color:'#704b87',label_color:'#4a3d58',label_background_color:'#ffffff',label_show_tether:true,label_tether_length:0.7});
+  const znSel={label_comp_id:'ZN'}; prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:94,auth_atom_id:'NE2'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His94  {{distance}}',label_size:0.72,label_color:'#4a3d58'}); prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:96,auth_atom_id:'NE2'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His96  {{distance}}',label_size:0.72,label_color:'#4a3d58'}); prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:119,auth_atom_id:'ND1'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His119  {{distance}}',label_size:0.72,label_color:'#4a3d58'});
+  builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Centro activo: Zn²⁺ coordinado por His94, His96 y His119.','1CA2');
+}
+async function showCoordinationScene(){ sceneState.mode='coordination'; return showActiveSiteScene(); }
+async function showOrganicLigandScene(){
+  sceneState.mode='azm'; sceneState.entry='3HS4';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('azm');document.getElementById('status').querySelector('span').textContent='Ligando orgánico AZM resaltado en la vista conceptual.';setFacts('3HS4');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'3HS4');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.62}).color({color:'#c5d1d4'}).opacity({opacity:0.13});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.2,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  const azm=structure.component({selector:{label_comp_id:'AZM'}}); azm.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); azm.label({text:'Acetazolamida · AZM'});
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.58,ignore_hydrogens:true});}catch(e){}}
+  structure.component({selector:[{label_comp_id:'AZM'},{label_comp_id:'ZN'}]}).focus({radius_extent:6.2});
+  builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Ligando orgánico real: acetazolamida (AZM) en CA II. Observa anillos, heteroátomos y coordinación al Zn²⁺.','3HS4');
+}
+function residue(n,action='focus'){ if(action==='focus'){ showChosenResiduesScene([n]); } }
+async function renderCurrentScene(){
+  setToolbarLabels();
+  if(sceneState.mode==='activeSite'||sceneState.mode==='coordination') return showActiveSiteScene();
+  if(sceneState.mode==='zincOnly') return showZincOnlyScene();
+  if(sceneState.mode==='selected') return showChosenResiduesScene(sceneState.selectedResidues||[]);
+  if(sceneState.mode==='azm') return showOrganicLigandScene();
+  return renderBaseScene(sceneState.entry||'1CA2');
+}
+async function initMolecule(){
+  if(demoMode){enableDemo('Modo demostración');return}
+  if(!window.molstar){document.getElementById('status').querySelector('span').textContent='Mol* no pudo cargarse.';document.getElementById('fallbackSwitch').classList.remove('hidden');return}
+  try{
+    viewer=await molstar.Viewer.create('molstar',{layoutIsExpanded:false,layoutShowControls:false,layoutShowRemoteState:false,layoutShowSequence:false,layoutShowLog:false,layoutShowLeftPanel:false,viewportShowExpand:false,viewportShowSelectionMode:false,viewportShowControls:false,viewportShowAnimation:false,viewportBackgroundColor:'#f7fafb',pdbProvider:'rcsb'});
+    document.getElementById('status').querySelector('span').textContent='Cargando estructura experimental…';
+    await renderBaseScene('1CA2');
+    document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false);
+    setToolbarLabels();
+  }catch(e){console.error(e);document.getElementById('status').querySelector('span').textContent='No se pudo cargar la estructura 3D.';document.getElementById('fallbackSwitch').classList.remove('hidden')}
+}
+function bindV14Toolbar(){
+  document.getElementById('baseCA2').onclick=()=>{sceneState.mode='base1ca2';sceneState.entry='1CA2';renderCurrentScene()};
+  document.getElementById('activeSite').onclick=async()=>{zincSeen=true;sceneState.mode='activeSite';sceneState.entry='1CA2';await renderCurrentScene(); if(step===1) renderMission();};
+  document.getElementById('zinc').onclick=async()=>{zincSeen=true;sceneState.mode='zincOnly';sceneState.entry='1CA2';await renderCurrentScene(); if(step===1) renderMission();};
+  document.getElementById('ligands').onclick=async()=>{sceneState.mode='coordination';sceneState.entry='1CA2';await renderCurrentScene();};
+  document.getElementById('his94').onclick=()=>{sceneState.mode='selected';sceneState.entry='1CA2';sceneState.selectedResidues=[94];renderCurrentScene();};
+  document.getElementById('organic').onclick=()=>{sceneState.mode='azm';sceneState.entry='3HS4';renderCurrentScene();};
+  document.getElementById('toggleProtein').onclick=()=>{sceneState.showProtein=!sceneState.showProtein;renderCurrentScene();};
+  document.getElementById('toggleWater').onclick=()=>{sceneState.showWater=!sceneState.showWater;renderCurrentScene();};
+  document.getElementById('reset').onclick=()=>{sceneState={mode:'base1ca2',entry:'1CA2',selectedResidues:[],showProtein:true,showWater:false};renderCurrentScene();};
+}
+patchV14Ui(); setFacts('1CA2'); setToolbarLabels();
+setTimeout(bindV14Toolbar,0);
+/* ===== end v1.4 patch ===== */
+
+</script>
+<script>
+let viewer=null,step=0,zincSeen=false,chosen=new Set(),predictionSaved=false,currentState='N',causalOK=false,demoMode=false,started=false;
+const visits=new Set(['N']),answers={},predictionClaimsSelected=new Set();
+let predictionText='';
+const mission=document.getElementById('mission'),toolbar=document.getElementById('toolbar');
+const residueData=[['His64',64,false,'Transferencia de protones'],['His94',94,true,'Ligando de Zn²⁺'],['His96',96,true,'Ligando de Zn²⁺'],['His107',107,false,'Caso mutante posterior'],['His119',119,true,'Ligando de Zn²⁺'],['Thr199',199,false,'Red del sitio activo']];
+const claimTexts={a:'Se alterarán interacciones no covalentes.',b:'Puede cambiar la organización terciaria.',c:'Pueden exponerse regiones al solvente.',d:'Se rompen inmediatamente todos los enlaces peptídicos.',e:'El Zn²⁺ se convierte en otro elemento.'};
+function setProgress(active){document.getElementById('progress').innerHTML=['OBSERVA','DESCUBRE','PREDICE','PERTURBA','COMPARA','EXPLICA'].map((x,i)=>`<span class="${i<active?'done':i===active?'active':''}">${i<active?'✓ ':''}${x}</span>`).join('')}
+function dots(){document.getElementById('stepdots').innerHTML=[0,1,2,3,4,5].map(i=>`<i class="${i<step?'done':i===step?'current':''}">${i<step?'✓':i+1}</i>`).join('')}
+function fallbackGraphic(focus='all'){const hi=(n)=>focus===n||focus==='ligands';return `<div class="fallback-protein"><svg viewBox="0 0 640 470" role="img" aria-label="Representación de respaldo de CA2"><path class="ribbon" d="M103 258 C60 178 133 94 221 118 C279 133 268 52 360 85 C452 118 513 85 544 180 C571 264 491 358 390 331 C329 315 305 407 207 369 C145 345 135 301 103 258Z"/><path class="beta" d="M160 215 C212 168 265 234 318 187 M332 260 C389 211 431 277 478 235 M201 309 C250 272 292 330 345 298"/><circle class="zinc" cx="332" cy="207" r="16"/><circle class="ligand" cx="284" cy="181" r="${hi(94)?13:8}"/><circle class="ligand" cx="308" cy="152" r="${hi(96)?13:8}"/><circle class="ligand" cx="382" cy="197" r="${hi(119)?13:8}"/><line x1="332" y1="207" x2="284" y2="181" class="contact"/><line x1="332" y1="207" x2="308" y2="152" class="contact"/><line x1="332" y1="207" x2="382" y2="197" class="contact"/><text x="343" y="214" font-size="14" fill="#5b4d78">Zn²⁺</text><text x="248" y="171" font-size="12">His94</text><text x="286" y="135" font-size="12">His96</text><text x="391" y="194" font-size="12">His119</text></svg><div class="fallback-note">VISTA DE RESPALDO · modelo conceptual, no coordenadas atómicas</div></div>`}
+function enableDemo(reason='Modo demostración'){demoMode=true;document.getElementById('demoBanner').classList.remove('hidden');document.getElementById('demoBanner').textContent=`${reason} · La vista de respaldo es conceptual.`;document.getElementById('molstar').innerHTML=fallbackGraphic();document.getElementById('status').querySelector('span').textContent='Respaldo conceptual listo.';document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false)}
+function residue(n,action='focus'){if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphic(n);return}if(!viewer)return;viewer.structureInteractivity({elements:{auth_asym_id:'A',beg_auth_seq_id:n,end_auth_seq_id:n},action,focusOptions:{extraRadius:3}})}
+function renderMission(){dots();if(step===0){setProgress(0);mission.innerHTML=`<p class="eyebrow">MISIÓN 1 / 6 · OBSERVA</p><h2>Conoce la proteína funcional</h2><p>Gira CA2 y observa su forma global.</p><div class="question"><b>Pregunta guía</b><p>¿La cadena aparece extendida o organizada como una estructura compacta?</p></div><button class="primary" id="next">Ya la exploré →</button>`;document.getElementById('next').onclick=()=>{step++;renderMission()}}
+else if(step===1){setProgress(0);mission.innerHTML=`<p class="eyebrow">MISIÓN 2 / 6 · DESCUBRE</p><h2>Encuentra el Zn²⁺</h2><p>Usa <b>CENTRO ACTIVO · Zn²⁺ + coordinantes</b> para aislar el sitio catalítico, o <b>Solo Zn²⁺</b> para enfocar únicamente el ion.</p><div class="question">${zincSeen?'✓ Zn²⁺ localizado':'○ Aún no lo has enfocado'}</div><button class="primary" id="next" ${zincSeen?'':'disabled'}>Continuar →</button>`;document.getElementById('next').onclick=async()=>{step++;renderMission();await showChosenResiduesScene([])}}
+else if(step===2){setProgress(1);mission.innerHTML=`<p class="eyebrow">MISIÓN 3 / 6 · DESCUBRE</p><h2>¿Quién coordina directamente al Zn²⁺?</h2><p>Selecciona exactamente tres residuos. <b>Cada tarjeta que toques se mostrará en 3D junto al Zn²⁺.</b></p><div class="res-grid">${residueData.map(r=>`<button class="res-btn ${chosen.has(r[0])?'selected':''}" data-name="${r[0]}" data-n="${r[1]}"><b>${r[0]}</b><small>${r[3]}</small></button>`).join('')}</div><div class="notice"><b>Cómo leer la vista:</b> Zn²⁺ aparece morado; los residuos que seleccionas aparecen en ball-and-stick verde y con etiqueta. El resto de la proteína queda atenuado.</div><button class="primary" id="checkLig">Comprobar</button><div id="ligFeed"></div><button class="secondary" id="next" disabled>Secuencia vs espacio →</button>`;document.querySelectorAll('.res-btn').forEach(b=>b.onclick=async()=>{const name=b.dataset.name;chosen.has(name)?chosen.delete(name):chosen.add(name);renderMission();const nums=residueData.filter(r=>chosen.has(r[0])).map(r=>r[1]);await showChosenResiduesScene(nums)});document.getElementById('checkLig').onclick=async()=>{const ok=[...chosen].sort().join('|')==='His119|His94|His96';document.getElementById('ligFeed').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?'Correcto: His94, His96 y His119 coordinan directamente al Zn²⁺. Ahora observa sus distancias de coordinación.':'Todavía no. Usa la vista 3D: compara qué candidatos se aproximan realmente al Zn²⁺.'}</div>`;document.getElementById('next').disabled=!ok;if(ok){await showActiveSiteScene()}};document.getElementById('next').onclick=()=>{step++;renderMission()}}
+else if(step===3){setProgress(1);mission.innerHTML=`<p class="eyebrow">MISIÓN 4 / 6 · DESCUBRE</p><h2>Lejos en secuencia, juntos en 3D</h2><div class="sequence">… <b>94</b> · <b>96</b> ………… <b>119</b> …</div><p>¿Cómo pueden construir juntos un centro activo?</p><div class="choices"><label><input type="radio" name="space" value="ok">El plegamiento los aproxima.</label><label><input type="radio" name="space" value="bad">Cambian de número al plegarse.</label></div><div id="spaceFeed"></div><button class="primary" id="next" disabled>Continuar →</button>`;document.querySelectorAll('input[name=space]').forEach(x=>x.onchange=()=>{const ok=x.value==='ok';document.getElementById('spaceFeed').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?'Correcto: la estructura terciaria aproxima residuos alejados en la secuencia.':'La posición en la secuencia no cambia.'}</div>`;document.getElementById('next').disabled=!ok});document.getElementById('next').onclick=()=>{step++;renderMission()}}
+else if(step===4){setProgress(1);mission.innerHTML=`<p class="eyebrow">MISIÓN 5 / 6 · DESCUBRE</p><h2>No todo residuo funcional toca el metal</h2><p>His64 participa en transferencia de protones.</p><button class="secondary" id="focus64">Enfocar His64</button><p>¿Puede ser importante sin coordinar directamente Zn²⁺?</p><button class="choice" data-a="yes">Sí</button> <button class="choice" data-a="no">No</button><div id="h64"></div><button class="primary" id="next" disabled>Preparar perturbación →</button>`;document.getElementById('focus64').onclick=()=>residue(64);document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const ok=b.dataset.a==='yes';document.getElementById('h64').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?'Exacto. La función emerge de una red de residuos e interacciones.':'His64 participa en transferencia de protones aunque no coordine Zn²⁺.'}</div>`;document.getElementById('next').disabled=!ok});document.getElementById('next').onclick=()=>{step++;renderMission()}}
+else{setProgress(2);mission.innerHTML=`<p class="eyebrow">MISIÓN 6 / 6 · PREDICE</p><h2>Antes de añadir urea</h2><div class="prediction"><label><input type="checkbox" value="a">Se alterarán interacciones no covalentes.</label><label><input type="checkbox" value="b">Puede cambiar organización terciaria.</label><label><input type="checkbox" value="c">Pueden exponerse regiones al solvente.</label><label><input type="checkbox" value="d">Se rompen inmediatamente todos los enlaces peptídicos.</label><label><input type="checkbox" value="e">El Zn²⁺ se convertirá en otro elemento químico.</label></div><textarea id="why" placeholder="Creo que… porque…">${predictionText}</textarea><button class="primary" id="save">Guardar predicción</button><div id="pred"></div><button class="danger" id="urea" ${predictionSaved?'':'disabled'}>ENTRAR A FASE 2 · AÑADIR UREA →</button>`;document.querySelectorAll('.prediction input').forEach(x=>{x.checked=predictionClaimsSelected.has(x.value);x.onchange=()=>{x.checked?predictionClaimsSelected.add(x.value):predictionClaimsSelected.delete(x.value);predictionSaved=false}});document.getElementById('why').oninput=e=>{predictionText=e.target.value;predictionSaved=false};document.getElementById('save').onclick=()=>{const txt=document.getElementById('why').value.trim();predictionText=txt;if(predictionClaimsSelected.size&&txt.length>=10){predictionSaved=true;document.getElementById('pred').innerHTML='<div class="feedback ok">Predicción guardada. La compararemos al final.</div>';document.getElementById('urea').disabled=false}else document.getElementById('pred').innerHTML='<div class="feedback bad">Selecciona al menos una opción y justifica brevemente.</div>'};document.getElementById('urea').onclick=enterPhase2}}
+function mvsApi(){return window.molstar?.PluginExtensions?.mvs}
+function makeCA2MvsStructure(builder){
+  return builder.download({url:'https://files.rcsb.org/download/1CA2.cif'}).parse({format:'mmcif'}).modelStructure({});
+}
+async function loadMvsBuilder(builder,statusText){
+  const api=mvsApi();
+  if(!api) throw new Error('MolViewSpec API no disponible');
+  const mvsData=builder.getState();
+  await api.loadMVS(viewer.plugin,mvsData,{sourceUrl:undefined,sanityChecks:true,replaceExisting:true});
+  document.getElementById('status').querySelector('span').textContent=statusText;
+}
+async function showChosenResiduesScene(numbers=[]){
+  if(demoMode){
+    const focus=numbers.length===1?numbers[0]:'ligands';
+    document.getElementById('molstar').innerHTML=fallbackGraphic(focus);
+    document.getElementById('status').querySelector('span').textContent=numbers.length?`Residuo(s) seleccionado(s): ${numbers.join(', ')}.`:'Zn²⁺ aislado para comparar candidatos.';
+    return;
+  }
+  if(!viewer||!mvsApi()) return;
+  const status=document.getElementById('status').querySelector('span');
+  try{
+    status.textContent='Mostrando selección en 3D…';
+    const builder=mvsApi().MVSData.createBuilder();
+    const structure=makeCA2MvsStructure(builder);
+    structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.65}).color({color:'#c5d1d4'}).opacity({opacity:0.16});
+
+    const zinc=structure.component({selector:{label_comp_id:'ZN'}});
+    zinc.representation({type:'spacefill',size_factor:1.9,ignore_hydrogens:true}).color({color:'#8657a0'});
+    zinc.label({text:'Zn²⁺'});
+
+    for(const n of numbers){
+      const row=residueData.find(r=>r[1]===n);
+      const label=row?row[0]:`Residuo ${n}`;
+      const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}});
+      c.representation({type:'ball_and_stick',size_factor:1.75,ignore_hydrogens:true}).color({color:'#087f74'});
+      c.label({text:label});
+    }
+    const selectors=[{label_comp_id:'ZN'},...numbers.map(n=>({auth_asym_id:'A',auth_seq_id:n}))];
+    structure.component({selector:selectors}).focus({radius_extent:numbers.length?4.5:5.5});
+    builder.canvas({background_color:'#f7fafb'});
+    await loadMvsBuilder(builder,numbers.length?`3D: Zn²⁺ + ${numbers.map(n=>residueData.find(r=>r[1]===n)?.[0]||n).join(' · ')}`:'3D: Zn²⁺ aislado. Selecciona candidatos a la izquierda.');
+  }catch(e){
+    console.error(e);
+    status.textContent='No se pudo crear la vista aislada; usando foco molecular.';
+    viewer.structureInteractivity({elements:{label_comp_id:'ZN'},action:'focus',focusOptions:{extraRadius:5}});
+    for(const n of numbers){
+      viewer.structureInteractivity({elements:{auth_asym_id:'A',beg_auth_seq_id:n,end_auth_seq_id:n},action:'select'});
+    }
+  }
+}
+async function showActiveSiteScene(){
+  if(demoMode){
+    document.getElementById('molstar').innerHTML=fallbackGraphic('ligands');
+    document.getElementById('status').querySelector('span').textContent='Centro activo resaltado en el respaldo conceptual.';
+    return;
+  }
+  if(!viewer||!mvsApi())return;
+  const status=document.getElementById('status').querySelector('span');
+  try{
+    status.textContent='Construyendo centro activo real…';
+    const builder=mvsApi().MVSData.createBuilder();
+    const structure=makeCA2MvsStructure(builder);
+
+    structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.62}).color({color:'#c5d1d4'}).opacity({opacity:0.13});
+
+    const ligandSelectors=[
+      {auth_asym_id:'A',auth_seq_id:94},
+      {auth_asym_id:'A',auth_seq_id:96},
+      {auth_asym_id:'A',auth_seq_id:119}
+    ];
+    for(const [n,name] of [[94,'His94'],[96,'His96'],[119,'His119']]){
+      const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}});
+      c.representation({type:'ball_and_stick',size_factor:1.9,ignore_hydrogens:true}).color({color:'#087f74'});
+      c.label({text:name});
+    }
+
+    const zinc=structure.component({selector:{label_comp_id:'ZN'}});
+    zinc.representation({type:'spacefill',size_factor:2.05,ignore_hydrogens:true}).color({color:'#8657a0'});
+    zinc.label({text:'Zn²⁺'});
+
+    const site=structure.component({selector:[...ligandSelectors,{label_comp_id:'ZN'}]});
+    site.focus({radius_extent:3.7});
+
+    const prim=structure.primitives({
+      color:'#704b87',label_color:'#4a3d58',label_background_color:'#ffffff',
+      label_show_tether:true,label_tether_length:0.7
+    });
+    const zn={label_comp_id:'ZN'};
+    prim.distance({start:zn,end:{auth_asym_id:'A',auth_seq_id:94,auth_atom_id:'NE2'},color:'#704b87',radius:0.085,dash_length:0.18,label_template:'Zn–His94  {{distance}}',label_size:0.85,label_color:'#4a3d58'});
+    prim.distance({start:zn,end:{auth_asym_id:'A',auth_seq_id:96,auth_atom_id:'NE2'},color:'#704b87',radius:0.085,dash_length:0.18,label_template:'Zn–His96  {{distance}}',label_size:0.85,label_color:'#4a3d58'});
+    prim.distance({start:zn,end:{auth_asym_id:'A',auth_seq_id:119,auth_atom_id:'ND1'},color:'#704b87',radius:0.085,dash_length:0.18,label_template:'Zn–His119  {{distance}}',label_size:0.85,label_color:'#4a3d58'});
+
+    builder.canvas({background_color:'#f7fafb'});
+    await loadMvsBuilder(builder,'Centro activo visible: Zn²⁺ + His94 + His96 + His119.');
+  }catch(e){
+    console.error(e);
+    status.textContent='Vista avanzada no disponible; usando foco molecular de Mol*.';
+    viewer.structureInteractivity({elements:{label_comp_id:'ZN'},action:'focus',focusOptions:{extraRadius:5}});
+    for(const n of [94,96,119]){
+      viewer.structureInteractivity({elements:{auth_asym_id:'A',beg_auth_seq_id:n,end_auth_seq_id:n},action:'select'});
+    }
+  }
+}
+async function initMolecule(){if(demoMode){enableDemo('Modo demostración');return}if(!window.molstar){document.getElementById('status').querySelector('span').textContent='Mol* no pudo cargarse.';document.getElementById('fallbackSwitch').classList.remove('hidden');return}try{viewer=await molstar.Viewer.create('molstar',{layoutIsExpanded:false,layoutShowControls:false,layoutShowRemoteState:false,layoutShowSequence:false,layoutShowLog:false,layoutShowLeftPanel:false,viewportShowExpand:false,viewportShowSelectionMode:false,viewportShowControls:false,viewportShowAnimation:false,viewportBackgroundColor:'#f7fafb',pdbProvider:'rcsb'});document.getElementById('status').querySelector('span').textContent='Cargando PDB 1CA2 desde RCSB…';await viewer.loadPdb('1CA2');document.getElementById('status').querySelector('span').textContent='CA2 lista para explorar.';document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false)}catch(e){console.error(e);document.getElementById('status').querySelector('span').textContent='No se pudo cargar la estructura 3D.';document.getElementById('fallbackSwitch').classList.remove('hidden')}}
+function startApp(forceDemo=false){if(started)return;started=true;demoMode=forceDemo;document.getElementById('start').classList.add('hidden');document.getElementById('app').classList.remove('hidden');renderMission();initMolecule()}
+document.getElementById('startBtn').onclick=()=>startApp(false);document.getElementById('demoBtn').onclick=()=>startApp(true);document.getElementById('fallbackSwitch').onclick=()=>enableDemo('Respaldo activado');
+document.getElementById('activeSite').onclick=async()=>{await showActiveSiteScene();zincSeen=true;if(step===1)renderMission()};document.getElementById('zinc').onclick=()=>{if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphic('ligands')}else if(viewer)viewer.structureInteractivity({elements:{label_comp_id:'ZN'},action:'focus',focusOptions:{extraRadius:6}});zincSeen=true;if(step===1)renderMission()};document.getElementById('his94').onclick=()=>residue(94);document.getElementById('ligands').onclick=()=>showActiveSiteScene();document.getElementById('clear').onclick=()=>{if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphic()}else if(viewer){viewer.structureInteractivity({action:'select'});viewer.plugin.managers.structure.focus.clear()}};document.getElementById('reset').onclick=()=>{if(demoMode)document.getElementById('molstar').innerHTML=fallbackGraphic();else viewer?.plugin.managers.camera.reset()};
+const states={N:{urea:'0 M',title:'Nativo',sub:'referencia',desc:'Organización nativa compatible con el centro activo.',levels:[4,4,4,1],ev:['exp'],function:'ALTA / COMPATIBLE'},X1:{urea:'≈2 M',title:'Intermediario X1',sub:'molten-globule-like',desc:'Conserva compactación y estructura secundaria importante, pero disminuye el orden terciario.',levels:[4,4,3,3],ev:['bio','did'],function:'COMPROMETIDA'},X2:{urea:'≈4 M',title:'Intermediario X2',sub:'pre-molten-globule-like',desc:'Está más expandido y menos organizado que X1.',levels:[3,3,2,4],ev:['bio','did'],function:'MUY COMPROMETIDA'},D:{urea:'alta [urea]',title:'Desnaturalizado',sub:'ensemble',desc:'Representa un conjunto heterogéneo de conformaciones, no una única forma exacta.',levels:[2,2,1,5],ev:['bio','did'],function:'NO COMPATIBLE CON N'}};
+const paths={N:['M84 168 C104 88 188 58 268 94 C330 122 354 202 315 267 C276 330 174 338 106 282 C69 251 63 212 84 168Z'],X1:['M70 170 C98 84 191 64 273 105 C338 138 356 220 304 280 C254 337 158 327 93 278 C59 252 50 211 70 170Z'],X2:['M52 184 C81 105 178 75 274 108 C351 135 379 216 327 280 C278 340 169 334 85 292 C40 269 29 222 52 184Z'],D:['M37 132 C99 67 151 169 211 105 C272 40 326 132 365 77','M33 185 C102 116 158 224 217 151 C281 72 326 181 369 119','M30 242 C94 170 151 284 216 211 C280 138 328 244 370 190','M40 294 C98 233 155 337 214 271 C273 205 328 307 365 257']};
+function ensemble(id){const contacts=id==='N'?'<line x1="120" y1="170" x2="260" y2="130" class="contact"/><line x1="180" y1="278" x2="313" y2="235" class="contact"/>':id==='X1'?'<line x1="115" y1="175" x2="260" y2="138" class="contact"/><line x1="175" y1="278" x2="309" y2="244" class="contact lost"/>':id==='X2'?'<line x1="115" y1="178" x2="265" y2="146" class="contact lost"/>':'';return `<svg viewBox="0 0 400 380" role="img" aria-label="Representación ${id}"><pattern id="p" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="2" class="solvent"/></pattern><rect width="400" height="380" fill="url(#p)" opacity=".34"/>${paths[id].map((d,i)=>`<path d="${d}" class="chain" opacity="${id==='D'?.43+i*.13:.9}"/>`).join('')}${id!=='D'?'<path d="M119 143 C144 118 160 150 182 126 C201 105 216 139 237 119" class="secondary-mark"/>':''}${contacts}${id==='N'?'<circle cx="276" cy="184" r="11" class="core-dot"/>':''}</svg><div class="ensemble-label">${id==='N'?'REFERENCIA ESQUEMÁTICA DEL ESTADO NATIVO':'MODELO DIDÁCTICO · sin coordenadas atómicas experimentales'}</div>`}
+function enterPhase2(){document.getElementById('phase1').classList.add('hidden');document.getElementById('phase2').classList.remove('hidden');document.getElementById('phase').textContent='FASE 2 · UREA';document.getElementById('phase').classList.add('urea');document.getElementById('title').textContent='Nativo vs desnaturalización';document.getElementById('subtitle').textContent='Conserva la referencia experimental y compara estados biofísicos.';document.getElementById('nativeSlot').appendChild(document.getElementById('mol-shell'));toolbar.classList.add('hidden');document.querySelector('#mol-shell .mol').style.minHeight='390px';setProgress(3);renderStates();setState('N')}
+function renderStates(){document.getElementById('states').innerHTML=Object.entries(states).map(([id,s])=>`<button class="state-btn ${id===currentState?'active':''}" data-state="${id}"><b>${id}</b><span>${s.urea}</span><small>${s.title}</small></button>`).join('');document.querySelectorAll('[data-state]').forEach(b=>b.onclick=()=>setState(b.dataset.state))}
+function setState(id){currentState=id;visits.add(id);renderStates();const s=states[id];document.getElementById('stateCode').textContent=id;document.getElementById('stateTitle').textContent=s.title;document.getElementById('stateSubtitle').textContent=s.urea+' · '+s.sub;document.getElementById('stateEvidence').innerHTML=s.ev.map(e=>e==='exp'?'<span class="badge">E1 · EXPERIMENTAL</span>':e==='bio'?'<span class="badge bio">E2 · BIOFÍSICO</span>':'<span class="badge did">D · DIDÁCTICO</span>').join('');document.getElementById('ensemble').innerHTML=ensemble(id);document.getElementById('analysisTitle').textContent=s.title;document.getElementById('analysisText').textContent=s.desc;document.getElementById('warning').innerHTML=id==='N'?'':`<div class="notice warn"><b>Sin coordenadas atómicas experimentales de este estado.</b><br>La visualización comunica tendencias, no una PDB inventada.</div>`;document.getElementById('functionState').textContent=s.function;const names=['Compactación','Estructura secundaria','Orden terciario','Exposición hidrofóbica'];document.getElementById('metrics').innerHTML=names.map((n,i)=>`<div class="metric"><header><span>${n}</span><b>${['muy baja','baja','media','alta','muy alta'][s.levels[i]-1]}</b></header><div class="dots">${[1,2,3,4,5].map(x=>`<i class="${x<=s.levels[i]?'on':''}"></i>`).join('')}</div></div>`).join('');challenge(id);updateExplain()}
+function challenge(id){let h='<b>Reto del estado</b>';if(id==='N')h+='<p>Usa N como control y visita los otros tres estados.</p>';if(id==='X1')h+=`<p>¿X1 está completamente desplegada?</p><button class="choice" data-q="x1" data-v="yes">Sí</button> <button class="choice" data-q="x1" data-v="no">No</button><div id="qfeed"></div>`;if(id==='X2')h+=`<p>¿Qué puede conservarse aunque la organización 3D cambie mucho?</p><select id="x2"><option value="">Selecciona…</option><option value="primary">Secuencia primaria</option><option value="tertiary">Terciaria nativa completa</option><option value="active">Centro activo exacto</option></select><div id="qfeed"></div>`;if(id==='D')h+=`<p>¿Existe una única forma exacta del estado D?</p><button class="choice" data-q="d" data-v="yes">Sí</button> <button class="choice" data-q="d" data-v="no">No</button><div id="qfeed"></div>`;document.getElementById('challenge').innerHTML=h;document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{answers[b.dataset.q]=b.dataset.v;const ok=b.dataset.v==='no';document.getElementById('qfeed').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?(b.dataset.q==='x1'?'Correcto: X1 conserva estructura y compactación.':'Correcto: D es un ensemble.'):'Revisa la evidencia de este estado.'}</div>`;updateExplain()});const x=document.getElementById('x2');if(x){x.value=answers.x2||'';x.onchange=()=>{answers.x2=x.value;const ok=x.value==='primary';document.getElementById('qfeed').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?'Correcto: no estamos rompiendo la cadena peptídica.':'Ese nivel depende de la organización tridimensional.'}</div>`;updateExplain()}}}
+function updateExplain(){const ok=visits.has('X1')&&visits.has('X2')&&visits.has('D')&&answers.x1==='no'&&answers.x2==='primary'&&answers.d==='no';const b=document.getElementById('explainBtn');b.disabled=!ok;b.textContent=ok?'COMPARAR Y EXPLICAR →':'Visita X1, X2 y D y resuelve sus retos';if(ok){setProgress(4);b.onclick=enterExplain}}
+const correct=['UREA','ALTERACIÓN DEL BALANCE DE INTERACCIONES','CAMBIO DE ORGANIZACIÓN TRIDIMENSIONAL','ALTERACIÓN DE LA GEOMETRÍA FUNCIONAL','DISMINUCIÓN DE FUNCIÓN'];let causal=['CAMBIO DE ORGANIZACIÓN TRIDIMENSIONAL','UREA','DISMINUCIÓN DE FUNCIÓN','ALTERACIÓN DEL BALANCE DE INTERACCIONES','ALTERACIÓN DE LA GEOMETRÍA FUNCIONAL'];
+function enterExplain(){document.getElementById('phase2').classList.add('hidden');document.getElementById('explain').classList.remove('hidden');document.getElementById('phase').textContent='CIERRE · EXPLICA';document.getElementById('title').textContent='Reconstruye lo que ocurrió';document.getElementById('subtitle').textContent='Ordena causas y consecuencias antes de escribir tu explicación.';setProgress(5);renderCausal()}
+function renderCausal(){document.getElementById('causal').innerHTML=causal.map((c,i)=>`<div class="cause"><em>${i+1}</em><span>${c}</span><span><button data-up="${i}" ${i===0?'disabled':''}>↑</button><button data-down="${i}" ${i===causal.length-1?'disabled':''}>↓</button></span></div>`).join('');document.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>move(+b.dataset.up,-1));document.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>move(+b.dataset.down,1))}
+function move(i,d){const j=i+d;if(j<0||j>=causal.length)return;[causal[i],causal[j]]=[causal[j],causal[i]];causalOK=false;document.getElementById('finishBtn').disabled=true;renderCausal()}
+document.getElementById('checkCausal').onclick=()=>{causalOK=causal.every((x,i)=>x===correct[i]);document.getElementById('causalFeedback').innerHTML=`<div class="feedback ${causalOK?'ok':'bad'}">${causalOK?'Correcto: perturbación → interacciones → conformación → sitio funcional → función.':'Todavía no. Empieza por la perturbación y termina en la función.'}</div>`;checkFinish()};document.getElementById('finalText').oninput=checkFinish;function checkFinish(){document.getElementById('finishBtn').disabled=!(causalOK&&document.getElementById('finalText').value.trim().length>=45)}
+function computeScore(){let predictionScore=0;['a','b','c'].forEach(x=>{if(predictionClaimsSelected.has(x))predictionScore+=5});['d','e'].forEach(x=>{if(!predictionClaimsSelected.has(x))predictionScore+=5});const challenges=(answers.x1==='no'?10:0)+(answers.x2==='primary'?10:0)+(answers.d==='no'?10:0);const causalScore=causalOK?25:0;const explainScore=document.getElementById('finalText').value.trim().length>=45?20:0;return {prediction:Math.min(25,predictionScore),challenges,causal:causalScore,explain:explainScore,total:Math.min(100,predictionScore+challenges+causalScore+explainScore)}}
+function reportText(){const s=computeScore();const selected=[...predictionClaimsSelected].map(x=>claimTexts[x]).join(' | ');return `PROTEINLAB · REPORTE v1.3\n\nProteína: CA2 humana\nEstructura nativa: PDB 1CA2\nPerturbación: urea\nEstados revisados: N → X1 (~2 M) → X2 (~4 M) → D\n\nPREDICCIÓN INICIAL\n${selected || 'Sin opciones'}\nJustificación: ${predictionText}\n\nRESPUESTAS\nX1 completamente desplegada: ${answers.x1==='no'?'No':'-'}\nInformación que puede conservarse en X2: ${answers.x2==='primary'?'Secuencia primaria':'-'}\nD tiene forma exacta única: ${answers.d==='no'?'No':'-'}\n\nEXPLICACIÓN FINAL\n${document.getElementById('finalText').value.trim()}\n\nPUNTAJE DIDÁCTICO\nPredicción: ${s.prediction}/25\nRetos: ${s.challenges}/30\nCadena causal: ${s.causal}/25\nExplicación: ${s.explain}/20\nTOTAL: ${s.total}/100\n\nNota científica: X1, X2 y D se representan didácticamente; el estudio base no aporta coordenadas atómicas experimentales completas para estos estados.`}
+function finish(){const text=document.getElementById('finalText').value.trim();document.getElementById('explain').classList.add('hidden');document.getElementById('complete').classList.remove('hidden');document.getElementById('phase').classList.add('hidden');document.getElementById('title').textContent='Misión completada';document.getElementById('subtitle').textContent='ProteinLab · CA2 NATIVO → UREA';document.getElementById('finalEcho').textContent=text;document.getElementById('predictionEcho').textContent=`${[...predictionClaimsSelected].map(x=>claimTexts[x]).join(' · ')} Justificación: ${predictionText}`;const s=computeScore();document.getElementById('scoreGrid').innerHTML=[['Predicción',`${s.prediction}/25`],['Retos',`${s.challenges}/30`],['Causal',`${s.causal}/25`],['Explicación',`${s.explain}/20`]].map(x=>`<div class="score-card"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('');document.getElementById('report').textContent=reportText();setProgress(6)}
+
+// MODULE 2 · H107Y
+let h107Step=0;
+const h107Answers={};
+const h107Steps=['MUTACIÓN','LOCALIZA','EVIDENCIA','CONCLUYE'];
+function h107Progress(){document.getElementById('h107Progress').innerHTML=h107Steps.map((x,i)=>`<span class="${i<h107Step?'done':i===h107Step?'active':''}">${i<h107Step?'✓ ':''}${x}</span>`).join('')}
+function h107Network(mode='wt'){
+  const mutant=mode==='mut';
+  return `<div class="mutation-network"><svg viewBox="0 0 620 410" role="img" aria-label="Esquema didáctico del entorno H107Y"><circle cx="310" cy="186" r="58" class="${mutant?'mut-node':'wt-node'}"/><text x="310" y="180" text-anchor="middle" class="network-label">${mutant?'Tyr107':'His107'}</text><text x="310" y="201" text-anchor="middle" class="network-label">${mutant?'H107Y':'WT'}</text><circle cx="145" cy="105" r="43" class="network-node"/><text x="145" y="110" text-anchor="middle" class="network-label">entorno</text><circle cx="470" cy="102" r="43" class="network-node"/><text x="470" y="107" text-anchor="middle" class="network-label">red local</text><circle cx="155" cy="300" r="48" class="network-node"/><text x="155" y="296" text-anchor="middle" class="network-label">núcleo</text><text x="155" y="315" text-anchor="middle" class="network-label">plegado</text><circle cx="472" cy="298" r="49" class="network-node"/><text x="472" y="293" text-anchor="middle" class="network-label">entorno</text><text x="472" y="312" text-anchor="middle" class="network-label">Ser29</text><line x1="270" y1="151" x2="182" y2="121" class="network-line ${mutant?'changed':''}"/><line x1="350" y1="151" x2="432" y2="119" class="network-line ${mutant?'changed':''}"/><line x1="267" y1="219" x2="198" y2="274" class="network-line ${mutant?'changed':''}"/><line x1="354" y1="221" x2="430" y2="273" class="network-line ${mutant?'changed':''}"/></svg><div class="mutation-callout">${mutant?'MODELO DIDÁCTICO · los experimentos indican fuerte desestabilización; no es una estructura atómica H107Y':'His107 se localiza en la estructura WT experimental; las líneas son una representación didáctica de su contexto estructural.'}</div></div>`;
+}
+function enterH107Y(){document.getElementById('complete').classList.add('hidden');document.getElementById('mutation').classList.remove('hidden');document.getElementById('phase').classList.remove('hidden','urea');document.getElementById('phase').textContent='MÓDULO 2 · H107Y';document.getElementById('title').textContent='CA2 normal vs H107Y';document.getElementById('subtitle').textContent='Ahora cambia la secuencia. La pregunta es si eso equivale a desnaturalización.';document.getElementById('mutationViewerSlot').appendChild(document.getElementById('mol-shell'));document.getElementById('toolbar').classList.add('hidden');document.querySelector('#mol-shell .mol').style.minHeight='390px';h107Step=0;renderH107();setProgress(1)}
+function renderH107(){h107Progress();const m=document.getElementById('h107Mission'),e=document.getElementById('h107Evidence');if(h107Step===0){m.innerHTML=`<h2>Una sola sustitución</h2><p>La variante histórica <b>H107Y</b> reemplaza histidina por tirosina en la posición 107 de CA2. Fue descrita como una mutación puntual causante de deficiencia de CA II.</p><div class="sequence">… 104 · 105 · 106 · <b>107 H → Y</b> · 108 · 109 …</div><div class="mutation-question"><b>Predicción</b><p>¿Cambiar un solo aminoácido obliga a que la proteína pierda inmediatamente toda su estructura y toda su actividad?</p><button class="choice" data-hq="q0" data-v="yes">Sí</button> <button class="choice" data-hq="q0" data-v="no">No necesariamente</button><div id="hfeed"></div></div><button id="hnext" class="primary" disabled>Localizar His107 →</button>`;e.innerHTML=`<h2>Qué ha cambiado</h2><div class="compare-fact"><div class="wt"><b>WT</b><p>Residuo 107 = histidina.</p></div><div class="mut"><b>H107Y</b><p>Residuo 107 = tirosina.</p></div></div><div class="notice"><b>Clave:</b> la mutación cambia la estructura primaria. Todavía falta descubrir qué efecto produce sobre el plegamiento y la función.</div>`;bindHChoice('q0','no',()=>{document.getElementById('hnext').disabled=false});document.getElementById('hnext').onclick=()=>{h107Step=1;renderH107()}}
+else if(h107Step===1){m.innerHTML=`<h2>Localiza el residuo antes de interpretar</h2><p>Primero observa dónde está <b>His107</b> en la CA2 WT. No es uno de los tres residuos que coordinan directamente el Zn²⁺.</p><button id="focus107" class="secondary">Enfocar His107 en 1CA2</button><div class="mutation-question"><p>Si H107 no coordina directamente Zn²⁺, ¿puede aun así afectar mucho la proteína?</p><button class="choice" data-hq="q1" data-v="yes">Sí</button> <button class="choice" data-hq="q1" data-v="no">No</button><div id="hfeed"></div></div><button id="hnext" class="primary" disabled>Ver los experimentos →</button>`;e.innerHTML=`<h2>Contexto estructural</h2>${h107Network('wt')}<p class="tiny">His107 cumple un papel estructural. Los primeros estudios propusieron que H107Y altera una red estabilizadora; trabajos posteriores demostraron una marcada inestabilidad de plegamiento.</p>`;document.getElementById('focus107').onclick=()=>residue(107);bindHChoice('q1','yes',()=>{document.getElementById('hnext').disabled=false});document.getElementById('hnext').onclick=()=>{h107Step=2;renderH107()}}
+else if(h107Step===2){m.innerHTML=`<h2>La evidencia cambia la historia</h2><p>El mutante no es simplemente una proteína “muerta”. Cuando está plegado a baja temperatura conserva actividad, pero su estabilidad es extraordinariamente menor.</p><div class="mutation-question"><p>¿Cuál explicación encaja mejor con los datos?</p><button class="choice" data-hq="q2" data-v="active">El sitio activo desaparece por completo desde que cambia el aminoácido.</button><button class="choice" data-hq="q2" data-v="stability">La mutación desestabiliza el estado nativo y favorece estados no nativos.</button><button class="choice" data-hq="q2" data-v="peptide">La mutación rompe toda la cadena peptídica.</button><div id="hfeed"></div></div><button id="hnext" class="primary" disabled>Construir conclusión →</button>`;e.innerHTML=`<h2>Resultados experimentales</h2><div class="evidence-metrics"><div class="evidence-metric"><span>Actividad H107Y plegada a baja T</span><b>≈64% WT</b></div><div class="evidence-metric"><span>Tm actividad</span><b>16 °C vs 55 °C</b></div><div class="evidence-metric"><span>Desestabilización nativa</span><b>≈9.2 kcal/mol</b></div></div>${h107Network('mut')}<div class="notice"><b>A 37 °C y pH neutro:</b> el estudio de plegamiento concluyó que H107Y poblaría un estado parcialmente plegado tipo “molten globule light”, con mayor propensión a mal plegamiento/agregación.</div><p class="tiny"><b>Fuentes primarias:</b> Venta et al. (1991); Roth et al. (1992); Almstedt et al. (2004).</p>`;bindHChoice('q2','stability',()=>{document.getElementById('hnext').disabled=false});document.getElementById('hnext').onclick=()=>{h107Step=3;renderH107()}}
+else{m.innerHTML=`<h2>¿Mutación = desnaturalización?</h2><p>Elige la afirmación más precisa.</p><div class="choices"><label><input type="radio" name="hfinal" value="same">Son exactamente el mismo fenómeno.</label><label><input type="radio" name="hfinal" value="different">No. La mutación cambia la secuencia; puede desestabilizar el estado nativo y hacer que la proteína ocupe estados no nativos.</label><label><input type="radio" name="hfinal" value="unrelated">No tienen ninguna relación posible.</label></div><div id="hfeed"></div><textarea id="hExplain" placeholder="H107Y cambia… y por eso…"></textarea><button id="hFinish" class="primary" disabled>FINALIZAR MÓDULO H107Y</button>`;e.innerHTML=`<h2>Cadena causal respaldada</h2><div class="mutation-chain"><div class="node">MUTACIÓN H107Y</div><div class="arrow">↓</div><div class="node">CAMBIO EN LA QUÍMICA/RED LOCAL</div><div class="arrow">↓</div><div class="node">FUERTE PÉRDIDA DE ESTABILIDAD DEL ESTADO NATIVO</div><div class="arrow">↓</div><div class="node">MAYOR POBLACIÓN DE ESTADOS NO NATIVOS A TEMPERATURA FISIOLÓGICA</div><div class="arrow">↓</div><div class="node">MENOR FUNCIÓN EFECTIVA / MAL PLEGAMIENTO / AGREGACIÓN</div></div><div class="disease-grid"><div><b>Osteopetrosis</b><span>manifestación clásica del síndrome de deficiencia de CA II</span></div><div><b>Acidosis tubular renal</b><span>manifestación clásica</span></div><div><b>Calcificaciones cerebrales</b><span>manifestación clásica</span></div></div>`;const radios=[...document.querySelectorAll('input[name=hfinal]')],txt=document.getElementById('hExplain'),finish=document.getElementById('hFinish');function chk(){const selected=radios.find(r=>r.checked)?.value;const ok=selected==='different';document.getElementById('hfeed').innerHTML=selected?`<div class="feedback ${ok?'ok':'bad'}">${ok?'Correcto. Mutación y desnaturalización son conceptos distintos, aunque una mutación desestabilizante puede favorecer estados no nativos.':'Revisa qué cambia primero: secuencia o entorno.'}</div>`:'';finish.disabled=!(ok&&txt.value.trim().length>=35)}radios.forEach(r=>r.onchange=chk);txt.oninput=chk;finish.onclick=finishH107Y}
+}
+function bindHChoice(key,correct,onCorrect){document.querySelectorAll('[data-hq]').forEach(b=>b.onclick=()=>{h107Answers[key]=b.dataset.v;const ok=b.dataset.v===correct;document.getElementById('hfeed').innerHTML=`<div class="feedback ${ok?'ok':'bad'}">${ok?'Correcto.':'Revisa la evidencia antes de continuar.'}</div>`;if(ok)onCorrect()})}
+function finishH107Y(){document.getElementById('mutation').classList.add('hidden');document.getElementById('mutationComplete').classList.remove('hidden');document.getElementById('phase').classList.add('hidden');document.getElementById('title').textContent='H107Y completado';document.getElementById('subtitle').textContent='ProteinLab · mutación, estabilidad y función';setProgress(6)}
+
+document.getElementById('finishBtn').onclick=finish;document.getElementById('continueH107Y').onclick=enterH107Y;document.getElementById('downloadReport').onclick=()=>{const blob=new Blob([reportText()],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='proteinlab_reporte_CA2.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};document.getElementById('restart').onclick=()=>location.reload();document.getElementById('restartAll').onclick=()=>location.reload();
+setProgress(0);
+if(new URLSearchParams(location.search).get('demo')==='1')document.getElementById('demoBtn').click();
+
+
+/* ===== v1.4 patch: ligandos, reset correcto y modo AZM ===== */
+const ENTRY_INFO={
+  '1CA2':{protein:'CA II',gene:'CA2',pdb:'1CA2',cofactor:'Zn²⁺',organism:'Homo sapiens',meta:'PDB 1CA2 · Homo sapiens · rayos X · 2.00 Å',badge:'E1 · EXPERIMENTAL'},
+  '3HS4':{protein:'CA II + AZM',gene:'CA2',pdb:'3HS4',cofactor:'Zn²⁺ + AZM',organism:'Homo sapiens',meta:'PDB 3HS4 · CA II + acetazolamida · rayos X · 1.10 Å',badge:'E1 · EXPERIMENTAL'}
+};
+let sceneState={mode:'base1ca2',entry:'1CA2',selectedResidues:[],showProtein:true,showWater:false};
+function patchV14Ui(){
+  const toolbar=document.getElementById('toolbar');
+  if(toolbar){
+    toolbar.innerHTML=''
+      + '<button id="baseCA2" disabled>Vista base CA2</button>'
+      + '<button id="activeSite" disabled>Centro activo · Zn²⁺ + coordinantes</button>'
+      + '<button id="zinc" disabled>Solo Zn²⁺</button>'
+      + '<button id="ligands" disabled>Coordinación Zn–His</button>'
+      + '<button id="his94" disabled>Enfocar His94</button>'
+      + '<button id="organic" disabled>Ligando orgánico · AZM</button>'
+      + '<button id="toggleProtein" disabled>Proteína: ON</button>'
+      + '<button id="toggleWater" disabled>Aguas: OFF</button>'
+      + '<button id="reset" disabled>Restaurar vista</button>';
+  }
+  const meta=document.querySelector('#mol-shell .meta');
+  if(meta) meta.innerHTML='<span class="badge" id="metaBadge">E1 · EXPERIMENTAL</span><span id="metaText">PDB 1CA2 · Homo sapiens · rayos X · 2.00 Å</span>';
+  const facts=document.querySelector('#phase1 aside.card:last-child .facts');
+  if(facts) facts.innerHTML=''
+    + '<div><span>Proteína</span><b id="factProtein">CA II</b></div>'
+    + '<div><span>Gen</span><b id="factGene">CA2</b></div>'
+    + '<div><span>PDB</span><b id="factPdb">1CA2</b></div>'
+    + '<div><span>Ligando / cofactor</span><b id="factCofactor">Zn²⁺</b></div>'
+    + '<div><span>Organismo</span><b id="factOrganism">Homo sapiens</b></div>';
+  const q=document.querySelector('#phase1 aside.card:last-child .question');
+  if(q) q.innerHTML='<b>Regla</b><p>N es una estructura experimental. X1/X2/D son estados biofísicos y no se convertirán en estructuras atómicas inventadas.</p><p class="tiny"><b>Ojo:</b> hélices alfa y láminas beta son partes de la proteína, no ligandos. Los ligandos suelen ser iones, aguas, cofactores o moléculas externas como acetazolamida.</p>';
+}
+function setFacts(entry){
+  const info=ENTRY_INFO[entry]||ENTRY_INFO['1CA2'];
+  const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val};
+  set('factProtein',info.protein); set('factGene',info.gene); set('factPdb',info.pdb); set('factCofactor',info.cofactor); set('factOrganism',info.organism);
+  const metaText=document.getElementById('metaText'); if(metaText) metaText.textContent=info.meta;
+  const metaBadge=document.getElementById('metaBadge'); if(metaBadge) metaBadge.textContent=info.badge;
+}
+function setToolbarLabels(){
+  const bp=document.getElementById('toggleProtein'); if(bp) bp.textContent='Proteína: '+(sceneState.showProtein?'ON':'OFF');
+  const bw=document.getElementById('toggleWater'); if(bw) bw.textContent='Aguas: '+(sceneState.showWater?'ON':'OFF');
+  ['baseCA2','activeSite','zinc','ligands','his94','organic'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  const activeMap={base1ca2:'baseCA2',activeSite:'activeSite',zincOnly:'zinc',selected:'his94',coordination:'ligands',azm:'organic'};
+  const aid=activeMap[sceneState.mode]; if(aid) document.getElementById(aid)?.classList.add('active');
+}
+function fallbackGraphicV14(mode='base1ca2'){
+  const isAzm=mode==='azm';
+  return `<div class="fallback-protein"><svg viewBox="0 0 700 500" role="img" aria-label="Representación de respaldo">
+  <path class="ribbon" d="M88 276 C56 181 129 89 230 111 C281 122 307 77 365 83 C460 94 573 149 576 245 C579 345 492 390 411 368 C353 352 316 405 230 394 C154 384 112 343 88 276Z" opacity="${sceneState.showProtein?0.42:0.08}"/>
+  <path class="beta" d="M155 205 C210 170 255 233 309 193 M330 274 C385 230 438 286 485 245 M202 327 C248 290 295 341 350 311" opacity="${sceneState.showProtein?0.48:0.08}"/>
+  <circle class="zinc" cx="348" cy="226" r="18"/>
+  <line x1="348" y1="226" x2="298" y2="204" class="contact"/>
+  <line x1="348" y1="226" x2="329" y2="171" class="contact"/>
+  <line x1="348" y1="226" x2="402" y2="214" class="contact"/>
+  <path d="M284 209 L295 191 L314 195 L319 214 L304 226 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <path d="M321 168 L333 151 L352 156 L356 176 L340 187 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <path d="M395 220 L406 203 L425 207 L430 226 L414 237 Z" fill="none" stroke="#2f7a73" stroke-width="5"/>
+  <text x="315" y="238" font-size="18">His94</text>
+  <text x="345" y="147" font-size="18">His96</text>
+  <text x="432" y="216" font-size="18">His119</text>
+  <text x="365" y="229" font-size="18" fill="#5b4d78">Zn²⁺</text>
+  ${sceneState.showWater?'<circle cx="364" cy="184" r="9" fill="#d74e42"/><text x="376" y="186" font-size="16">H₂O</text>':''}
+  ${isAzm?'<g transform="translate(475,140)"><path d="M0 40 L24 20 L52 28 L60 56 L42 80 L14 73 Z" fill="none" stroke="#666" stroke-width="4"/><path d="M60 56 L88 64" stroke="#666" stroke-width="4"/><circle cx="100" cy="68" r="6" fill="#1b6cf2"/><circle cx="113" cy="68" r="6" fill="#d74e42"/><text x="-8" y="100" font-size="18">Acetazolamida (AZM)</text></g>':''}
+  </svg><div class="fallback-note">${isAzm?'VISTA DE RESPALDO · CA II + acetazolamida (AZM) en modo conceptual':'VISTA DE RESPALDO · coordinación Zn–histidinas en modo conceptual'}</div></div>`;
+}
+function enableDemo(reason='Modo demostración'){
+  demoMode=true;
+  document.getElementById('demoBanner').classList.remove('hidden');
+  document.getElementById('demoBanner').textContent=`${reason} · La vista de respaldo es conceptual.`;
+  document.getElementById('molstar').innerHTML=fallbackGraphicV14(sceneState.mode);
+  document.getElementById('status').querySelector('span').textContent='Respaldo conceptual listo.';
+  document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false);
+  setToolbarLabels();
+  setFacts(sceneState.entry);
+}
+function makeMvsStructure(builder,pdb){
+  return builder.download({url:`https://files.rcsb.org/download/${pdb}.cif`}).parse({format:'mmcif'}).modelStructure({});
+}
+async function loadScene(builder,statusText,entry='1CA2'){
+  const api=mvsApi();
+  if(!api) throw new Error('MolViewSpec API no disponible');
+  await api.loadMVS(viewer.plugin,builder.getState(),{sourceUrl:undefined,sanityChecks:true,replaceExisting:true});
+  document.getElementById('status').querySelector('span').textContent=statusText;
+  setFacts(entry);
+  setToolbarLabels();
+}
+async function renderBaseScene(entry='1CA2'){
+  sceneState.entry=entry;
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14(entry==='3HS4'?'azm':'base1ca2');setFacts(entry);setToolbarLabels();return;}
+  if(!viewer||!mvsApi()) return;
+  const builder=mvsApi().MVSData.createBuilder();
+  const structure=makeMvsStructure(builder,entry);
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.8}).color({color:'#1b8d7b'});
+  if(sceneState.showWater){
+    try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.75,ignore_hydrogens:true});}catch(e){}
+  }
+  if(entry==='1CA2'){
+    const zn=structure.component({selector:{label_comp_id:'ZN'}});
+    zn.representation({type:'spacefill',size_factor:1.3,ignore_hydrogens:true}).color({color:'#8b5ca8'});zn.label({text:'Zn²⁺'});
+    structure.component({selector:[{label_comp_id:'ZN'},{auth_asym_id:'A',auth_seq_id:94},{auth_asym_id:'A',auth_seq_id:96},{auth_asym_id:'A',auth_seq_id:119}]}).focus({radius_extent:8});
+    await loadScene(builder,'CA2 lista para explorar.',entry);
+  }else{
+    const zn=structure.component({selector:{label_comp_id:'ZN'}});
+    zn.representation({type:'spacefill',size_factor:1.15,ignore_hydrogens:true}).color({color:'#8b5ca8'});zn.label({text:'Zn²⁺'});
+    try{const azm=structure.component({selector:{label_comp_id:'AZM'}}); azm.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); azm.label({text:'AZM'}); structure.component({selector:[{label_comp_id:'ZN'},{label_comp_id:'AZM'}]}).focus({radius_extent:8});}catch(e){}
+    if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.65,ignore_hydrogens:true});}catch(e){}}
+    await loadScene(builder,'CA II con acetazolamida (AZM) lista para explorar.',entry);
+  }
+}
+async function showZincOnlyScene(){
+  sceneState.mode='zincOnly'; sceneState.entry='1CA2';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent='Zn²⁺ aislado en la vista conceptual.';setFacts('1CA2');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.68}).color({color:'#c6d1d5'}).opacity({opacity:0.12});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.6,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.7,ignore_hydrogens:true});}catch(e){}}
+  structure.component({selector:[{label_comp_id:'ZN'}]}).focus({radius_extent:4.5}); builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Zn²⁺ aislado. Ahora puedes comparar qué residuos se acercan realmente al ion.','1CA2');
+}
+async function showChosenResiduesScene(numbers=[]){
+  sceneState.mode='selected'; sceneState.entry='1CA2'; sceneState.selectedResidues=[...numbers];
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent=numbers.length?`Residuo(s) seleccionado(s): ${numbers.join(', ')}.`:'Zn²⁺ aislado para comparar candidatos.';setFacts('1CA2');setToolbarLabels();return;}
+  if(!viewer||!mvsApi()) return;
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.64}).color({color:'#c4d0d4'}).opacity({opacity:0.14});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.35,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  for(const n of numbers){ const row=residueData.find(r=>r[1]===n); const label=row?row[0]:`Residuo ${n}`; const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}}); c.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); c.label({text:label}); }
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.62,ignore_hydrogens:true});}catch(e){}}
+  const selectors=[{label_comp_id:'ZN'},...numbers.map(n=>({auth_asym_id:'A',auth_seq_id:n}))]; structure.component({selector:selectors}).focus({radius_extent:numbers.length?5.2:4.8}); builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,numbers.length?`3D: Zn²⁺ + ${numbers.map(n=>residueData.find(r=>r[1]===n)?.[0]||n).join(' · ')}`:'3D: Zn²⁺ aislado. Selecciona candidatos a la izquierda.','1CA2');
+}
+async function showActiveSiteScene(){
+  sceneState.mode='activeSite'; sceneState.entry='1CA2';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('base1ca2');document.getElementById('status').querySelector('span').textContent='Centro activo resaltado en el respaldo conceptual.';setFacts('1CA2');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'1CA2');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.6}).color({color:'#c5d1d4'}).opacity({opacity:0.12});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.45,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  for(const [n,name] of [[94,'His94'],[96,'His96'],[119,'His119']]){const c=structure.component({selector:{auth_asym_id:'A',auth_seq_id:n}}); c.representation({type:'ball_and_stick',size_factor:1.05,ignore_hydrogens:true}); c.label({text:name});}
+  if(sceneState.showWater){try{const w=structure.component({selector:'water'}); w.representation({type:'ball_and_stick',size_factor:0.65,ignore_hydrogens:true}); w.label({text:'H₂O'});}catch(e){}}
+  const site=structure.component({selector:[{auth_asym_id:'A',auth_seq_id:94},{auth_asym_id:'A',auth_seq_id:96},{auth_asym_id:'A',auth_seq_id:119},{label_comp_id:'ZN'}]}); site.focus({radius_extent:4.7});
+  const prim=structure.primitives({color:'#704b87',label_color:'#4a3d58',label_background_color:'#ffffff',label_show_tether:true,label_tether_length:0.7});
+  const znSel={label_comp_id:'ZN'}; prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:94,auth_atom_id:'NE2'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His94  {{distance}}',label_size:0.72,label_color:'#4a3d58'}); prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:96,auth_atom_id:'NE2'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His96  {{distance}}',label_size:0.72,label_color:'#4a3d58'}); prim.distance({start:znSel,end:{auth_asym_id:'A',auth_seq_id:119,auth_atom_id:'ND1'},color:'#704b87',radius:0.06,dash_length:0.14,label_template:'Zn–His119  {{distance}}',label_size:0.72,label_color:'#4a3d58'});
+  builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Centro activo: Zn²⁺ coordinado por His94, His96 y His119.','1CA2');
+}
+async function showCoordinationScene(){ sceneState.mode='coordination'; return showActiveSiteScene(); }
+async function showOrganicLigandScene(){
+  sceneState.mode='azm'; sceneState.entry='3HS4';
+  if(demoMode){document.getElementById('molstar').innerHTML=fallbackGraphicV14('azm');document.getElementById('status').querySelector('span').textContent='Ligando orgánico AZM resaltado en la vista conceptual.';setFacts('3HS4');setToolbarLabels();return;}
+  const builder=mvsApi().MVSData.createBuilder(); const structure=makeMvsStructure(builder,'3HS4');
+  if(sceneState.showProtein) structure.component({selector:'polymer'}).representation({type:'cartoon',size_factor:0.62}).color({color:'#c5d1d4'}).opacity({opacity:0.13});
+  const zn=structure.component({selector:{label_comp_id:'ZN'}}); zn.representation({type:'spacefill',size_factor:1.2,ignore_hydrogens:true}).color({color:'#8b5ca8'}); zn.label({text:'Zn²⁺'});
+  const azm=structure.component({selector:{label_comp_id:'AZM'}}); azm.representation({type:'ball_and_stick',size_factor:1.0,ignore_hydrogens:true}); azm.label({text:'Acetazolamida · AZM'});
+  if(sceneState.showWater){try{structure.component({selector:'water'}).representation({type:'ball_and_stick',size_factor:0.58,ignore_hydrogens:true});}catch(e){}}
+  structure.component({selector:[{label_comp_id:'AZM'},{label_comp_id:'ZN'}]}).focus({radius_extent:6.2});
+  builder.canvas({background_color:'#f7fafb'});
+  await loadScene(builder,'Ligando orgánico real: acetazolamida (AZM) en CA II. Observa anillos, heteroátomos y coordinación al Zn²⁺.','3HS4');
+}
+function residue(n,action='focus'){ if(action==='focus'){ showChosenResiduesScene([n]); } }
+async function renderCurrentScene(){
+  setToolbarLabels();
+  if(sceneState.mode==='activeSite'||sceneState.mode==='coordination') return showActiveSiteScene();
+  if(sceneState.mode==='zincOnly') return showZincOnlyScene();
+  if(sceneState.mode==='selected') return showChosenResiduesScene(sceneState.selectedResidues||[]);
+  if(sceneState.mode==='azm') return showOrganicLigandScene();
+  return renderBaseScene(sceneState.entry||'1CA2');
+}
+async function initMolecule(){
+  if(demoMode){enableDemo('Modo demostración');return}
+  if(!window.molstar){document.getElementById('status').querySelector('span').textContent='Mol* no pudo cargarse.';document.getElementById('fallbackSwitch').classList.remove('hidden');return}
+  try{
+    viewer=await molstar.Viewer.create('molstar',{layoutIsExpanded:false,layoutShowControls:false,layoutShowRemoteState:false,layoutShowSequence:false,layoutShowLog:false,layoutShowLeftPanel:false,viewportShowExpand:false,viewportShowSelectionMode:false,viewportShowControls:false,viewportShowAnimation:false,viewportBackgroundColor:'#f7fafb',pdbProvider:'rcsb'});
+    document.getElementById('status').querySelector('span').textContent='Cargando estructura experimental…';
+    await renderBaseScene('1CA2');
+    document.querySelectorAll('#toolbar button').forEach(b=>b.disabled=false);
+    setToolbarLabels();
+  }catch(e){console.error(e);document.getElementById('status').querySelector('span').textContent='No se pudo cargar la estructura 3D.';document.getElementById('fallbackSwitch').classList.remove('hidden')}
+}
+function bindV14Toolbar(){
+  document.getElementById('baseCA2').onclick=()=>{sceneState.mode='base1ca2';sceneState.entry='1CA2';renderCurrentScene()};
+  document.getElementById('activeSite').onclick=async()=>{zincSeen=true;sceneState.mode='activeSite';sceneState.entry='1CA2';await renderCurrentScene(); if(step===1) renderMission();};
+  document.getElementById('zinc').onclick=async()=>{zincSeen=true;sceneState.mode='zincOnly';sceneState.entry='1CA2';await renderCurrentScene(); if(step===1) renderMission();};
+  document.getElementById('ligands').onclick=async()=>{sceneState.mode='coordination';sceneState.entry='1CA2';await renderCurrentScene();};
+  document.getElementById('his94').onclick=()=>{sceneState.mode='selected';sceneState.entry='1CA2';sceneState.selectedResidues=[94];renderCurrentScene();};
+  document.getElementById('organic').onclick=()=>{sceneState.mode='azm';sceneState.entry='3HS4';renderCurrentScene();};
+  document.getElementById('toggleProtein').onclick=()=>{sceneState.showProtein=!sceneState.showProtein;renderCurrentScene();};
+  document.getElementById('toggleWater').onclick=()=>{sceneState.showWater=!sceneState.showWater;renderCurrentScene();};
+  document.getElementById('reset').onclick=()=>{sceneState={mode:'base1ca2',entry:'1CA2',selectedResidues:[],showProtein:true,showWater:false};renderCurrentScene();};
+}
+patchV14Ui(); setFacts('1CA2'); setToolbarLabels();
+setTimeout(bindV14Toolbar,0);
+/* ===== end v1.4 patch ===== */
+
+</script>
+</body>
+</html>

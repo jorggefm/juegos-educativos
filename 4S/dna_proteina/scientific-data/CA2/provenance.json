@@ -1,0 +1,7 @@
+{
+  "frozenAt": "2026-08-20",
+  "metadataSource": "https://www.ncbi.nlm.nih.gov/gene/760",
+  "transcriptSource": "https://www.ncbi.nlm.nih.gov/nuccore/NM_000067.3",
+  "structureSources": ["https://www.rcsb.org/structure/1CA2", "https://www.rcsb.org/structure/3HS4"],
+  "sequenceScope": "demoCodons es un tramo didáctico abreviado; no reemplaza el registro RefSeq completo"
+}

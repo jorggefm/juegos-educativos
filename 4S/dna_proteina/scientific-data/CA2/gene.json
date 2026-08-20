@@ -1,0 +1,19 @@
+{
+  "symbol": "CA2",
+  "geneId": 760,
+  "organism": "Homo sapiens",
+  "chromosome": "8",
+  "cytogeneticLocation": "8q21.2",
+  "assembly": "GRCh38.p14",
+  "genomicAccession": "NC_000008.11",
+  "start": 85464007,
+  "end": 85481493,
+  "strand": "+",
+  "exonCount": 7,
+  "transcript": "NM_000067.3",
+  "protein": "NP_000058.1",
+  "uniprot": "P00918",
+  "structures": ["1CA2", "3HS4"],
+  "demoCodons": ["AUG","AGC","CAC","CAU","UGG","GGC","UAC","GGC","AAA","CAC","AAC","GGA","CCA","GAG","CAU","UGG","CAC","AAG","GAC","UUC","CCA","UAA"],
+  "demoAminoAcids": ["Met","Ser","His","His","Trp","Gly","Tyr","Gly","Lys","His","Asn","Gly","Pro","Glu","His","Trp","His","Lys","Asp","Phe","Pro"]
+}

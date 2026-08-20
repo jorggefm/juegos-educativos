@@ -1,0 +1,19 @@
+{
+  "symbol": "HBB",
+  "geneId": 3043,
+  "organism": "Homo sapiens",
+  "chromosome": "11",
+  "cytogeneticLocation": "11p15.4",
+  "assembly": "GRCh38.p14",
+  "genomicAccession": "NC_000011.10",
+  "start": 5225464,
+  "end": 5227071,
+  "strand": "-",
+  "exonCount": 3,
+  "transcript": "NM_000518.5",
+  "protein": "NP_000509.1",
+  "uniprot": "P68871",
+  "structures": ["4HHB"],
+  "demoCodons": ["AUG","GUG","CAC","CUG","ACU","CCU","GAG","GAG","AAG","UCU","GCC","GUU","ACU","GCC","CUG","UGG","GGC","AAG","GUG","AAC","GUG","UAA"],
+  "demoAminoAcids": ["Met","Val","His","Leu","Thr","Pro","Glu","Glu","Lys","Ser","Ala","Val","Thr","Ala","Leu","Trp","Gly","Lys","Val","Asn","Val"]
+}
