@@ -1,0 +1,310 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// V8.1 CONTINUITY + MASS
+// Time-based damage response, filtered structural energy and inertial façade
+// failures. The educational rules remain in the V5/V6 engine; this pass only
+// changes how their structural result is visualized.
+// ─────────────────────────────────────────────────────────────────────────────
+const V8_EPSILON = 1e-5;
+let v8Damage = 0;
+let v8DamageVelocity = 0;
+let v8Collapse = 0;
+let v8CollapseVelocity = 0;
+let v8Energy = 0;
+let v8EnergyVelocity = 0;
+let v8ImpactImpulse = 0;
+let v8LastVisualTime = performance.now();
+let v8DetachedCount = 0;
+let v8BuildingKey = '';
+const v8Pose = {
+  rootY: 0,
+  lowerX: 0,
+  lowerY: 0,
+  upperX: 0,
+  upperY: 0
+};
+
+function v8Clamp(value, min, max){
+  return Math.max(min, Math.min(max, value));
+}
+
+function v8Spring(value, velocity, target, frequency, dt){
+  // Analytic critically damped spring: stable at both 30 and 45+ fps.
+  const omega = Math.max(.01, frequency) * Math.PI * 2;
+  const delta = value - target;
+  const envelope = Math.exp(-omega * dt);
+  const temp = (velocity + omega * delta) * dt;
+  return {
+    value: target + (delta + temp) * envelope,
+    velocity: (velocity - omega * temp) * envelope
+  };
+}
+
+function v8Seed(mesh, index){
+  const n = Math.sin((mesh.uniqueId + 1) * 12.9898 + (index + 3) * 78.233) * 43758.5453;
+  return n - Math.floor(n);
+}
+
+function v8RemoveDynamicPose(){
+  if(!currentBuilding)return;
+  const refs = currentBuilding.refs;
+  currentBuilding.root.rotation.y -= v8Pose.rootY;
+  if(currentBuilding.type === 'tower'){
+    refs.lower.rotation.x -= v8Pose.lowerX;
+    refs.lower.rotation.y -= v8Pose.lowerY;
+    refs.upper.rotation.x -= v8Pose.upperX;
+    refs.upper.rotation.y -= v8Pose.upperY;
+  }
+  v8Pose.rootY = 0;
+  v8Pose.lowerX = 0;
+  v8Pose.lowerY = 0;
+  v8Pose.upperX = 0;
+  v8Pose.upperY = 0;
+}
+
+function v8RestoreDetachedGeometry(){
+  v7ModuleState.forEach(s=>{
+    const mesh = s.mesh;
+    if(!mesh || mesh.isDisposed?.())return;
+    if(s.basePos)mesh.position.copyFrom(s.basePos);
+    if(s.baseRot)mesh.rotation.copyFrom(s.baseRot);
+    if(s.baseScale)mesh.scaling.copyFrom(s.baseScale);
+  });
+}
+
+function v8ResetContinuity(){
+  v8Damage = 0;
+  v8DamageVelocity = 0;
+  v8Collapse = 0;
+  v8CollapseVelocity = 0;
+  v8Energy = 0;
+  v8EnergyVelocity = 0;
+  v8ImpactImpulse = 0;
+  v8DetachedCount = 0;
+  v8LastVisualTime = performance.now();
+  v8Pose.rootY = 0;
+  v8Pose.lowerX = 0;
+  v8Pose.lowerY = 0;
+  v8Pose.upperX = 0;
+  v8Pose.upperY = 0;
+}
+
+function v8PrepareModuleState(mesh, index){
+  const s = v7EnsureModuleState(mesh, index);
+  s.mesh = mesh;
+  if(s.v8Ready)return s;
+  s.v8Ready = true;
+  s.detached = false;
+  s.settled = false;
+  s.seed = v8Seed(mesh, index);
+  s.offset = new B.Vector3(0, 0, 0);
+  s.velocity = new B.Vector3(0, 0, 0);
+  s.angularVelocity = new B.Vector3(0, 0, 0);
+  s.floorDistance = 0;
+  s.bounces = 0;
+  return s;
+}
+
+function v8BeginDetachment(mesh, stateForMesh, index){
+  const abs = mesh.getAbsolutePosition();
+  const story = v8Clamp(Math.round((abs.y / 20) * (V6_N - 1)), 0, V6_N - 1);
+  const seed = stateForMesh.seed;
+  const side = Math.abs(abs.x) > .2 ? Math.sign(abs.x) : (seed > .5 ? 1 : -1);
+  const transmission = cinematicEnabled() ? 1 : .72;
+  const structuralVX = v6VX[story] * .28;
+  const structuralVZ = v6VZ[story] * .20;
+  const impulse = (.34 + v8Energy * .72 + v8ImpactImpulse * .38) * transmission;
+
+  stateForMesh.detached = true;
+  stateForMesh.started = true;
+  stateForMesh.targetHidden = true;
+  stateForMesh.floorDistance = Math.max(.12, abs.y - .18);
+  stateForMesh.velocity.set(
+    structuralVX + side * impulse * (.42 + seed * .42),
+    .08 + impulse * (.22 + (1 - seed) * .24),
+    structuralVZ + impulse * (.45 + seed * .55)
+  );
+  stateForMesh.angularVelocity.set(
+    (seed - .5) * 2.8,
+    (1 - seed) * 2.2 - 1.1,
+    side * (1.0 + seed * 2.1)
+  );
+  v8DetachedCount++;
+}
+
+// Replaces V7's interpolated drop with a bounded inertial simulation. It is
+// intentionally lightweight: no rigid-body world and no per-piece collision mesh.
+v7AnimateModuleFailures = function(refs, dt){
+  if(!refs || !refs.modules)return;
+  const budget = cinematicEnabled() ? 28 : 10;
+  const step = Math.min(.04, Math.max(0, dt));
+
+  refs.modules.forEach((mesh, index)=>{
+    if(!mesh || mesh.isDisposed?.())return;
+    const s = v8PrepareModuleState(mesh, index);
+    const requestedFailure = mesh.isVisible === false && !s.detached;
+
+    if(requestedFailure){
+      if(v8DetachedCount < budget)v8BeginDetachment(mesh, s, index);
+      else {
+        s.targetHidden = true;
+        return;
+      }
+    }
+    if(!s.detached)return;
+
+    mesh.isVisible = true;
+    if(!s.settled){
+      const airDrag = Math.exp(-.62 * step);
+      s.velocity.x *= airDrag;
+      s.velocity.z *= airDrag;
+      s.velocity.y -= 5.9 * step;
+      s.offset.x += s.velocity.x * step;
+      s.offset.y += s.velocity.y * step;
+      s.offset.z += s.velocity.z * step;
+      s.angularVelocity.scaleInPlace(Math.exp(-.48 * step));
+
+      if(s.offset.y <= -s.floorDistance){
+        s.offset.y = -s.floorDistance;
+        s.bounces++;
+        if(Math.abs(s.velocity.y) > .62 && s.bounces < 3){
+          s.velocity.y = Math.abs(s.velocity.y) * (.16 + s.seed * .08);
+          s.velocity.x *= .66;
+          s.velocity.z *= .66;
+          s.angularVelocity.scaleInPlace(.72);
+        }else{
+          s.velocity.set(0, 0, 0);
+          s.angularVelocity.scaleInPlace(.18);
+          s.settled = true;
+        }
+      }
+
+      mesh.rotation.x += s.angularVelocity.x * step;
+      mesh.rotation.y += s.angularVelocity.y * step;
+      mesh.rotation.z += s.angularVelocity.z * step;
+    }
+
+    mesh.position.set(
+      s.basePos.x + s.offset.x,
+      s.basePos.y + s.offset.y,
+      s.basePos.z + s.offset.z
+    );
+    mesh.scaling.copyFrom(s.baseScale);
+  });
+};
+
+const v8BaseApplyDamageVisual = applyDamageVisual;
+applyDamageVisual = function(targetRatio, collapse){
+  if(!currentBuilding)return;
+  v8RemoveDynamicPose();
+
+  const key = currentBuilding.root.uniqueId + ':' + currentBuilding.type;
+  if(key !== v8BuildingKey){
+    v8BuildingKey = key;
+    v8ResetContinuity();
+  }
+
+  const now = performance.now();
+  const dt = v8Clamp((now - v8LastVisualTime) / 1000, 1 / 240, .08);
+  v8LastVisualTime = now;
+  const damageTarget = v8Clamp(targetRatio || 0, 0, 1);
+  const damageFrequency = damageTarget >= v8Damage ? 1.25 : .72;
+  const damageStep = v8Spring(v8Damage, v8DamageVelocity, damageTarget, damageFrequency, dt);
+  v8Damage = v8Clamp(damageStep.value, 0, 1);
+  v8DamageVelocity = damageStep.velocity;
+
+  const collapseTarget = v8Clamp(collapse || 0, 0, 1);
+  const collapseStep = v8Spring(v8Collapse, v8CollapseVelocity, collapseTarget, .92, dt);
+  v8Collapse = v8Clamp(collapseStep.value, 0, 1);
+  v8CollapseVelocity = collapseStep.velocity;
+
+  // V8 owns temporal smoothing; V7 continues to own cracks, permanent set and
+  // the four authored collapse phases.
+  v7VisualDamage = v8Damage;
+  v8BaseApplyDamageVisual(v8Damage, v8Collapse);
+};
+
+const v8BaseTriggerImpact = triggerImpact;
+triggerImpact = function(strength, damage){
+  v8BaseTriggerImpact(strength, damage);
+  const impulse = v8Clamp(strength * .55 + damage / 42, 0, 1.8);
+  v8ImpactImpulse = Math.max(v8ImpactImpulse, impulse);
+};
+
+// Bypass V7's additive torsion (which accumulated between frames), retain the V6
+// structural solver, then project filtered energy as reversible 3D deformation.
+updateShake = function(dt){
+  v7BaseUpdateShake(dt);
+  if(!currentBuilding)return;
+
+  const safeDt = Math.min(.05, Math.max(0, dt));
+  v7ImpactEnergy *= Math.exp(-3.0 * safeDt);
+  v8ImpactImpulse *= Math.exp(-2.65 * safeDt);
+  v7AnimateModuleFailures(currentBuilding.refs, safeDt);
+
+  let kinetic = 0;
+  for(let i = 0; i < V6_N; i++){
+    kinetic += Math.abs(v6VX[i]) * .065 + Math.abs(v6VZ[i]) * .085;
+  }
+  const driftX = Math.abs(v6X[5] - v6X[2]);
+  const driftZ = Math.abs(v6Z[5] - v6Z[2]);
+  const energyTarget = state.phase === 'wave'
+    ? v8Clamp(kinetic + driftX * .72 + driftZ * .84 + v8ImpactImpulse * .28, 0, 1.5)
+    : 0;
+  const energyStep = v8Spring(v8Energy, v8EnergyVelocity, energyTarget, 1.65, safeDt);
+  v8Energy = Math.max(0, energyStep.value);
+  v8EnergyVelocity = energyStep.velocity;
+
+  const damageSoftening = 1 + v8Damage * .62;
+  const modeGain = cinematicEnabled() ? 1 : .68;
+  const phaseA = time * 2.17 + v6X[4] * 1.8;
+  const phaseB = time * 3.31 + v6Z[3] * 2.1 + .7;
+  const torsionSignal = Math.sin(phaseA) * .64 + Math.sin(phaseB) * .36;
+  const torsion = torsionSignal * v8Energy * .0068 * damageSoftening * modeGain;
+  const crossDrift = v8Clamp((v6Z[5] - v6Z[2]) * .052, -.014, .014) * modeGain;
+
+  v8Pose.rootY = torsion * .16;
+  currentBuilding.root.rotation.y += v8Pose.rootY;
+  if(currentBuilding.type === 'tower'){
+    v8Pose.lowerX = crossDrift * .42;
+    v8Pose.lowerY = torsion * .44;
+    v8Pose.upperX = crossDrift;
+    v8Pose.upperY = torsion;
+    currentBuilding.refs.lower.rotation.x += v8Pose.lowerX;
+    currentBuilding.refs.lower.rotation.y += v8Pose.lowerY;
+    currentBuilding.refs.upper.rotation.x += v8Pose.upperX;
+    currentBuilding.refs.upper.rotation.y += v8Pose.upperY;
+  }
+};
+
+const v8BaseResetBuildingVisualState = resetBuildingVisualState;
+resetBuildingVisualState = function(){
+  v8RemoveDynamicPose();
+  v8RestoreDetachedGeometry();
+  v8BaseResetBuildingVisualState();
+  v8ResetContinuity();
+};
+
+// Keep inherited V6/V7 interface messages aligned with the active visual pass.
+const v8BaseToast = toast;
+toast = function(message, type){
+  v8BaseToast(String(message).replace(/\bV6\b/g, 'V8.1'), type);
+};
+
+const v8BaseSetPhase = setPhase;
+setPhase = function(label){
+  v8BaseSetPhase(label === 'PREPARACIÓN' ? 'PREPARACIÓN · V8.1' : label);
+};
+
+setTimeout(()=>{
+  const tag = document.querySelector('.brand p');
+  if(tag)tag.textContent = 'V8.1 · CONTINUIDAD ESTRUCTURAL + MASA';
+  const sub = document.querySelector('.brand .sub');
+  if(sub)sub.textContent = 'Daño continuo, torsión orgánica y desprendimientos con masa, inercia, gravedad y asentamiento.';
+  const phase = $('phaseText');
+  if(phase && phase.textContent.startsWith('PREPARACIÓN'))phase.textContent = 'PREPARACIÓN · V8.1';
+  const animation = $('animationMode');
+  if(animation){
+    if(animation.options[0])animation.options[0].textContent = 'V8.1 Fluida · hasta 10 fragmentos';
+    if(animation.options[1])animation.options[1].textContent = 'V8.1 Realista · hasta 28 fragmentos';
+  }
+}, 0);

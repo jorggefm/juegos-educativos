@@ -16,6 +16,7 @@ const BASE_PARTS = [
   'v5/part05.htmlfrag'
 ];
 const V7_PATCH = 'v7/patch.jsfrag';
+const V8_PATCH = 'v8/patch.jsfrag';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -29,37 +30,41 @@ const MIME = {
   '.ico': 'image/x-icon'
 };
 
-function serveV7(res) {
+function serveV8(res) {
   Promise.all([
     Promise.all(BASE_PARTS.map(relative => fs.promises.readFile(path.join(ROOT, relative), 'utf8'))),
-    fs.promises.readFile(path.join(ROOT, V7_PATCH), 'utf8')
+    fs.promises.readFile(path.join(ROOT, V7_PATCH), 'utf8'),
+    fs.promises.readFile(path.join(ROOT, V8_PATCH), 'utf8')
   ])
-    .then(([parts, patch]) => {
+    .then(([parts, v7Patch, v8Patch]) => {
       let html = parts.join('')
         .replace(
           '<title>Torre Segura 3D v4 Lite — Multi Edificio</title>',
-          '<title>Torre Segura 3D — V7 Progressive Damage</title>'
+          '<title>Torre Segura 3D — V8.1 Continuidad y Masa</title>'
         );
 
-      // Inject V7 inside the existing IIFE so it can safely extend the V6 engine
-      // without duplicating Babylon, the scene, or the simulation state.
+      // Inject the visual passes inside the existing IIFE so they can extend the
+      // structural solver without duplicating Babylon, the scene, or game state.
       const closeIndex = html.lastIndexOf('})();');
       if (closeIndex < 0) throw new Error('Unable to locate game IIFE closure');
-      html = html.slice(0, closeIndex) + '\n' + patch + '\n' + html.slice(closeIndex);
+      html = html.slice(0, closeIndex)
+        + '\n' + v7Patch
+        + '\n' + v8Patch
+        + '\n' + html.slice(closeIndex);
 
       res.writeHead(200, {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',
-        'X-Torre-Segura-Version': '7'
+        'X-Torre-Segura-Version': '8.1'
       });
       res.end(html);
     })
     .catch(err => {
-      console.error('Unable to assemble V7:', err);
+      console.error('Unable to assemble V8.1:', err);
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Unable to load Torre Segura 3D V7');
+      res.end('Unable to load Torre Segura 3D V8.1');
     });
 }
 
@@ -68,7 +73,7 @@ const server = http.createServer((req, res) => {
   const relative = requestPath === '/' ? 'index.html' : requestPath.replace(/^\/+/, '');
 
   if (relative === 'index.html') {
-    serveV7(res);
+    serveV8(res);
     return;
   }
 
@@ -96,5 +101,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Torre Segura 3D V7 listening on http://${HOST}:${PORT}`);
+  console.log(`Torre Segura 3D V8.1 listening on http://${HOST}:${PORT}`);
 });
